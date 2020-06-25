@@ -45,17 +45,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="EFoodBLL">
-      <HintPath>..\..\..\EFood_Service\EFoodBLL\bin\Debug\EFoodBLL.dll</HintPath>
-    </Reference>
-    <Reference Include="EFoodDAL">
-      <HintPath>..\..\..\EFood_Service\EFoodDAL\bin\Debug\EFoodDAL.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
-    <Reference Include="System.ComponentModel.Annotations">
-      <HintPath>..\..\..\EFood_Service\EFoodBLL\bin\Debug\System.ComponentModel.Annotations.dll</HintPath>
-    </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Web.DynamicData" />
