@@ -12,6 +12,7 @@ namespace EFoodDB.EFood_Intranet
     {
         Task<bool> DeleteProductPrice(int pkProduct, int pkType);
         Task<bool> DeletePaymentProcessor(int pkCode);
+        Task<bool> DeleteDiscount(int pkCode);
         Task<bool> DeleteProduct(int pkCode);
         Task<bool> DeleteRelation_Card_Processor(int card, int processor);
         Task<bool> DeleteLineType(int pkCode);
@@ -60,6 +61,32 @@ namespace EFoodDB.EFood_Intranet
                         conn.Open();
                     
                     using (var cmd = new SqlCommand("ELIMINA_PROCESADOR", conn))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@CODE", SqlDbType.Int).Value = pkCode;
+                        cmd.ExecuteNonQuery();
+                        conn.Close();
+                    }
+                }
+                return Task.FromResult(true);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return Task.FromResult(false);
+            }
+        }
+
+        public Task<bool> DeleteDiscount(int pkCode)
+        {
+            try
+            {
+                using (var conn = _settings.GetConnection())
+                {
+                    if (conn.State == ConnectionState.Closed)
+                        conn.Open();
+                    
+                    using (var cmd = new SqlCommand("DESHABILITA_DESCUENTO", conn))
                     {
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.Add("@CODE", SqlDbType.Int).Value = pkCode;

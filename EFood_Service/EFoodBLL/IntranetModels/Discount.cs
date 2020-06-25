@@ -8,10 +8,10 @@ namespace EFoodBLL.IntranetModels
         public int Percentage { get; set; }
     }
 
-    public class DiscountStatus
+    public class DiscountCupons
     {
         public int PkCode { get; set; }
-        public bool Status { get; set; } = false;
+        public int NewCupons { get; set; }
     }
 
     public class ReturnDiscount
@@ -21,8 +21,6 @@ namespace EFoodBLL.IntranetModels
         public string Description { get; set; }
         public int Available { get; set; }
         public int Percentage { get; set; }
-        public bool Status { get; set; }
-
     }
 
     public class DiscountList

@@ -153,7 +153,6 @@ namespace EFoodDB.EFood_Intranet
                             discount.Description = dr.GetString(2);
                             discount.Available = dr.GetInt32(3);
                             discount.Percentage = dr.GetInt32(4);
-                            discount.Status = dr.GetBoolean(5);
                         }
                     }
                 }
