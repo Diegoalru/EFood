@@ -38,6 +38,8 @@
         <Reference Include="System.Xml" />
     </ItemGroup>
     <ItemGroup>
+        <Compile Include="EFood_Client\IAdministrationMethods.cs" />
+        <Compile Include="EFood_Client\IClientMethods.cs" />
         <Compile Include="EFood_Intranet\IDeleteMethods.cs" />
         <Compile Include="EFood_Intranet\IExistsMethods.cs" />
         <Compile Include="EFood_Intranet\IInsertMethdos.cs" />
