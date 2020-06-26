@@ -16,7 +16,7 @@ namespace EFoodDB.EFood_Intranet
         /// </summary>
         /// <param name="pkOrder">Llave primaria de la orden.</param>
         /// <returns>Retorna la lista de compras realizadas con el numero de orden.</returns>
-        List<ShoppingCart> ListShoppingCart(int pkOrder);
+        Task<List<ShoppingCart>> ListShoppingCart(int pkOrder);
         Task<ReturnConsecutive> ReturnConsecutive(int pkConsecutive);
         Task<ReturnDiscount> ReturnDiscount(int pkDiscount);
         Task<ReturnPrice> ReturnPrice(int pkPrice);
@@ -59,7 +59,7 @@ namespace EFoodDB.EFood_Intranet
             }
         }
 
-        public List<ShoppingCart> ListShoppingCart(int pkOrder)
+        public Task<List<ShoppingCart>> ListShoppingCart(int pkOrder)
         {
             try
             {
@@ -78,7 +78,7 @@ namespace EFoodDB.EFood_Intranet
                         }
                     }
                 }
-                return ConvertDStoList_ShopingCart(ds);
+                return Task.FromResult(ConvertDStoList_ShopingCart(ds));
             }
             catch (Exception e)
             {
