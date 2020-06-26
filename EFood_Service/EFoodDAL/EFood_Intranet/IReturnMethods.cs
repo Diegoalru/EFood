@@ -53,7 +53,7 @@ namespace EFoodDB.EFood_Intranet
                 }
                 return result;
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return null;
             }

@@ -75,17 +75,17 @@ namespace EFoodDB.EFood_Intranet
         Task<DataSet> StatusTypes();
         
         /// <summary>
-        /// Muestra los tipos de linea de productos que existen.
+        /// Muestra los tipos de linea de productos queisten.
         /// </summary>
         Task<DataSet> LineTypes();
         
         /// <summary>
-        /// Muestra los medios de pago que existen.
+        /// Muestra los medios de pago queisten.
         /// </summary>
         Task<DataSet> PayMethods();
         
         /// <summary>
-        /// Muestra los tipos de precio que existen para los productos.
+        /// Muestra los tipos de precio queisten para los productos.
         /// </summary>
         Task<DataSet> PriceTypes();
         
@@ -124,7 +124,7 @@ namespace EFoodDB.EFood_Intranet
                 }
                 return Task.FromResult(ds);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return null;
             }
@@ -150,7 +150,7 @@ namespace EFoodDB.EFood_Intranet
                 }
                 return Task.FromResult(ds);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return null;
             }
@@ -176,7 +176,7 @@ namespace EFoodDB.EFood_Intranet
                 }
                 return Task.FromResult(ds);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return null;
             }
@@ -202,7 +202,7 @@ namespace EFoodDB.EFood_Intranet
                 }
                 return Task.FromResult(ds);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return null;
             }
@@ -228,7 +228,7 @@ namespace EFoodDB.EFood_Intranet
                 }
                 return Task.FromResult(ds);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return null;
             }
@@ -254,7 +254,7 @@ namespace EFoodDB.EFood_Intranet
                 }
                 return Task.FromResult(ds);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return null;
             }
@@ -280,7 +280,7 @@ namespace EFoodDB.EFood_Intranet
                 }
                 return Task.FromResult(ds);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return null;
             }
@@ -306,7 +306,7 @@ namespace EFoodDB.EFood_Intranet
                 }
                 return Task.FromResult(ds);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return null;
             }
@@ -332,7 +332,7 @@ namespace EFoodDB.EFood_Intranet
                 }
                 return Task.FromResult(ds);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return null;
             }
@@ -358,7 +358,7 @@ namespace EFoodDB.EFood_Intranet
                 }
                 return Task.FromResult(ds);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return null;
             }
@@ -384,7 +384,7 @@ namespace EFoodDB.EFood_Intranet
                 }
                 return Task.FromResult(ds);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return null;
             }
@@ -410,7 +410,7 @@ namespace EFoodDB.EFood_Intranet
                 }
                 return Task.FromResult(ds);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return null;
             }
@@ -436,7 +436,7 @@ namespace EFoodDB.EFood_Intranet
                 }
                 return Task.FromResult(ds);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return null;
             }
@@ -462,7 +462,7 @@ namespace EFoodDB.EFood_Intranet
                 }
                 return Task.FromResult(ds);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return null;
             }
@@ -488,7 +488,7 @@ namespace EFoodDB.EFood_Intranet
                 }
                 return Task.FromResult(ds);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return null;
             }
@@ -514,7 +514,7 @@ namespace EFoodDB.EFood_Intranet
                 }
                 return Task.FromResult(ds);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return null;
             }
@@ -540,7 +540,7 @@ namespace EFoodDB.EFood_Intranet
                 }
                 return Task.FromResult(ds);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return null;
             }
