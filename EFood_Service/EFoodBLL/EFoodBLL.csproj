@@ -37,7 +37,7 @@
         <Reference Include="mscorlib" />
         <Reference Include="System" />
         <Reference Include="System.ComponentModel.Annotations, Version=4.2.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-          <HintPath>..\packages\System.ComponentModel.Annotations.4.7.0\lib\net461\System.ComponentModel.Annotations.dll</HintPath>
+          <HintPath>..\..\EFood_Client\EFood_Client\packages\System.ComponentModel.Annotations.4.7.0\lib\net461\System.ComponentModel.Annotations.dll</HintPath>
           <Private>True</Private>
         </Reference>
         <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -46,6 +46,15 @@
         <Reference Include="System.Xml" />
     </ItemGroup>
     <ItemGroup>
+        <Compile Include="ClientModels\Card.cs" />
+        <Compile Include="ClientModels\Check.cs" />
+        <Compile Include="ClientModels\Client.cs" />
+        <Compile Include="ClientModels\LineType.cs" />
+        <Compile Include="ClientModels\Order.cs" />
+        <Compile Include="ClientModels\PayMethods.cs" />
+        <Compile Include="ClientModels\Price.cs" />
+        <Compile Include="ClientModels\Product.cs" />
+        <Compile Include="ClientModels\ShoppingCart.cs" />
         <Compile Include="IntranetModels\Administrator.cs" />
         <Compile Include="IntranetModels\CardType.cs" />
         <Compile Include="IntranetModels\Consecutive.cs" />

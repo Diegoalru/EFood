@@ -24,7 +24,7 @@ namespace EFoodBLL.IntranetModels
         public string Content { get; set; }
     }
 
-    public class ProductFilterByLine
+    public class ProductList
     {
         public int PkCode { get; set; }
         public string Code { get; set; }

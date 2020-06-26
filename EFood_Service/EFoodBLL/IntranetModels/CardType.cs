@@ -11,7 +11,7 @@ namespace EFoodBLL.IntranetModels
         public string Type { get; set; }
     }
 
-    public class UnusedCardsList
+    public class TypeCardsList
     {
         public int PkCode { get; set; }
         public string Type { get; set; }
