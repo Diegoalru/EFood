@@ -13,6 +13,9 @@ namespace EFood_Intranet
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                         "~/Scripts/jquery.validate*"));
+            
+            bundles.Add(new ScriptBundle("~/bundles/efoodScript").Include(
+                "~/Scripts/EFoodScript/*.js"));
 
             // Utilice la versión de desarrollo de Modernizr para desarrollar y obtener información. De este modo, estará
             // para la producción, use la herramienta de compilación disponible en https://modernizr.com para seleccionar solo las pruebas que necesite.
@@ -23,8 +26,12 @@ namespace EFood_Intranet
                       "~/Scripts/bootstrap.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
-                      "~/Content/bootstrap.css",
-                      "~/Content/site.css"));
+                      "~/Content/bootstrap.min.css"
+                      ,"~/Content/slick.css"
+                      ,"~/Content/slick-theme.css"
+                      ,"~/Content/nouislider.min.css"
+                      ,"~/Content/font-awesome.min.css"
+                      ,"~/Content/style.css"));
         }
     }
 }
