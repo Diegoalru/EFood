@@ -1,0 +1,19 @@
+#lstBox1, #lstBox2{
+    height:300px;
+    width:200px;
+  }
+  
+  .approveTermsContainer{
+    display:flex;
+    justify-content:center;
+  }
+  
+  .transferBtns {
+    margin-right: 30px;
+    margin-left: 30px;
+  }
+  
+  .transferBtns{
+    float:left; 
+    align-self:center;
+  }
