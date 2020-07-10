@@ -1,4 +1,44 @@
 <div class="container">
+<div class="category-nav">
+    <span class="category-header">Opciones <i class="fa fa-list"></i></span>
+    <ul class="category-list">
+        <li class="dropdown side-dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">Todas las Opciones<i
+                    class="fa fa-angle-right"></i></a>
+            <div class="custom-menu">
+                <div class="row">
+                    <div class="col-md-4">
+                        <ul class="list-links">
+                            <li>
+                                <h3 class="list-links-title">Opciones</h3>
+                            </li>
+                            <li><a href="index.html"><strong>Inicio</strong></a></li>
+                            <li &emsp;><strong>Seguridad</strong></li>
+                            <li><a href="Usuarios.html">Usuarios</a></li>
+                            <li><a href="VerUsuarios.html">Roles</a></li>
+                            <li><a href="CambioPass.html">Cambio de contraseña</a></li>
+                            <li &emsp;><strong>Administración</strong></li>
+                            <li><a href="Consecutivos.html">Consecutivos</a></li>
+                            <li><a href="TiposDePrecio.html">Tipos de Precio</a></li>
+                            <li><a href="Tarjetas.html">Tarjetas de credito o Debito</a></li>
+                            <li><a href="MediosPago.html">Medios de Pago</a></li>
+                            <li><a href="TiqueteDescuento.html">Tiquetes de descuento</a></li>
+                            <li><a href="LineaDeComida.html">Línea de Comida</a></li>
+                            <li><a href="Productos.html">Productos</a></li>
+                            <li &emsp;><strong>Consultas</strong></li>
+                            <li><a href="ConsultaPedidos.html">Pedidos</a></li>
+                            <li><a href="ConsultaProductos.html">Productos</a></li>
+                            <li><a href="ConsultaBitacoras.html">Bitácoras</a></li>
+                            <li><a href="ConsultaErrores.html">Errores</a></li>
+                        </ul>
+                        <hr class="hidden-md hidden-lg">
+                    </div>
+                </div>
+            </div>
+        </li>
+    </ul>
+</div>
+
     <div id="responsive-nav">
         <div class="menu-nav">
             <span class="menu-header">Menu <i class="fa fa-bars"></i></span>
@@ -6,53 +46,67 @@
                 <li>
                     @Html.ActionLink("Inicio", "Index", "Home")
                 </li>
-                <li class="dropdown mega-dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">Seguridad <i
-                            class="fa fa-caret-down"></i></a>
-                    <div class="custom-menu">
-                        <div class="row">
-                            <div class="col-md-4">
-                                <ul class="list-links">
-                                    <li>
-                                        <h3 class="list-links-title">Seguridad</h3>
-                                    </li>
-                                    <li><a href="Usuarios.html">Usuarios</a></li>
-                                    <li><a href="VerUsuarios.html">Roles</a></li>
-                                    <li>
-                                        <a href="CambioPass.html">Cambiar Contraseña</a>
-                                    </li>
-                                </ul>
-                                <hr class="hidden-md hidden-lg" />
-                            </div>
-                        </div>
-                    </div>
-                </li>
-                <li class="dropdown mega-dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">Administracion <i
-                            class="fa fa-caret-down"></i></a>
-                    <div class="custom-menu">
-                        <div class="row">
-                            <div class="col-md-4">
-                                <ul class="list-links">
-                                    <li>
-                                        <h3 class="list-links-title">Administracion</h3>
-                                    </li>
-                                    <li>
-                                        <a href="Parametrosgenerales.html">Parametros generales</a>
-                                    </li>
-                                    <li>
-                                        <a href="Tarjetas.html">Tarjetas de credito o Debito</a>
-                                    </li>
-                                    <li><a href="MediosPago.html">Medios de Pago</a></li>
-                                    <li>
-                                        <a href="TiqueteDesc.html">Tiquetes de descuento</a>
-                                    </li>
-                                </ul>
-                                <hr class="hidden-md hidden-lg" />
-                            </div>
-                        </div>
-                    </div>
-                </li>
+                <li class="dropdown mega-dropdown"><a class="dropdown-toggle" data-toggle="dropdown"
+                                                aria-expanded="true">Seguridad <i class="fa fa-caret-down"></i></a>
+                                            <div class="custom-menu">
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        <ul class="list-links">
+                                                            <li>
+                                                                <h3 class="list-links-title">Seguridad</h3>
+                                                            </li>
+                                                            <li><a href="Usuarios.html">Usuarios</a></li>
+                                                            <li><a href="VerUsuarios.html">Roles</a></li>
+                                                            <li><a href="CambioPass.html">Cambiar Contraseña</a></li>
+                                                        </ul>
+                                                        <hr class="hidden-md hidden-lg">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </li>
+                
+                                        <li class="dropdown mega-dropdown"><a class="dropdown-toggle" data-toggle="dropdown"
+                                                aria-expanded="true">Administración <i class="fa fa-caret-down"></i></a>
+                                            <div class="custom-menu">
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        <ul class="list-links">
+                                                            <li>
+                                                                <h3 class="list-links-title">Administración</h3>
+                                                            </li>
+                                                            <li><a href="Consecutivos.html">Consecutivos</a></li>
+                                                            <li><a href="TiposDePrecio.html">Tipos de Precio</a></li>
+                                                            <li><a href="Tarjetas.html">Tarjetas de credito o Debito</a></li>
+                                                            <li><a href="MediosPago.html">Medios de Pago</a></li>
+                                                            <li><a href="TiqueteDescuento.html">Tiquetes de descuento</a></li>
+                                                            <li><a href="LineaDeComida.html">Línea de Comida</a></li>
+                                                            <li><a href="Productos.html">Productos</a></li>
+                                                        </ul>
+                                                        <hr class="hidden-md hidden-lg">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </li>
+
+                                        <li class="dropdown mega-dropdown"><a class="dropdown-toggle" data-toggle="dropdown"
+                                                aria-expanded="true">Consultas <i class="fa fa-caret-down"></i></a>
+                                            <div class="custom-menu">
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        <ul class="list-links">
+                                                            <li>
+                                                                <h3 class="list-links-title">Consultas</h3>
+                                                            </li>
+                                                            <li><a href="ConsultaPedidos.html">Pedidos</a></li>
+                                                            <li><a href="ConsultaProductos.html">Productos</a></li>
+                                                            <li><a href="ConsultaBitacoras.html">Bitácoras</a></li>
+                                                            <li><a href="ConsultaErrores.html">Errores</a></li>
+                                                        </ul>
+                                                        <hr class="hidden-md hidden-lg">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </li>
             </ul>
         </div>
     </div>
