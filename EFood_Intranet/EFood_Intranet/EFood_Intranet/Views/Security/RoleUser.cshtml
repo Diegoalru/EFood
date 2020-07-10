@@ -1,0 +1,35 @@
+@model EFoodBLL.IntranetModels.UserRole
+
+@{
+    ViewBag.Title = "title";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div id="home">
+    <div class="container">
+        <div class="omb_login">
+            <br/>
+            <form class="center3">
+                <br/>
+                <h4 class="omb_authTitle" style="color: orangered;">Lista de Usuarios</h4>
+                <div class="row omb_row-sm-offset-3 omb_socialButtons">	
+                </div>
+                <div style="width:150px;height:150px;line-height:3em;overflow:auto;padding:5px;" class="center" >
+                    Usuario1abcd usuario2abcd ejemploadicional testing12 tiposdeuser15. 
+                </div>
+                <br/><br/>
+                <h3 style="color: orangered;" >Roles</h3>
+                <h4 style="color: orangered;">Lista de roles</h4>
+                <input type="checkbox" id="rol1" name="rol1" value="Administrador">
+                <label for="vehicle1">Administrador</label><br>
+                <input type="checkbox" id="rol2" name="rol2" value="Seguridad">
+                <label for="vehicle2">Seguridad</label><br>
+                <input type="checkbox" id="rol3" name="rol3" value="Mantenimiento">
+                <label for="vehicle3">Mantenimiento</label><br>
+                <input type="checkbox" id="rol4" name="rol4" value="Consultas">
+                <label for="vehicle3">Consultas</label><br><br>
+                <input type="Button" onclick="location.href='Usuarios.html';" value="Actualizar Roles">
+            </form>
+        </div>
+    </div>
+</div>

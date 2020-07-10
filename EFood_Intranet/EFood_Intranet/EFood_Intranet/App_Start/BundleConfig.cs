@@ -27,6 +27,7 @@ namespace EFood_Intranet
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.min.css"
+                      ,"~/Content/login.css"
                       ,"~/Content/slick.css"
                       ,"~/Content/slick-theme.css"
                       ,"~/Content/nouislider.min.css"

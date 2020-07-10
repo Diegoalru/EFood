@@ -1,58 +1,53 @@
 ﻿<!DOCTYPE html>
 <html lang="es">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta charset="utf-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link href="https://fonts.googleapis.com/css?family=Hind:400,700" rel="stylesheet" />
     <title>@ViewBag.Title - EFood</title>
-	@Styles.Render("~/Content/css")
-	@Scripts.Render("~/bundles/modernizr")
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
 </head>
 <body>
 <header>
-	
-	<!--
-	TODO: Crear las referencias a las paginas en el navbar.
-	-->
 
-	<div id="top-header">
-		<div class="container">
-			<div class="pull-right">
-				@Html.Partial("_TranslatorPartial")
-			</div>
-		</div>
-	</div>
-
-	<div id="header">
-		<div class="container">
-			<div class="pull-left">
-				<div class="header-logo">
-					<a class="logo" href="#">
-						<h1>E-Food</h1>
-					</a>
-				</div>
-			</div>
-			<div class="pull-right">
-				@Html.Partial("_LoginPartial")
-			</div>
-		</div>
-	</div>
-</header>
-
-	<div id="navigation">
-		@Html.Partial("_NavBarPartial")
-	</div>
-	<div class="container">
-        @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - EFood</p>
-        </footer>
+    <div id="top-header">
+        <div class="container">
+            <div class="pull-right">
+                @Html.Partial("_TranslatorPartial")
+            </div>
+        </div>
     </div>
-	@Scripts.Render("~/bundles/efoodScript")
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
-    @RenderSection("scripts", required: false)
+
+    <div id="header">
+        <div class="container">
+            <div class="pull-left">
+                <div class="header-logo">
+                    <a class="logo" href="#">
+                        <h1>E-Food</h1>
+                    </a>
+                </div>
+            </div>
+            <div class="pull-right">
+                @Html.Partial("_LoginPartial")
+            </div>
+        </div>
+    </div>
+</header>
+<div id="navigation">
+    @Html.Partial("_NavBarPartial")
+</div>
+<div class="container">
+    @RenderBody()
+    <hr/>
+    <footer>
+        <p>&copy; @DateTime.Now.Year - EFood</p>
+    </footer>
+</div>
+@Scripts.Render("~/bundles/efoodScript")
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/bootstrap")
+@RenderSection("scripts", required: false)
 </body>
 </html>

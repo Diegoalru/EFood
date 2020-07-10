@@ -121,7 +121,10 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AdministrationController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\QueriesController.cs" />
+    <Compile Include="Controllers\SecurityController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -173,6 +176,22 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Views\Administration\DiscountList.cshtml" />
+    <Content Include="Views\Administration\PayMethodsList.cshtml" />
+    <Content Include="Views\Administration\ProductPriceList.cshtml" />
+    <Content Include="Views\Administration\TypeCardsList.cshtml" />
+    <Content Include="Views\Administration\ProductsList.cshtml" />
+    <Content Include="Views\Administration\TypeLineList.cshtml" />
+    <Content Include="Views\Administration\TypePriceList.cshtml" />
+    <Content Include="Views\Queries\Errors.cshtml" />
+    <Content Include="Views\Queries\Logs.cshtml" />
+    <Content Include="Views\Queries\Orders.cshtml" />
+    <Content Include="Views\Queries\Products.cshtml" />
+    <Content Include="Views\Security\ChangePassword.cshtml" />
+    <Content Include="Views\Security\Register.cshtml" />
+    <Content Include="Views\Security\RoleUser.cshtml" />
+    <Content Include="Views\Security\StatusUsers.cshtml" />
+    <Content Include="Views\Security\Users.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Shared\_NavBarPartial.cshtml" />
     <Content Include="Views\Shared\_TranslatorPartial.cshtml" />
