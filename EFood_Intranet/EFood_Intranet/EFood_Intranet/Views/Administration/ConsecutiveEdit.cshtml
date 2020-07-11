@@ -5,4 +5,53 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>title</h2>
+    <div id="home">
+        <!-- container -->
+
+
+        <div class="container">
+
+
+            </br>
+            <form class="center3">
+                <div class="row omb_row-sm-offset-3 omb_socialButtons">
+                </div>
+                <h4 style="color: orangered;">Información de consecutivo</h4>
+                </br>
+                </br>
+
+                <form>
+                    <label for="Descripcion">Descripción:</label>
+                    <select name="Descripcion" id="Descripcion">
+                        <optgroup label="Tipo">
+                            <option value="Activo">Linea de comidas</option>
+                            <option value="Inactivo">Linea de bebidas</option>
+                            <option value="Inactivo">Linea de combos</option>
+                        </optgroup>
+                    </select>
+
+                    <br>
+                    <label for="fname">Consecutivo:</label>
+                    <input type="text" id="fname" name="fname"><br>
+
+                    <div>
+                        <div class="col-xs-12 col-sm-3">
+                            <label class="checkbox">
+                                <input type="checkbox" value="remember-me">Posee prefiijo
+                            </label>
+                        </div>
+                    </div>
+
+                    <br><br><br>
+                    <label for="PrefijoInt">Introduzca Prefijo:</label>
+                    <input type="text" id="fname" name="fname"><br>
+                    <br>
+                    <input type="button" onclick="location.href='Consecutivos.html';" value="Aceptar"> </input>
+                    <input type="submit" value="cancelar"> </input>
+
+                </form>
+        </div>
+
+
+        <!-- /container -->
+    </div>

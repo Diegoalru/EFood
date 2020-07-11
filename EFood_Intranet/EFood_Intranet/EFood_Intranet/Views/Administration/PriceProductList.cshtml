@@ -5,4 +5,80 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>title</h2>
+<div id="home">
+    <!-- container -->
+
+
+    <div class="container">
+
+
+        <div class="omb_login">
+            <br></br><br><br><br><br>
+            <h4 class="omb_authTitle" style="color: orangered;">Lista de Precios del Producto: " "<!-- Aqui va relacionado con el item de Productos.html--> </h4>
+            <div class="row omb_row-sm-offset-3 omb_socialButtons">
+            </div>
+            <br><br><br><br><br>
+            <table class="table">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">Tipo de Precio</th>
+                        <th scope="col">Precio</th>
+                        <th scope="col">Cambiar</th>
+                        <th scope="col">Borrar</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th scope="row">Pequeño</th>
+                        <td>1,250.00</td>
+                        <td><a href="InfoPrecioDelProducto.html">Editar</a></td>
+                        <td><a>Eliminar</a></td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Regular</th>
+                        <td>1,450.00</td>
+                        <td><a href="InfoPrecioDelProducto.html">Editar</a></td>
+                        <td><a>Eliminar</a></td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Agrandado</th>
+                        <td>1,850.00</td>
+                        <td><a href="InfoPrecioDelProducto.html">Editar</a></td>
+                        <td><a>Eliminar</a></td>
+                    </tr>
+                </tbody>
+            </table>
+
+
+            </br>
+            <form class="center3">
+                <div class="row omb_row-sm-offset-3 omb_socialButtons">
+                </div>
+                <h4 style="color: orangered;">Información de Producto</h4>
+                </br>
+                </br>
+
+                <form>
+                    <label for="TipoPrecio">Tipo Precio:</label>
+                    <select name="TipoPrecio" id="TipoPrecio">
+                        <optgroup label="Tipo">
+                            <option value="Activo">Regular</option>
+                            <option value="Inactivo">Mediano</option>
+                            <option value="Inactivo">Agrandado</option>
+                        </optgroup>
+                    </select>
+
+                    <br>
+                    <label for="fname">Precio:</label>
+                    <input type="text" id="fname" name="fname"><br>
+                    <br>
+                    <input type="button" onclick="location.href='InfoProductos.html';" value="Nuevo"> </input>
+                    <input type="button" value="Guardar"> </input>
+                    <br><br>
+                    <a style="color: orangered;" href="Productos.html">Volver a Productos</a>
+
+
+                </form>
+
+                <!-- /container -->
+        </div>
