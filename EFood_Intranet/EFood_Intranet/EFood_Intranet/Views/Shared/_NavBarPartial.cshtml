@@ -1,46 +1,47 @@
 ﻿<div class="container">
-    <div class="category-nav">
-        <span class="category-header">Opciones <i class="fa fa-list"></i></span>
-        <ul class="category-list">
-            <li class="dropdown side-dropdown">
-                <a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">Todas las Opciones
-                    <i class="fa fa-angle-right"></i></a>
-                <div class="custom-menu">
-                    <div class="row">
-                        <div class="col-md-4">
-                            <ul class="list-links">
-                                <li>
-                                    <h3 class="list-links-title">Opciones</h3>
-                                </li>
-                                <li><a href="index.html"><strong>Inicio</strong></a></li>
-                                <li &emsp;><strong>Seguridad</strong></li>
-                                <li><a href="Usuarios.html">Usuarios</a></li>
-                                <li><a href="VerUsuarios.html">Roles</a></li>
-                                <li><a href="CambioPass.html">Cambio de contraseña</a></li>
-                                <li &emsp;><strong>Administraci&oacute;n</strong></li>
-                                <li><a href="Consecutivos.html">Consecutivos</a></li>
-                                <li><a href="TiposDePrecio.html">Tipos de Precio</a></li>
-                                <li><a href="Tarjetas.html">Tarjetas de credito o Debito</a></li>
-                                <li><a href="MediosPago.html">Medios de Pago</a></li>
-                                <li><a href="TiqueteDescuento.html">Tiquetes de descuento</a></li>
-                                <li><a href="LineaDeComida.html">Línea de Comida</a></li>
-                                <li><a href="Productos.html">Productos</a></li>
-                                <li &emsp;><strong>Consultas</strong></li>
-                                <li><a href="ConsultaPedidos.html">Pedidos</a></li>
-                                <li><a href="ConsultaProductos.html">Productos</a></li>
-                                <li><a href="ConsultaBitacoras.html">Bitácoras</a></li>
-                                <li><a href="ConsultaErrores.html">Errores</a></li>
-                            </ul>
-                            <hr class="hidden-md hidden-lg">
-                        </div>
+<!--
+<div class="category-nav">
+    <span class="category-header">Opciones <i class="fa fa-list"></i></span>
+    <ul class="category-list">
+        <li class="dropdown side-dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">Todas las Opciones
+                <i class="fa fa-angle-right"></i></a>
+            <div class="custom-menu">
+                <div class="row">
+                    <div class="col-md-4">
+                        <ul class="list-links">
+                            <li>
+                                <h3 class="list-links-title">Opciones</h3>
+                            </li>
+                            <li><a href="index.html"><strong>Inicio</strong></a></li>
+                            <li &emsp;><strong>Seguridad</strong></li>
+                            <li><a href="Usuarios.html">Usuarios</a></li>
+                            <li><a href="VerUsuarios.html">Roles</a></li>
+                            <li><a href="CambioPass.html">Cambio de contraseña</a></li>
+                            <li &emsp;><strong>Administraci&oacute;n</strong></li>
+                            <li><a href="Consecutivos.html">Consecutivos</a></li>
+                            <li><a href="TiposDePrecio.html">Tipos de Precio</a></li>
+                            <li><a href="Tarjetas.html">Tarjetas de credito o Debito</a></li>
+                            <li><a href="MediosPago.html">Medios de Pago</a></li>
+                            <li><a href="TiqueteDescuento.html">Tiquetes de descuento</a></li>
+                            <li><a href="LineaDeComida.html">Línea de Comida</a></li>
+                            <li><a href="Productos.html">Productos</a></li>
+                            <li &emsp;><strong>Consultas</strong></li>
+                            <li><a href="ConsultaPedidos.html">Pedidos</a></li>
+                            <li><a href="ConsultaProductos.html">Productos</a></li>
+                            <li><a href="ConsultaBitacoras.html">Bitácoras</a></li>
+                            <li><a href="ConsultaErrores.html">Errores</a></li>
+                        </ul>
+                        <hr class="hidden-md hidden-lg">
                     </div>
                 </div>
-            </li>
-        </ul>
-    </div>
+            </div>
+        </li>
+    </ul>
+</div>
+-->
     <div id="responsive-nav">
         <div class="menu-nav">
-            <span class="menu-header">Menu <i class="fa fa-bars"></i></span>
             <ul class="menu-list">
                 <li>
                     @Html.ActionLink("Inicio", "Index", "Home")
@@ -55,9 +56,9 @@
                                     <li>
                                         <h3 class="list-links-title">Seguridad</h3>
                                     </li>
-                                    <li><a href="Usuarios.html">Usuarios</a></li>
-                                    <li><a href="VerUsuarios.html">Roles</a></li>
-                                    <li><a href="CambioPass.html">Cambiar Contrase&ntilde;a</a></li>
+                                    <li>@Html.ActionLink("Usuarios", "Users", "Security")</li>
+                                    <li>@Html.ActionLink("Roles", "RoleUser", "Security")</li>
+                                    <li>@Html.ActionLink("Cambiar Contraseña", "ChangePassword", "Security")</li>
                                 </ul>
                                 <hr class="hidden-md hidden-lg">
                             </div>
@@ -75,13 +76,13 @@
                                     <li>
                                         <h3 class="list-links-title">Administración</h3>
                                     </li>
-                                    <li><a href="Consecutivos.html">Consecutivos</a></li>
-                                    <li><a href="TiposDePrecio.html">Tipos de Precio</a></li>
-                                    <li><a href="Tarjetas.html">Tarjetas de credito o Debito</a></li>
-                                    <li><a href="MediosPago.html">Medios de Pago</a></li>
-                                    <li><a href="TiqueteDescuento.html">Tiquetes de descuento</a></li>
-                                    <li><a href="LineaDeComida.html">Línea de Comida</a></li>
-                                    <li><a href="Productos.html">Productos</a></li>
+                                    <li>@Html.ActionLink("Consecutivos", "ConsecutiveList", "Administration")</li>
+                                    <li>@Html.ActionLink("Tipos de Precio", "TypePriceList", "Administration")</li>
+                                    <li>@Html.ActionLink("Tarjetas de credito o Debito", "TypeCardList", "Administration")</li>
+                                    <li>@Html.ActionLink("Medios de Pago", "PayMethodList", "Administration")</li>
+                                    <li>@Html.ActionLink("Tiquetes de descuento", "DiscountList", "Administration")</li>
+                                    <li>@Html.ActionLink("Línea de Comida", "TypeLineList", "Administration")</li>
+                                    <li>@Html.ActionLink("Productos", "ProductList", "Administration")</li>
                                 </ul>
                                 <hr class="hidden-md hidden-lg">
                             </div>
@@ -99,10 +100,10 @@
                                     <li>
                                         <h3 class="list-links-title">Consultas</h3>
                                     </li>
-                                    <li><a href="ConsultaPedidos.html">Pedidos</a></li>
-                                    <li><a href="ConsultaProductos.html">Productos</a></li>
-                                    <li><a href="ConsultaBitacoras.html">Bitácoras</a></li>
-                                    <li><a href="ConsultaErrores.html">Errores</a></li>
+                                    <li>@Html.ActionLink("Pedidos", "Orders", "Queries")</li>
+                                    <li>@Html.ActionLink("Productos", "Products", "Queries")</li>
+                                    <li>@Html.ActionLink("Bitácoras", "Logs", "Queries")</li>
+                                    <li>@Html.ActionLink("Errores", "Errors", "Queries")</li>
                                 </ul>
                                 <hr class="hidden-md hidden-lg">
                             </div>

@@ -142,3 +142,10 @@
 	top:-20px;
 	margin-top: 70px;
 	}
+
+.ErrorMessage{
+	text-align: center;
+	color: #ff2433;
+	font-size: 15pt;
+	margin: 5px;
+}
