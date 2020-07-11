@@ -24,7 +24,7 @@ namespace EFoodBLL.IntranetModels
     /// <summary>
     /// Clase que contiene las propiedades necesarias para el listado de la bitacora
     /// </summary>
-    public class ListLog
+    public class LogList
     {
         /// <summary>
         /// Identificador unico del error.

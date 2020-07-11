@@ -1,3 +1,5 @@
+using System.ComponentModel;
+
 namespace EFoodBLL.IntranetModels
 {
     public class Discount
@@ -26,7 +28,13 @@ namespace EFoodBLL.IntranetModels
     public class DiscountList
     {
         public int PkCode { get; set; }
+        
+        [DisplayName("Codigo")]
+        public string Code { get; set; }
+        
+        [DisplayName("Descripcion")]
         public string Description { get; set; }
+        
         /// <summary>
         /// Numero o porcentaje de descuento.
         /// </summary>
