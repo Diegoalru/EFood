@@ -18,6 +18,7 @@ namespace EFoodBLL.IntranetModels
         
         [Required]
         [DisplayName("Porcentaje")]
+        [Range(1, 100, ErrorMessage = "El descuento debe estar entre 1 a 100 % ")]
         public int Percentage { get; set; }
     }
 
