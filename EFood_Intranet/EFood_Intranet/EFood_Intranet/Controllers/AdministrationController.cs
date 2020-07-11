@@ -16,7 +16,8 @@ namespace EFood_Intranet.Controllers
         private readonly IUpdateMethods _updateMethods = new UpdateMethods();
         private readonly IInsertMethods _insertMethods = new InsertMethods();
         private readonly IDeleteMethods _deleteMethods = new DeleteMethods();
-
+        private readonly IExistsMethods _existsMethods = new ExistsMethods();
+        
         #region Consecutives
         public ActionResult ConsecutiveList()
         {
@@ -36,22 +37,97 @@ namespace EFood_Intranet.Controllers
 
         #region Discount
         
+        /// <summary>
+        /// Metodo que devuelve la vista con los datos de los descuentos. 
+        /// </summary>
         public ActionResult DiscountList()
         {
             var list = ConvertDStoList_Discount(_queryMethods.Discounts().Result);
             return View(list);
         }
         
+        /// <summary>
+        /// Crear tiquete de descuento.
+        /// </summary>
         public ActionResult DiscountCreate()
         {
-            ModelState.AddModelError(key: "",errorMessage: "¡Credenciales invalidas!");
             return View();
         }
         
-        public ActionResult DiscountEdit()
+        /// <summary>
+        /// Crea los tiquetes de descuento.
+        /// </summary>
+        /// <param name="data">Informacion del cupón</param>
+        [HttpPost]
+        public async Task<ActionResult> DiscountCreate(Discount data)
         {
-            return View();
+            if (!ModelState.IsValid)
+                return await Task.FromResult<ActionResult>(View(data));
+
+            var result = _existsMethods.ExistsDiscount(data.Code).Result;
+            switch (result)
+            {
+                case false:
+                    var resultInsertDiscount = await _insertMethods.InsertDiscount(data);
+                    if (resultInsertDiscount)
+                        return RedirectToAction("DiscountList");
+                    
+                    ModelState.AddModelError(key: "", errorMessage: "Ha ocurrido un error.\n");
+                    return await Task.FromResult<ActionResult>(View(data));
+                
+                case true:
+                    ModelState.AddModelError("", "¡El tiquete de descuento ya existe!\n");
+                    return await Task.FromResult<ActionResult>(View());
+                
+                default:
+                    ModelState.AddModelError("", "¡Error! Conexion con servidor perdida.\n");
+                    return await Task.FromResult<ActionResult>(View());
+            }
         }
+        
+        /// <summary>
+        /// Edita el Cupon.
+        /// </summary>
+        /// <param name="id">Id primario del cupón.</param>
+        [HttpGet]
+        public ActionResult DiscountEdit(int id)
+        {
+            var discount = _returnMethods.ReturnDiscount(id).Result;
+            if (discount == null)
+            {
+                return HttpNotFound();
+            }
+            return View(discount);
+        }
+        
+        
+        /// <summary>
+        /// Metodo que realiza la actualizacion del cupon.
+        /// </summary>
+        /// <param name="discount"></param>
+        [HttpPost]
+        public Task<ActionResult> DiscountEdit(ReturnDiscount discount)
+        {
+            var result =_updateMethods.UpdateDiscount(new DiscountCupons
+            {
+                PkCode = discount.PkCode
+                ,Description = discount.Description
+                ,NewCupons = discount.Available
+            }).Result;
+
+            Console.WriteLine(" Codigo: " + discount.PkCode);
+
+            if (!result)
+            {
+                ModelState.AddModelError(key: "", errorMessage: "Ha ocurrido un error.\n");
+            }
+            else
+            {
+                ModelState.AddModelError(key: "", errorMessage: "Guardado con exito.\n");    
+            }
+            return Task.FromResult<ActionResult>(View());
+        }
+        
         
         [HttpGet]
         public async Task<ActionResult> DiscountDelete(int id)
@@ -73,8 +149,7 @@ namespace EFood_Intranet.Controllers
         [HttpGet]
         public Task<ActionResult> DiscountDeleteConfirmed(int id)
         {
-            Console.WriteLine($"ID obtenido: {id}");
-            var resut = _deleteMethods.DeleteDiscount(id).Result;
+            _deleteMethods.DeleteDiscount(id);
             return Task.FromResult<ActionResult>(RedirectToAction("DiscountList"));
         }
 
@@ -186,8 +261,8 @@ namespace EFood_Intranet.Controllers
             {
                 list.Add(new DiscountList { 
                     PkCode = (int) (dr["CODE"])
-                    ,Code = Convert.ToString(dr["CODIGO"])
-                    ,Description = Convert.ToString("DESCRIPCION")
+                    ,Code = (string) dr["CODIGO"]
+                    ,Description = (string) dr["DESCRIPCION"]
                     ,Available = (int) (dr["DISPONIBLES"])
                     ,Discount = (int) (dr["DESCUENTO"]) 
                 });
