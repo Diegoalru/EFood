@@ -121,14 +121,6 @@ namespace EFood_Intranet.Controllers
         {
             return View();
         }
-        public ActionResult PayMethodCreate()
-        {
-            return View();
-        }
-        public ActionResult PayMethodEdit()
-        {
-            return View();
-        }
 
         #endregion
         
