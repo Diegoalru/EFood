@@ -22,7 +22,7 @@ namespace EFoodDB.EFood_Intranet
         /// </summary>
         /// <param name="codeDiscount">Codigo del cupon. MAX 6 caracteres alfanumericos.</param>
         /// <returns>Retornar</returns>
-        Task<bool?> CodeDiscountExists(string codeDiscount);
+        Task<bool?> ExistsDiscount(string codeDiscount);
         Task<bool?> ExistsPrice(int priceType, int product);
         Task<bool?> ExistsPaymentProcessor(string paymentProcessor);
         Task<bool?> ExistsProduct(string description);
@@ -57,7 +57,7 @@ namespace EFoodDB.EFood_Intranet
                 return null;
             }
         }
-        public Task<bool?> CodeDiscountExists(string codeDiscount)
+        public Task<bool?> ExistsDiscount(string codeDiscount)
         {
             try
             {
