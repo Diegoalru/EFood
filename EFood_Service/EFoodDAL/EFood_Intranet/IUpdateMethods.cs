@@ -13,7 +13,7 @@ namespace EFoodDB.EFood_Intranet
          * TODO: Crear comentarios.
          */
         Task<bool> UpdateUserStatus(UserStatus userStatus);
-        Task<bool> UpdateDiscountAvailableCupons(DiscountCupons discountCupons);
+        Task<bool> UpdateDiscount(DiscountCupons discountCupons);
         Task<bool> UpdateOrderStatus(OrderStatus orderStatus);
         Task<bool> UpdateProductPrice(ProductPrice productPrice);
         Task<bool> UpdatePaymentProcessor(PaymentChanges payment);
@@ -56,7 +56,7 @@ namespace EFoodDB.EFood_Intranet
             }
         }
 
-        public Task<bool> UpdateDiscountAvailableCupons(DiscountCupons discountCupons)
+        public Task<bool> UpdateDiscount(DiscountCupons discountCupons)
         {
             try
             {
@@ -65,10 +65,11 @@ namespace EFoodDB.EFood_Intranet
                     if (conn.State == ConnectionState.Closed)
                         conn.Open();
                     
-                    using (var cmd = new SqlCommand("MODIFICA_CANTIDAD_DISPONIBLES_DESCUENTO", conn))
+                    using (var cmd = new SqlCommand("MODIFICA_DESCUENTO", conn))
                     {
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.Add("@CODE", SqlDbType.Int).Value = discountCupons.PkCode;
+                        cmd.Parameters.Add("@DESCRIPCION", SqlDbType.NVarChar).Value = discountCupons.Description;
                         cmd.Parameters.Add("@DISPONIBLES", SqlDbType.Int).Value = discountCupons.NewCupons;
                         cmd.ExecuteNonQuery();
                         conn.Close();

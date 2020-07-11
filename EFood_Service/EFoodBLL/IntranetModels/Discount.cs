@@ -1,18 +1,32 @@
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace EFoodBLL.IntranetModels
 {
     public class Discount
     {
+        [DisplayName("Codigo")]
         public string Code { get; set; }
+        
+        [Required]
+        [DisplayName("Descripcion")]
         public string Description { get; set; }
+        
+        [Required]
+        [DisplayName("Disponibles")]
         public int Available { get; set; }
+        
+        [Required]
+        [DisplayName("Porcentaje")]
+        [Range(1, 100, ErrorMessage = "El descuento debe estar entre 1 a 100 % ")]
         public int Percentage { get; set; }
     }
 
     public class DiscountCupons
     {
         public int PkCode { get; set; }
+        
+        public string Description { get; set; }
         public int NewCupons { get; set; }
     }
 
