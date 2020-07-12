@@ -161,6 +161,7 @@
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\EFoodScript\bootstrap.min.js" />
     <Content Include="Scripts\EFoodScript\DualBoxes.js" />
+    <Content Include="Scripts\EFoodScript\EFoodScript.js" />
     <Content Include="Scripts\EFoodScript\jquery.min.js" />
     <Content Include="Scripts\EFoodScript\jquery.zoom.min.js" />
     <Content Include="Scripts\EFoodScript\main.js" />
