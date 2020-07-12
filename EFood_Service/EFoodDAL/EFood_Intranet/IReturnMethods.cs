@@ -248,9 +248,9 @@ namespace EFoodDB.EFood_Intranet
                         while (dr.Read())
                         {
                             product.PkCode = dr.GetInt32(0);
-                            product.Code = dr.GetString(1);
+                            product.Code = (dr.IsDBNull(1) ? null : dr.GetString(1));
                             product.Description = dr.GetString(2);
-                            product.LineTye = dr.GetInt32(3);
+                            product.LineType = dr.GetInt32(3);
                             product.Content = dr.GetString(4);
                         }
                     }

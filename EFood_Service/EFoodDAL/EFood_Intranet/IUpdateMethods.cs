@@ -51,7 +51,6 @@ namespace EFoodDB.EFood_Intranet
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
                 return Task.FromResult(false);
             }
         }
@@ -79,7 +78,6 @@ namespace EFoodDB.EFood_Intranet
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
                 return Task.FromResult(false);
             }
         }
@@ -106,7 +104,6 @@ namespace EFoodDB.EFood_Intranet
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
                 return Task.FromResult(false);
             }
         }
@@ -134,7 +131,6 @@ namespace EFoodDB.EFood_Intranet
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
                 return Task.FromResult(false);
             }
         }
@@ -161,8 +157,7 @@ namespace EFoodDB.EFood_Intranet
                 return Task.FromResult(true);
             }
             catch (Exception e)
-            {
-                Console.WriteLine(e);
+            {;
                 return Task.FromResult(false);
             }
         }
@@ -191,7 +186,6 @@ namespace EFoodDB.EFood_Intranet
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
                 return Task.FromResult(false);
             }
         }
@@ -221,7 +215,6 @@ namespace EFoodDB.EFood_Intranet
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
                 return Task.FromResult(false);
             }
         }
@@ -248,7 +241,6 @@ namespace EFoodDB.EFood_Intranet
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
                 return Task.FromResult(false);
             }
         }
@@ -275,7 +267,6 @@ namespace EFoodDB.EFood_Intranet
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
                 return Task.FromResult(false);
             }
         }
@@ -302,7 +293,6 @@ namespace EFoodDB.EFood_Intranet
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
                 return Task.FromResult(false);
             }
         }
