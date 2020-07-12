@@ -6,50 +6,30 @@
 }
 
 <div id="home">
-    <!-- container VERSION CREATE -->
-
-
-    <div class="container">
-
-
-        </br>
-        <form class="centerInfoPP">
-            <div class="row omb_row-sm-offset-3 omb_socialButtons">
-            </div>
-            <h4 style="color: orangered;">Información del Producto</h4>
-
-            <form>
-
-                <br>
-                <label for="fname">Código:</label>
-                <input type="text" id="fname" name="fname"><br>
-                <br>
-                <label for="fname">Descripción:</label>
-                <input type="text" id="fname" name="fname"><br>
-                <br>
-                <label for="Linea">Linea:</label>
-                <select name="Linea" id="Linea">
-                    <optgroup label="Tipo:">
-                        <option value="combos">Combos</option>
-                        <option value="postres">Postres</option>
-                        <option value="ensaladas">Ensaladas</option>
-                        <option value="ensaladas">Refrescos</option>
-                        <option value="ensaladas">Gaseosas</option>
-                    </optgroup>
-                </select>
-                <br><br>
-                <label for="DescripcionInfoProd">Contenido:</label>
-                <div style="height:35px;width:225px;border:1px solid #ccc;font:11px/26px Arial, Garamond, Serif;overflow:auto;">
-                    Dos piezas de Pollo, papas fritas y refresco pequeño.
-                </div>
-                <br>
-                <label for="Foto">Foto:</label>
-                <input type="file" onchange="previewFile()">
-                <img src="" height="120" alt="Vista Previa...">
-                <input type="button" onclick="location.href='Productos.html';" value="Guardar"> </input>
-                <input type="button" value="cancelar"> </input>
-            </form>
-
-
-            <!-- /container -->
+<div class="container">
+    @using (Html.BeginForm("ProductCreate", "Administration", null, FormMethod.Post, new {role = "form", @class = "centerInfoPP"}))
+    {
+        <div class="row omb_row-sm-offset-3 omb_socialButtons">
+        </div>
+        <h4 style="color: orangered;">Informaci&oacute;n del Producto</h4>
+        <br/>
+        @Html.DisplayNameFor(item => item.Description)
+        <br/>
+        @Html.TextBoxFor(item => item.Description, new {id = "fname", placeholder = "Descripcion", maxlength = 30})
+        <br/>
+        <br/>
+        @Html.DisplayNameFor(item => item.LineType)
+        <br/>
+        @Html.DropDownListFor(model => model.LineType, new SelectList(ViewBag.VBTypeLineList, "PkCode", "Type"),new {@class=""})         
+        <br/>
+        <br/>
+        @Html.DisplayNameFor(item => item.Content)
+        <br/>
+        @Html.TextBoxFor(item => item.Content, new {id = "fname", placeholder = "Contenido", maxlength = 200})
+        <br/>
+        <br/>
+        <input type="submit" value="Crear" class="primary-btn"/>
+        @Html.ActionLink(" Volver", "ProductList")
+    }
     </div>
+</div>

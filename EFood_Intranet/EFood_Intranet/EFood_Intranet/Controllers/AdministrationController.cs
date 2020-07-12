@@ -1,11 +1,13 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Dynamic;
 using System.Net;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using EFoodBLL.IntranetModels;
 using EFoodDB.EFood_Intranet;
+using Microsoft.Ajax.Utilities;
 
 namespace EFood_Intranet.Controllers
 {
@@ -115,8 +117,6 @@ namespace EFood_Intranet.Controllers
                 ,NewCupons = discount.Available
             }).Result;
 
-            Console.WriteLine(" Codigo: " + discount.PkCode);
-
             if (!result)
             {
                 ModelState.AddModelError(key: "", errorMessage: "Ha ocurrido un error.\n");
@@ -125,6 +125,7 @@ namespace EFood_Intranet.Controllers
             {
                 ModelState.AddModelError(key: "", errorMessage: "Guardado con exito.\n");    
             }
+            
             return Task.FromResult<ActionResult>(View());
         }
         
@@ -201,7 +202,7 @@ namespace EFood_Intranet.Controllers
         
         #region ProductPrice
 
-        public ActionResult PriceProductList()
+        public ActionResult PriceProductList(int id)
         {
             return View();
         }
@@ -236,20 +237,142 @@ namespace EFood_Intranet.Controllers
         #endregion
         
         #region Produts
+        
+        [HttpGet]
         public ActionResult ProductList()
         {
-            return View();
+            // Se realiza la consulta donde se obtiene los tipos de linea que existen.
+            var typeLinelist = ConvertDStoList_LineType(_queryMethods.LineTypes().Result);
+            
+            // Si existiera algún tipo de linea, automaticamente se mostraria los productos relacionados al primer datos de la lista.
+            var productList = typeLinelist.Count != 0 ? ConvertDStoList_Product(_queryMethods.ProductsByLineType(typeLinelist[0].PkCode).Result) : null;
+            
+            //Se crea el tipo de objeto SelectList, el cual es retornado a la pagina para mostrarse en el dropdown con el id typeLinelist (primer parametro) 
+            var selectList = new SelectList(typeLinelist,"PkCode", "Type");
+            
+            //Se guardan los datos en el ViewBag para luego obtenelos con el id VBTypeLineList
+            ViewBag.VBTypeLineList = selectList;
+            
+            //Se envian los datos a la pagina
+            return View(productList);
         }
+
+        [HttpPost]
+        public ActionResult ProductList(LineTypeList typeList)
+        {
+            // Se crea la lista que contiene los tipos de linea que existen.
+            var typeLinelist = ConvertDStoList_LineType(_queryMethods.LineTypes().Result);
+            
+            //Se crea un campo para almacenar la llave de tipo de linea.
+            int typeLineCode = 0;
+            
+            //Se recorre la lista hasta encontrar el dato obtenido de la pagina.
+            foreach (var item in typeLinelist)
+            {
+                if (item.Type.Equals(typeList.Type))
+                    typeLineCode = item.PkCode;
+            }
+            
+            //Se crear la lista con los productos segun el tipo de linea.
+            var productList = ConvertDStoList_Product(_queryMethods.ProductsByLineType(typeLineCode).Result);
+
+            //Se crea el objeto de tipo SelectList que será envia a el dropdown de la pagina, el cual obtendra el id de typeLinelist (primer parametro).
+            var selectList = new SelectList(typeLinelist,"PkCode", "Type");
+            
+            //Se agrega el obteto selectList al ViewBag de la pagina.
+            ViewBag.VBTypeLineList = selectList;
+            
+            //Se envia los datos obtenidos, en otras palabras aquí se retornan dos listas (tipos de linea y productos)
+            return View(productList);
+        }
+        
+        [HttpGet]
         public ActionResult ProductCreate()
         {
+            var typeLinelist = ConvertDStoList_LineType(_queryMethods.LineTypes().Result);
+            ViewBag.VBTypeLineList = typeLinelist;
             return View();
         }
         
-        public ActionResult ProductEdit()
+        [HttpPost]
+        public async Task<ActionResult> ProductCreate(Product product)
         {
-            return View();
+            if (!ModelState.IsValid)
+                return await Task.FromResult<ActionResult>(View(product));
+
+            var result = _existsMethods.ExistsProduct(product.Description).Result;
+            switch (result)
+            {
+                case false:
+                    var resultInsertProduct = await _insertMethods.InsertProduct(product);
+                    if (resultInsertProduct)
+                        return RedirectToAction("ProductList");
+                    
+                    ModelState.AddModelError(key: "", errorMessage: "Ha ocurrido un error.\n");
+                    return await Task.FromResult<ActionResult>(View(product));
+                
+                case true:
+                    ModelState.AddModelError("", "¡La el producto ya existe! (Descripción)\n");
+                    return await Task.FromResult<ActionResult>(View());
+                
+                default:
+                    ModelState.AddModelError("", "¡Error! Conexion con servidor perdida.\n");
+                    return await Task.FromResult<ActionResult>(View());
+            }
+        }
+        
+        [HttpGet]
+        public ActionResult ProductEdit(int id)
+        {
+            var typeLinelist = ConvertDStoList_LineType(_queryMethods.LineTypes().Result);
+          
+            var product = _returnMethods.ReturnProduct(id).Result;
+
+            
+            if (product == null)
+                return HttpNotFound();
+
+            if (product.Code.IsNullOrWhiteSpace())
+                product.Code = "No posee";
+                    
+            ViewBag.VBTypeLineList =  typeLinelist;
+
+            return View(product);
+        }
+        
+        [HttpPost]
+        public async Task<ActionResult> ProductEdit(ReturnProduct product)
+        {
+            var typeLinelist = ConvertDStoList_LineType(_queryMethods.LineTypes().Result);
+            ViewBag.VBTypeLineList = new SelectList(typeLinelist,"PkCode", "Type");
+
+            if (!ModelState.IsValid)
+                return  await Task.FromResult<ActionResult>(View(product));
+            
+            var result =_updateMethods.UpdateProduct(new ProductChanges
+            {
+                PkCode = product.PkCode
+                ,NewContent = product.Content
+                ,NewDescription = product.Description
+                ,NewLineType = product.LineType
+            }).Result;
+
+            if (!result)
+            {
+                ModelState.AddModelError(key: "", errorMessage: "Ha ocurrido un error.\n");
+                return await Task.FromResult<ActionResult>(View(product));
+            }
+            return await Task.FromResult<ActionResult>(RedirectToAction("ProductList"));
+            
         }
 
+        [HttpGet]
+        public Task<ActionResult> ProductDeleteConfirmed(int id)
+        {
+            _deleteMethods.DeleteProduct(id);
+            return Task.FromResult<ActionResult>(RedirectToAction("ProductList"));
+        }
+        
         #endregion
         
         #region DataSetToList
@@ -269,6 +392,39 @@ namespace EFood_Intranet.Controllers
             }
             return list;
         }
+        
+        private List<LineTypeList> ConvertDStoList_LineType(DataSet dataSet)
+        {
+            DataSet ds = dataSet;
+            List<LineTypeList > list = new List<LineTypeList >();
+            foreach (DataRow dr in ds.Tables[0].Rows)
+            {
+                list.Add(new LineTypeList {
+                    PkCode = (int) dr["CODE"]
+                    ,Code = (string) dr["CODIGO"]
+                    ,Type = (string) dr["TIPO"]
+                });
+            }
+            return list;
+        }
+        
+        private List<ProductList> ConvertDStoList_Product(DataSet dataSet)
+        {
+            DataSet ds = dataSet;
+            List<ProductList > list = new List<ProductList >();
+            foreach (DataRow dr in ds.Tables[0].Rows)
+            {
+                list.Add(new ProductList {
+                    PkCode = (int) dr["CODE"]
+                    ,Code = (string) dr["CODIGO"]
+                    ,Description = (string) dr["DESCRIPCION"]
+                });
+            }
+            return list;
+        }
+
+
+        
         #endregion
     }
 }

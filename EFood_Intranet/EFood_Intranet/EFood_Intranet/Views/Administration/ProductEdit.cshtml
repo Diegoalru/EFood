@@ -1,55 +1,49 @@
-
+@model EFoodBLL.IntranetModels.ReturnProduct
 
 @{
     ViewBag.Title = "Edicion de Producto";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-    <div id="home">
-        <!-- container -->
-
-
-        <div class="container">
-
-
-            </br>
-            <form class="centerInfoPP">
-                <div class="row omb_row-sm-offset-3 omb_socialButtons">
-                </div>
-                <h4 style="color: orangered;">Información del Producto</h4>
-
-                <form>
-
-                    <br>
-                    <label for="fname">Código:</label>
-                    <input type="text" id="fname" name="fname"><br>
-                    <br>
-                    <label for="fname">Descripción:</label>
-                    <input type="text" id="fname" name="fname"><br>
-                    <br>
-                    <label for="Linea">Linea:</label>
-                    <select name="Linea" id="Linea">
-                        <optgroup label="Tipo:">
-                            <option value="combos">Combos</option>
-                            <option value="postres">Postres</option>
-                            <option value="ensaladas">Ensaladas</option>
-                            <option value="ensaladas">Refrescos</option>
-                            <option value="ensaladas">Gaseosas</option>
-                        </optgroup>
-                    </select>
-                    <br><br>
-                    <label for="DescripcionInfoProd">Contenido:</label>
-                    <div style="height:35px;width:225px;border:1px solid #ccc;font:11px/26px Arial, Garamond, Serif;overflow:auto;">
-                        Dos piezas de Pollo, papas fritas y refresco pequeño.
-                    </div>
-                    <br>
-                    <label for="Foto">Foto:</label>
-                    <input type="file" onchange="previewFile()">
-                    <img src="" height="120" alt="Vista Previa...">
-                    <input type="button" onclick="location.href='Productos.html';" value="Guardar"> </input>
-                    <input type="button" value="cancelar"> </input>
-                </form>
-
-
-                <!-- /container -->
+<div id="home">
+    <div class="container">
+        <br>
+        <div class="row omb_row-sm-offset-3 omb_socialButtons">
         </div>
+        
+        @using (Html.BeginForm("ProductEdit", "Administration", null, FormMethod.Post, new {role = "form", @class = "center3"}))
+        {
+            <h4 style="color: orangered;">InformaciÃ³n del Producto</h4>
+            @Html.ValidationSummary("", new {@class = "ErrorMessage"})
+            @Html.TextBoxFor(item => item.PkCode, new {@type = "hidden", @readonly = "readonly"})
+            <br/>
+            @Html.DisplayNameFor(model => model.Code)
+            <br/>
+            @Html.TextBoxFor(item => item.Code, new {id = "fname", placeholder = "Codigo", maxlength = 11, @readonly = "readonly"})
+            <br/>
+            <br/>
+            @Html.DisplayNameFor(model => model.Description)
+            <br/>
+            @Html.TextBoxFor(item => item.Description, new {id = "fname", placeholder = "Codigo", maxlength = 30})
+            <br/>
+            <br/>
+            @Html.DisplayNameFor(model => model.LineType)
+            <br/>
+            @Html.DropDownListFor(model => model.LineType, new SelectList(ViewBag.VBTypeLineList, "PkCode", "Type"),new {@class=""})
+            <br/>
+            <br/>
+            @Html.DisplayNameFor(model => model.Content)
+            <br/>
+            @Html.TextBoxFor(item => item.Content, new {id = "fname", placeholder = "Codigo", maxlength = 200})
+            <br/>
+            <br>
+            @*
+            <label for="Foto">Foto:</label>
+            <input type="file" onchange="previewFile()">
+            <img src="" height="120" alt="Vista Previa...">
+            *@
+            <input type="submit" class="primary-btn" value="Guardar"/>
+            @Html.ActionLink("Volver", "ProductList")   
+        }
+    </div>
+</div>
