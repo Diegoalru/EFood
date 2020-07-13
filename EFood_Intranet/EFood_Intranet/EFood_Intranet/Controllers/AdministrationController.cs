@@ -5,6 +5,7 @@ using System.Dynamic;
 using System.Net;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using Antlr.Runtime;
 using EFoodBLL.IntranetModels;
 using EFoodDB.EFood_Intranet;
 using Microsoft.Ajax.Utilities;
@@ -134,17 +135,15 @@ namespace EFood_Intranet.Controllers
         public async Task<ActionResult> DiscountDelete(int id)
         {
             if (id == 0)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
+                return await Task.FromResult(new  HttpStatusCodeResult(HttpStatusCode.BadRequest));
 
             var discount = _returnMethods.ReturnDiscount(id).Result;
             if (discount == null)
             {
-                return HttpNotFound();
+                return await Task.FromResult(HttpNotFound());
             }
 
-            return View(discount);
+            return await Task.FromResult(View(discount));
         }
         
         [HttpGet]
@@ -193,11 +192,105 @@ namespace EFood_Intranet.Controllers
         #endregion
 
         #region PayMethod
+        [HttpGet]
         public ActionResult PayMethodList()
         {
+            var list = ConvertDStoList_Processor(_queryMethods.PaymentProcessors().Result);
+            return View(list);
+        }
+
+        [HttpGet]
+        public ActionResult PayMethodCreate()
+        {
+            var list = ConvertDStoList_PayMethods(_queryMethods.PayMethods().Result);
+            ViewBag.VBPayMethods = list;
             return View();
         }
 
+        [HttpPost]
+        public async Task<ActionResult> PayMethodCreate(PaymentProcessor data)
+        {
+            if (!ModelState.IsValid)
+                return await Task.FromResult<ActionResult>(View(data));
+
+            var result = _existsMethods.ExistsDiscount(data.ProcessorName).Result;
+            switch (result)
+            {
+                case false:
+                    var resultInsert = await _insertMethods.InsertPaymentProcessor(data);
+                    if (resultInsert)
+                        return RedirectToAction("PayMethodList");
+                    
+                    ModelState.AddModelError(key: "", errorMessage: "Ha ocurrido un error.\n");
+                    return await Task.FromResult<ActionResult>(View(data));
+                
+                case true:
+                    ModelState.AddModelError("", "¡El procesador ya existe!\n");
+                    return await Task.FromResult<ActionResult>(View());
+                
+                default:
+                    ModelState.AddModelError("", "¡Error! Conexion con servidor perdida.\n");
+                    return await Task.FromResult<ActionResult>(View());
+            }
+        }
+        
+        [HttpGet]
+        public ActionResult PayMethodEdit(int id)
+        {
+            var list = ConvertDStoList_PayMethods(_queryMethods.PayMethods().Result);
+
+            var processor = _returnMethods.ReturnPaymentProcessor(id).Result;
+            
+            if (processor == null)
+                return HttpNotFound();
+
+            if (processor.Code.IsNullOrWhiteSpace())
+                processor.Code = "No posee";
+                    
+            ViewBag.VBPayMethods = list;
+            
+            return View(processor);
+        }
+        
+        [HttpPost]
+        public Task<ActionResult> PayMethodEdit(ReturnPaymentProcessor data)
+        {
+            var result =_updateMethods.UpdatePaymentProcessor(new PaymentChanges
+            {
+                PkCode = data.PkCode
+                ,NewStatus = data.Status
+                ,NewProcessorName = data.Processor
+            }).Result;
+
+            if (result) return Task.FromResult<ActionResult>(RedirectToAction("PayMethodList"));
+            
+            ModelState.AddModelError(key: "", errorMessage: "Ha ocurrido un error.\n");
+            return Task.FromResult<ActionResult>(View());
+
+        }
+        
+        [HttpGet]
+        public Task<ActionResult> PayMethodDeleteConfirmed(int id)
+        {
+            _deleteMethods.DeletePaymentProcessor(id);
+            return Task.FromResult<ActionResult>(RedirectToAction("PayMethodList"));
+        }
+
+        [HttpGet]
+        public ActionResult RelationCard(int id)
+        {
+            //TODO: Realizar vista
+            return View();
+        }
+        
+        [HttpPost]
+        public ActionResult RelationCard(Object data)
+        {
+            //Fixme: Verificar realmente que datos son recibidos.
+            return View();
+        }
+        
+        
         #endregion
         
         #region ProductPrice
@@ -422,9 +515,82 @@ namespace EFood_Intranet.Controllers
             }
             return list;
         }
-
-
         
+        private List<ConsecutiveList> ConvertDStoList_Consecutives(DataSet dataSet)
+        {
+            DataSet ds = dataSet;
+            List<ConsecutiveList > list = new List<ConsecutiveList >();
+            foreach (DataRow dr in ds.Tables[0].Rows)
+            {
+                list.Add(new ConsecutiveList {
+                    PkCode = (int) dr["CODE"]
+                    ,Type = (string) dr["TIPO"]
+                    ,ConsecutiveId = (int) dr["ID_CONSECUTIVO"]
+                });
+            }
+            return list;
+        }
+        
+        private List<PaymentProcessorList> ConvertDStoList_Processor(DataSet dataSet)
+        {
+            DataSet ds = dataSet;
+            List<PaymentProcessorList > list = new List<PaymentProcessorList >();
+            foreach (DataRow dr in ds.Tables[0].Rows)
+            {
+                list.Add(new PaymentProcessorList {
+                    PkCode = (int) dr["CODE"]
+                    ,Code = (string) dr["CODIGO"]
+                    ,ProcessorName = (string) dr["PROCESADOR"]
+                    ,Status = (bool) dr["ESTADO"]
+                    ,Type = (string) dr["TIPO"]
+                });
+            }
+            return list;
+        }
+        
+        private List<TypeCardsList> ConvertDStoList_TypeCard(DataSet dataSet)
+        {
+            DataSet ds = dataSet;
+            List<TypeCardsList > list = new List<TypeCardsList >();
+            foreach (DataRow dr in ds.Tables[0].Rows)
+            {
+                list.Add(new TypeCardsList {
+                    PkCode = (int) dr["CODE"]
+                    ,Code = (string) dr["CODIGO"]
+                    ,Type = (string) dr["TIPO"]
+                });
+            }
+            return list;
+        }
+        
+        private List<PriceTypeList> ConvertDStoList_PriceType(DataSet dataSet)
+        {
+            DataSet ds = dataSet;
+            List<PriceTypeList > list = new List<PriceTypeList >();
+            foreach (DataRow dr in ds.Tables[0].Rows)
+            {
+                list.Add(new PriceTypeList {
+                    PkCode = (int) dr["CODE"]
+                    ,Code = (string) dr["CODIGO"]
+                    ,Type = (string) dr["TIPO"]
+                    });
+            }
+            return list;
+        }
+        
+        private List<PayMethodList> ConvertDStoList_PayMethods(DataSet dataSet)
+        {
+            DataSet ds = dataSet;
+            List<PayMethodList > list = new List<PayMethodList >();
+            foreach (DataRow dr in ds.Tables[0].Rows)
+            {
+                list.Add(new PayMethodList {
+                    PkCode = (int) dr["CODE"]
+                    ,Type = (string) dr["TIPO"]
+                });
+            }
+            return list;
+        }
         #endregion
     }
 }

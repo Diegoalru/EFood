@@ -184,12 +184,15 @@
     <Content Include="Views\Administration\DiscountDelete.cshtml" />
     <Content Include="Views\Administration\DiscountEdit.cshtml" />
     <Content Include="Views\Administration\DiscountList.cshtml" />
+    <Content Include="Views\Administration\PayMethodCreate.cshtml" />
+    <Content Include="Views\Administration\PayMethodEdit.cshtml" />
     <Content Include="Views\Administration\PayMethodList.cshtml" />
     <Content Include="Views\Administration\PriceProductCreate.cshtml" />
     <Content Include="Views\Administration\PriceProductEdit.cshtml" />
     <Content Include="Views\Administration\PriceProductList.cshtml" />
     <Content Include="Views\Administration\ProductCreate.cshtml" />
     <Content Include="Views\Administration\ProductEdit.cshtml" />
+    <Content Include="Views\Administration\RelationCard.cshtml" />
     <Content Include="Views\Administration\TypeCardCreate.cshtml" />
     <Content Include="Views\Administration\TypeCardEdit.cshtml" />
     <Content Include="Views\Administration\TypeCardList.cshtml" />
