@@ -269,7 +269,7 @@ namespace EFoodDB.EFood_Intranet
                     if (conn.State == ConnectionState.Closed)
                         conn.Open();
                     
-                    using (var cmd = new SqlCommand("INSERTA_PROCCESADOR_PAGO", conn))
+                    using (var cmd = new SqlCommand("INSERTA_PROCESADOR_PAGO", conn))
                     {
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.Add("@PROCESADOR", SqlDbType.NVarChar).Value = paymentProcessor.ProcessorName;

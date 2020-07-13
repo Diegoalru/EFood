@@ -80,7 +80,7 @@ namespace EFoodDB.EFood_Intranet
         Task<DataSet> LineTypes();
         
         /// <summary>
-        /// Muestra los medios de pago queisten.
+        /// Muestra los medios de pago que exissten.
         /// </summary>
         Task<DataSet> PayMethods();
         
