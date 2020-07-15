@@ -9,6 +9,11 @@ namespace EFoodBLL.IntranetModels
         [DisplayName("Procesador")]
         [MaxLength(30, ErrorMessage = "El nombre no puede exceder los 30 caracteres.")]
         public string ProcessorName { get; set; }
+
+        [Required(ErrorMessage = "El nombre es necesario para la app Cliente.")]
+        [DisplayName("Nombre opcion de pago")]
+        [MaxLength(30, ErrorMessage = "El nombre de pago no puede exceder los 30 caracteres.")]
+        public string NameUI { get; set; }
         
         [Required(ErrorMessage = "Debe seleccionar el medio de pago.")]
         [DisplayName("Tipo")]
@@ -27,6 +32,11 @@ namespace EFoodBLL.IntranetModels
         [MaxLength(30, ErrorMessage = "El nombre no puede exceder los 30 caracteres.")]
         public string NewProcessorName { get; set; }
         
+        [Required(ErrorMessage = "El nombre es necesario para la app Cliente.")]
+        [DisplayName("Nombre opcion de pago")]
+        [MaxLength(30, ErrorMessage = "El nombre de pago no puede exceder los 30 caracteres.")]
+        public string NewNameUI { get; set; }
+        
         [DisplayName("Estado")]
         public bool NewStatus { get; set; }
     }
@@ -40,6 +50,9 @@ namespace EFoodBLL.IntranetModels
         
         [DisplayName("Procesador")]
         public string Processor { get; set; }
+
+        [DisplayName("Nombre opcion de pago")]
+        public string NameUI { get; set; }
         
         [DisplayName("Tipo")]
         public int PaymentType { get; set; }
