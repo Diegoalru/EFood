@@ -11,6 +11,7 @@ namespace EFoodDB.EFood_Intranet
     public interface IDeleteMethods
     {
         Task<bool> DeleteProductPrice(int pkProduct, int pkType);
+        Task<bool> DeleteConsecutive(int pkConsecutive);
         Task<bool> DeletePaymentProcessor(int pkCode);
         Task<bool> DeleteDiscount(int pkCode);
         Task<bool> DeleteProduct(int pkCode);
@@ -38,6 +39,32 @@ namespace EFoodDB.EFood_Intranet
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.Add("@PRODUCTO", SqlDbType.Int).Value = pkProduct;
                         cmd.Parameters.Add("@TIPO", SqlDbType.Int).Value = pkType;
+                        cmd.ExecuteNonQuery();
+                        conn.Close();
+                    }
+                }
+                return Task.FromResult(true);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return Task.FromResult(false);
+            }
+        }
+
+        public Task<bool> DeleteConsecutive(int pkConsecutive)
+        {
+            try
+            {
+                using (var conn = _settings.GetConnection())
+                {
+                    if (conn.State == ConnectionState.Closed)
+                        conn.Open();
+                    
+                    using (var cmd = new SqlCommand("ELIMINA_CONSECUTIVO", conn))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@CODE", SqlDbType.Int).Value = pkConsecutive;
                         cmd.ExecuteNonQuery();
                         conn.Close();
                     }

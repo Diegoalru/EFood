@@ -49,7 +49,7 @@ namespace EFoodDB.EFood_Intranet
                 }
                 return Task.FromResult(true);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return Task.FromResult(false);
             }
@@ -76,7 +76,7 @@ namespace EFoodDB.EFood_Intranet
                 }
                 return Task.FromResult(true);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return Task.FromResult(false);
             }
@@ -102,7 +102,7 @@ namespace EFoodDB.EFood_Intranet
                 }
                 return Task.FromResult(true);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return Task.FromResult(false);
             }
@@ -129,7 +129,7 @@ namespace EFoodDB.EFood_Intranet
                 }
                 return Task.FromResult(true);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return Task.FromResult(false);
             }
@@ -149,6 +149,7 @@ namespace EFoodDB.EFood_Intranet
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.Add("@CODE", SqlDbType.Int).Value = payment.PkCode;
                         cmd.Parameters.Add("@PROCESADOR", SqlDbType.NVarChar).Value = payment.NewProcessorName;
+                        cmd.Parameters.Add("@NOMBRE_DISPLAY", SqlDbType.NVarChar).Value = payment.NewNameUI;
                         cmd.Parameters.Add("@ESTADO", SqlDbType.Bit).Value = payment.NewStatus;
                         cmd.ExecuteNonQuery();
                         conn.Close();
@@ -156,7 +157,7 @@ namespace EFoodDB.EFood_Intranet
                 }
                 return Task.FromResult(true);
             }
-            catch (Exception e)
+            catch (Exception)
             {;
                 return Task.FromResult(false);
             }
@@ -184,7 +185,7 @@ namespace EFoodDB.EFood_Intranet
                 }
                 return Task.FromResult(true);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return Task.FromResult(false);
             }
@@ -213,7 +214,7 @@ namespace EFoodDB.EFood_Intranet
                 }
                 return Task.FromResult(true);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return Task.FromResult(false);
             }
@@ -239,7 +240,7 @@ namespace EFoodDB.EFood_Intranet
                 }
                 return Task.FromResult(true);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return Task.FromResult(false);
             }
@@ -265,7 +266,7 @@ namespace EFoodDB.EFood_Intranet
                 }
                 return Task.FromResult(true);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return Task.FromResult(false);
             }
@@ -291,7 +292,7 @@ namespace EFoodDB.EFood_Intranet
                 }
                 return Task.FromResult(true);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return Task.FromResult(false);
             }

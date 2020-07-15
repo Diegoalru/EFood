@@ -274,6 +274,7 @@ namespace EFoodDB.EFood_Intranet
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.Add("@PROCESADOR", SqlDbType.NVarChar).Value = paymentProcessor.ProcessorName;
                         cmd.Parameters.Add("@TIPOPAGO", SqlDbType.Int).Value = paymentProcessor.PaymentType;
+                        cmd.Parameters.Add("@NOMBRE_DISPLAY", SqlDbType.NVarChar).Value = paymentProcessor.NameUI;
                         cmd.Parameters.Add("@ESTADO", SqlDbType.Bit).Value = paymentProcessor.IsActive;
                         cmd.ExecuteNonQuery();
                         conn.Close();

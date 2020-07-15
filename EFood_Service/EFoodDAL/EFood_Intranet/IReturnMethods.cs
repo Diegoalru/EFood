@@ -217,8 +217,9 @@ namespace EFoodDB.EFood_Intranet
                             paymentProcessor.PkCode = dr.GetInt32(0);
                             paymentProcessor.Code = (dr.IsDBNull(1) ? null: dr.GetString(1));
                             paymentProcessor.Processor = dr.GetString(2);
-                            paymentProcessor.PaymentType = dr.GetInt32(3);
-                            paymentProcessor.Status = dr.GetBoolean(4);
+                            paymentProcessor.NameUI = dr.GetString(3);
+                            paymentProcessor.PaymentType = dr.GetInt32(4);
+                            paymentProcessor.Status = dr.GetBoolean(5);
                         }
                     }
                 }
