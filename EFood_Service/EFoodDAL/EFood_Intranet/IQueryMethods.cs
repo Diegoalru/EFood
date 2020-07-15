@@ -529,7 +529,7 @@ namespace EFoodDB.EFood_Intranet
                 {
                     if (conn.State == ConnectionState.Closed) conn.Open();
                     
-                    string query = $@"SELECT * FROM V_PRECIOS_DE_PRODUCTO({pkProcessor});";
+                    string query = $@"SELECT * FROM V_TIPO_TARJETAS_USADAS_PROCESADOR({pkProcessor});";
                     using (var cmd = new SqlCommand(query, conn))
                     {
                         using (SqlDataAdapter adapter = new SqlDataAdapter(cmd))

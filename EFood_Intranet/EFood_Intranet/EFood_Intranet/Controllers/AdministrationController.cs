@@ -1,11 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Dynamic;
 using System.Net;
 using System.Threading.Tasks;
 using System.Web.Mvc;
-using Antlr.Runtime;
 using EFoodBLL.IntranetModels;
 using EFoodDB.EFood_Intranet;
 using Microsoft.Ajax.Utilities;
@@ -361,20 +359,29 @@ namespace EFood_Intranet.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> RelationCard(IEnumerable<RelationCardProcessor> data)
+        public async Task<ActionResult> RelationCard(IEnumerable<RelationCardProcessor> data, int id)
         {
-            //TODO: Recibir lista
-            //var list = await GetProcessorCardList();
-            return View();
+            try
+            {
+                var listPost = (List<RelationCardProcessor>) data;
+                SetRelationList(listPost, id);
+                return await Task.FromResult<ActionResult>(RedirectToAction("PayMethodList"));
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                return await Task.FromResult<ActionResult>(RedirectToAction("PayMethodList")); 
+            }
+            
         }
     
         /// <summary>
         /// Este metodo es para poder obtener la lista de tarjetas relacionadas con el procesador o aquellas que esten sin procesador. 
         /// </summary>
-        /// <returns></returns>
         private async Task<List<RelationCardProcessor>> GetProcessorCardList(int id)
         {
             var list = new List<RelationCardProcessor>();
+            
             var unusedCardslist = ConvertDStoList_TypeCard_RelationCard(await _queryMethods.CardsWithoutProcessor());
             var usedCardslist = ConvertDStoList_TypeCard_RelationCard(await _queryMethods.CardsWithProcessor(id));
 
@@ -397,10 +404,32 @@ namespace EFood_Intranet.Controllers
                     ,Status = true
                 });
             }
-
             return list;
         }
-        
+
+        private async void SetRelationList(List<RelationCardProcessor> data, int id)
+        {
+            /*
+             * FIXME: Solucionar el error de que la lista obtenida (parametro data) se recibe como nula.
+             */
+            
+            var originalValues =  await GetProcessorCardList(id);
+            for (int index = 0; index < originalValues.Count; index++)
+            {
+                var result = originalValues[index].Status ^ data[index].Status;
+                if (!result)
+                {
+                    if (!originalValues[index].Status)
+                    {
+                        await _insertMethods.CreateRelation_Card_Processor(originalValues[index].PkCode, id);
+                    }
+                    else
+                    {
+                        await _deleteMethods.DeleteRelation_Card_Processor(originalValues[index].PkCode, id);
+                    }
+                }
+            }
+        }
         
         #endregion
 
