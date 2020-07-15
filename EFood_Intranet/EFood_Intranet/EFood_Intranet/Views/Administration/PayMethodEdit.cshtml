@@ -23,12 +23,17 @@
             <br/>
             @Html.DisplayNameFor(item => item.Processor)
             <br/>
-            @Html.TextBoxFor(item => item.Processor, new {id = "fname", placeholder = "Codigo", maxlength = 30})
+            @Html.TextBoxFor(item => item.Processor, new {id = "fname", placeholder = "Nombre", maxlength = 30})
+            <br/>
+            <br/>
+            @Html.DisplayNameFor(item => item.NameUI)
+            <br/>
+            @Html.TextBoxFor(item => item.NameUI, new {id = "fname", placeholder = "Nombre", maxlength = 30})
             <br/>
             <br/>
             @Html.DisplayNameFor(item => item.PaymentType)
             <br/>
-            @Html.DropDownListFor(item => item.PaymentType, new SelectList(ViewBag.VBPayMethods, "PkCode", "Type"),new {@class=""})
+            @Html.DropDownListFor(item => item.PaymentType, new SelectList(ViewBag.VBPayMethods, "PkCode", "Type"),new {@readonly = "readonly"})
             <br/>
             <br/>
             @Html.DisplayNameFor(item => item.Status)

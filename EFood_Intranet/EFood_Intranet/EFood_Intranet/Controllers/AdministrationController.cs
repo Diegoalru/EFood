@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Dynamic;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.Web.Mvc;
@@ -260,6 +261,7 @@ namespace EFood_Intranet.Controllers
                 PkCode = data.PkCode
                 ,NewStatus = data.Status
                 ,NewProcessorName = data.Processor
+                ,NewNameUI = data.NameUI
             }).Result;
 
             if (result) return Task.FromResult<ActionResult>(RedirectToAction("PayMethodList"));
@@ -277,17 +279,51 @@ namespace EFood_Intranet.Controllers
         }
 
         [HttpGet]
-        public ActionResult RelationCard(int id)
+        public async Task<ActionResult> RelationCard(int id)
         {
-            //TODO: Realizar vista
-            return View();
+            var list = await GetProcessorCardList(id);
+            return View(list);
         }
         
         [HttpPost]
-        public ActionResult RelationCard(Object data)
+        public async Task<ActionResult> RelationCard(IEnumerable<RelationCardProcessor> data)
         {
-            //Fixme: Verificar realmente que datos son recibidos.
+            //TODO: Recibir lista
+            //var list = await GetProcessorCardList();
             return View();
+        }
+    
+        /// <summary>
+        /// Este metodo es para poder obtener la lista de tarjetas relacionadas con el procesador o aquellas que esten sin procesador. 
+        /// </summary>
+        /// <returns></returns>
+        private async Task<List<RelationCardProcessor>> GetProcessorCardList(int id)
+        {
+            var list = new List<RelationCardProcessor>();
+            var unusedCardslist = ConvertDStoList_TypeCard_RelationCard(await _queryMethods.CardsWithoutProcessor());
+            var usedCardslist = ConvertDStoList_TypeCard_RelationCard(await _queryMethods.CardsWithProcessor(id));
+
+            foreach (var item in unusedCardslist)
+            {
+                list.Add(new RelationCardProcessor()
+                {
+                    PkCode = item.PkCode
+                    ,Type = item.Type
+                    ,Status = false
+                });
+            }
+
+            foreach (var item in usedCardslist)
+            {
+                list.Add(new RelationCardProcessor()
+                {
+                    PkCode = item.PkCode
+                    ,Type = item.Type
+                    ,Status = true
+                });
+            }
+
+            return list;
         }
         
         
@@ -340,7 +376,7 @@ namespace EFood_Intranet.Controllers
             // Si existiera algún tipo de linea, automaticamente se mostraria los productos relacionados al primer datos de la lista.
             var productList = typeLinelist.Count != 0 ? ConvertDStoList_Product(_queryMethods.ProductsByLineType(typeLinelist[0].PkCode).Result) : null;
             
-            //Se crea el tipo de objeto SelectList, el cual es retornado a la pagina para mostrarse en el dropdown con el id typeLinelist (primer parametro) 
+            //Se crea el tipo de objeto SelectList, el cual es retornado a la pagina para mostrarse en el dropdown con el id typeLinelist (primer parametro)
             var selectList = new SelectList(typeLinelist,"PkCode", "Type");
             
             //Se guardan los datos en el ViewBag para luego obtenelos con el id VBTypeLineList
@@ -557,6 +593,26 @@ namespace EFood_Intranet.Controllers
                 list.Add(new TypeCardsList {
                     PkCode = (int) dr["CODE"]
                     ,Code = (string) dr["CODIGO"]
+                    ,Type = (string) dr["TIPO"]
+                });
+            }
+            return list;
+        }
+        
+        
+        /// <summary>
+        /// Este metodo es solo para RelationCard
+        /// </summary>
+        /// <param name="dataSet"></param>
+        [Obsolete("Este metodo es solo para el controlador 'RelationCard'.", false)]
+        private List<TypeCardsList> ConvertDStoList_TypeCard_RelationCard(DataSet dataSet)
+        {
+            DataSet ds = dataSet;
+            List<TypeCardsList > list = new List<TypeCardsList >();
+            foreach (DataRow dr in ds.Tables[0].Rows)
+            {
+                list.Add(new TypeCardsList {
+                    PkCode = (int) dr["CODE"]
                     ,Type = (string) dr["TIPO"]
                 });
             }

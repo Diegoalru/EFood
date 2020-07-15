@@ -18,6 +18,11 @@
             @Html.TextBoxFor(item => item.ProcessorName, new {id = "fname", placeholder = "Nombre Procesador", maxlength = 30})
             <br/>
             <br/>
+            @Html.DisplayNameFor(item => item.NameUI)
+            <br/>
+            @Html.TextBoxFor(item => item.NameUI, new {id = "fname", placeholder = "Nombre", maxlength = 30})
+            <br/>
+            <br/>
             @Html.DisplayNameFor(item => item.PaymentType)
             <br/>
             @Html.DropDownListFor(model => model.PaymentType, new SelectList(ViewBag.VBPayMethods, "PkCode", "Type"),new {@class=""})         
