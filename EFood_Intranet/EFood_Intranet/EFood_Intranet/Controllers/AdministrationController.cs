@@ -477,7 +477,7 @@ namespace EFood_Intranet.Controllers
             var lineTypelist = ConvertDStoList_LineType(_queryMethods.LineType().Result);
 
             // Si existiera algún tipo de linea, automaticamente se mostraria los productos relacionados al primer datos de la lista.
-            var productList = lineTypelist.Count != 0 ? ConvertDStoList_Product(_queryMethods.ProductsByLineType(typeLinelist[0].PkCode).Result) : null;
+            var productList = lineTypelist.Count != 0 ? ConvertDStoList_Product(_queryMethods.ProductsByLineType(lineTypelist[0].PkCode).Result) : null;
             
             //Se crea el tipo de objeto SelectList, el cual es retornado a la pagina para mostrarse en el dropdown con el id typeLinelist (primer parametro)
             var selectList = new SelectList(lineTypelist,"PkCode", "Type");
