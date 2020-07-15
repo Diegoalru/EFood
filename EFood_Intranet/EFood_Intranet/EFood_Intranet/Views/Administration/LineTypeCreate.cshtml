@@ -5,32 +5,21 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-
-<div id="home">
-    <!-- container VERSIN CREATEJ -->
-
-
-    <div class="container">
-
-
-        <div class="omb_login">
-            </br>
-            <form class="center3">
-                <div class="row omb_row-sm-offset-3 omb_socialButtons">
-                </div>
-                <br>
-                <h4 style="color: orangered;">Información de la Línea de Comida</h4>
-                </br>
-                <label for="fname">Código:</label>
-                <input type="text" id="fname" name="fname"><br>
-                <br>
-                <label for="PrefijoInt">Descripción:</label>
-                <input type="text" id="fname" name="fname"><br>
-                <br>
-                <input type="submit" value="Guardar"> </input>
-                <input type="submit" value="cancelar"> </input>
-            </form>
+    <div id="home">
+        <div class="container">
+            <div class="omb_login">
+                <br />
+                @using (Html.BeginForm("LineTypeCreate", "Administration", new { ResponseUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { role = "form", @class = "center3" }))
+                {
+            <h4 style="color: orangered;">Informacion de Tipo de Comida</h4>
+                    @Html.ValidationSummary("", new { @class = "ErrorMessage" })
+                    <br />
+                    <label for="fname">Type:</label>
+                    @Html.TextBoxFor(item => item.Type, new { id = "fname", placeholder = "Type" })
+                    <br />
+                    <input type="submit" class="primary-btn" value="Guardar" />
+                    @Html.ActionLink("Volver", "LineTypeList")
+                }
+            </div>
         </div>
-
-        <!-- /container -->
     </div>

@@ -13,7 +13,7 @@
             <br />
             @using (Html.BeginForm("LineTypeEdit", "Administration", null, FormMethod.Post, new { role = "form", @class = "center3" }))
             {
-                <h4 style="color: orangered;">Informacion de consecutivo</h4>
+                <h4 style="color: orangered;">Informacion de Tipo de Comida</h4>
                 @Html.ValidationSummary("", new { @class = "ErrorMessage" })
                 @Html.TextBoxFor(item => item.PkCode, new { @type = "hidden", @readonly = "readonly" })
                 <br />

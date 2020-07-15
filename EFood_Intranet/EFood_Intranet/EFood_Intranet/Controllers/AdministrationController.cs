@@ -222,17 +222,17 @@ namespace EFood_Intranet.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> LineTypeCreate(Consecutive data)
+        public async Task<ActionResult> LineTypeCreate(LineType data)
         {
             if (!ModelState.IsValid)
                 return await Task.FromResult<ActionResult>(View(data));
 
-            var result = _existsMethods.ExistConsecutive(data.TypeConsecutive, data.Prefix).Result;
+            var result = _existsMethods.ExistsLineType(data.Type).Result;
             switch (result)
             {
                 case false:
-                    var resultInsertConsecutive = await _insertMethods.InsertConsecutive(data);
-                    if (resultInsertConsecutive)
+                    var resultInsertLineType = await _insertMethods.InsertLineType(data);
+                    if (resultInsertLineType)
                         return RedirectToAction("LineTypeList");
 
                     ModelState.AddModelError(key: "", errorMessage: "Ha ocurrido un error.\n");
