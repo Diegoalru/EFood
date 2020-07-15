@@ -20,6 +20,7 @@ namespace EFoodDB.EFood_Intranet
         Task<ReturnConsecutive> ReturnConsecutive(int pkConsecutive);
         Task<ReturnDiscount> ReturnDiscount(int pkDiscount);
         Task<ReturnPrice> ReturnPrice(int pkPrice);
+        Task<ReturnPriceType> ReturnPriceType(int pkPriceType);
         Task<ReturnPaymentProcessor> ReturnPaymentProcessor(int pkPaymentProcessor);
         Task<ReturnProduct> ReturnProduct(int pkProduct);
         Task<ReturnRole> ReturnRole(string username);
@@ -190,6 +191,37 @@ namespace EFoodDB.EFood_Intranet
                 }
 
                 return Task.FromResult(price);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return null;
+            }
+        }
+
+        public Task<ReturnPriceType> ReturnPriceType(int pkPriceType)
+        {
+            try
+            {
+                ReturnPriceType priceType = new ReturnPriceType();
+                using (var conn = _settings.GetConnection())
+                {
+                    if (conn.State == ConnectionState.Closed) conn.Open();
+
+                    string query = $"SELECT * FROM RETORNA_TIPO_PRECIO({pkPriceType});";
+                    using (var cmd = new SqlCommand(query, conn))
+                    {
+                        cmd.CommandType = CommandType.Text;
+                        var dr = cmd.ExecuteReader();
+                        while (dr.Read())
+                        {
+                            priceType.PkCode = dr.GetInt32(0);
+                            priceType.Code = (dr.IsDBNull(1) ? null: dr.GetString(1));
+                            priceType.Type = dr.GetString(2);
+                        }
+                    }
+                }
+                return Task.FromResult(priceType);
             }
             catch (Exception e)
             {
