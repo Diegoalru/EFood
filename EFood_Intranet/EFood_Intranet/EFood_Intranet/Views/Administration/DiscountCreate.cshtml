@@ -11,14 +11,14 @@
             <br/>
             @using (Html.BeginForm("DiscountCreate", "Administration",new {ResponseUrl = ViewBag.ReturnUrl}, FormMethod.Post, new {role = "form", @class="center3"}))
             {
-                <h4 style="color: orangered;" >Información del Tiquete Descuento</h4>
+                <h4 style="color: orangered;" >Informacion del Tiquete Descuento</h4>
                 @Html.ValidationSummary("", new { @class = "ErrorMessage"})
                 <br/>
                 <label for="fname">Código:</label>
                 <br/>
                 @Html.TextBoxFor(item => item.Code, new {id="fname", placeholder = "Codigo", maxlength = 5})
                 <br>
-                <label for="PrefijoInt">Descripción:</label>
+                <label for="PrefijoInt">Descripcion:</label>
                 @Html.TextBoxFor(item => item.Description, new {id="fname", placeholder = "Descripcion", maxlength = 50})
                 <br>
                 <label for="PrefijoInt">Disponibles:</label>

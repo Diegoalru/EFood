@@ -1,0 +1,25 @@
+@model EFoodBLL.IntranetModels.LineType
+
+@{
+    ViewBag.Title = "Creacion por Tipo de Comida";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+    <div id="home">
+        <div class="container">
+            <div class="omb_login">
+                <br />
+                @using (Html.BeginForm("LineTypeCreate", "Administration", new { ResponseUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { role = "form", @class = "center3" }))
+                {
+            <h4 style="color: orangered;">Informacion de Tipo de Comida</h4>
+                    @Html.ValidationSummary("", new { @class = "ErrorMessage" })
+                    <br />
+                    <label for="fname">Type:</label>
+                    @Html.TextBoxFor(item => item.Type, new { id = "fname", placeholder = "Type" })
+                    <br />
+                    <input type="submit" class="primary-btn" value="Guardar" />
+                    @Html.ActionLink("Volver", "LineTypeList")
+                }
+            </div>
+        </div>
+    </div>

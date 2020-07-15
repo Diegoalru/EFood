@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Dynamic;
-using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.Web.Mvc;
@@ -21,26 +20,60 @@ namespace EFood_Intranet.Controllers
         private readonly IInsertMethods _insertMethods = new InsertMethods();
         private readonly IDeleteMethods _deleteMethods = new DeleteMethods();
         private readonly IExistsMethods _existsMethods = new ExistsMethods();
-        
+
         #region Consecutives
         public ActionResult ConsecutiveList()
         {
-            return View();
+            var list = ConvertDStoList_Consecutives(_queryMethods.Consecutives().Result);
+            return View(list);
         }
-        
+
         public ActionResult ConsecutiveCreate()
         {
             return View();
         }
-        
-        public ActionResult ConsecutiveEdit()
+
+        [HttpPost]
+        public async Task<ActionResult> ConsecutiveCreate(Consecutive data)
         {
-            return View(); 
+            if (!ModelState.IsValid)
+                return await Task.FromResult<ActionResult>(View(data));
+
+            var result = _existsMethods.ExistConsecutive(data.TypeConsecutive, data.Prefix).Result;
+            switch (result)
+            {
+                case false:
+                    var resultInsertConsecutive = await _insertMethods.InsertConsecutive(data);
+                    if (resultInsertConsecutive)
+                        return RedirectToAction("ConsecutiveList");
+
+                    ModelState.AddModelError(key: "", errorMessage: "Ha ocurrido un error.\n");
+                    return await Task.FromResult<ActionResult>(View(data));
+
+                case true:
+                    ModelState.AddModelError("", "¡El consecutivo ya existe!\n");
+                    return await Task.FromResult<ActionResult>(View());
+
+                default:
+                    ModelState.AddModelError("", "¡Error! Conexion con servidor perdida.\n");
+                    return await Task.FromResult<ActionResult>(View());
+            }
+        }
+
+        [HttpGet]
+        public ActionResult ConsecutiveEdit(int id)
+        {
+            var consecutive = _returnMethods.ReturnConsecutive(id).Result;
+            if (consecutive == null)
+            {
+                return HttpNotFound();
+            }
+            return View(consecutive);
         }
         #endregion
 
         #region Discount
-        
+
         /// <summary>
         /// Metodo que devuelve la vista con los datos de los descuentos. 
         /// </summary>
@@ -49,7 +82,7 @@ namespace EFood_Intranet.Controllers
             var list = ConvertDStoList_Discount(_queryMethods.Discounts().Result);
             return View(list);
         }
-        
+
         /// <summary>
         /// Crear tiquete de descuento.
         /// </summary>
@@ -57,7 +90,7 @@ namespace EFood_Intranet.Controllers
         {
             return View();
         }
-        
+
         /// <summary>
         /// Crea los tiquetes de descuento.
         /// </summary>
@@ -75,20 +108,20 @@ namespace EFood_Intranet.Controllers
                     var resultInsertDiscount = await _insertMethods.InsertDiscount(data);
                     if (resultInsertDiscount)
                         return RedirectToAction("DiscountList");
-                    
+
                     ModelState.AddModelError(key: "", errorMessage: "Ha ocurrido un error.\n");
                     return await Task.FromResult<ActionResult>(View(data));
-                
+
                 case true:
                     ModelState.AddModelError("", "¡El tiquete de descuento ya existe!\n");
                     return await Task.FromResult<ActionResult>(View());
-                
+
                 default:
                     ModelState.AddModelError("", "¡Error! Conexion con servidor perdida.\n");
                     return await Task.FromResult<ActionResult>(View());
             }
         }
-        
+
         /// <summary>
         /// Edita el Cupon.
         /// </summary>
@@ -103,8 +136,8 @@ namespace EFood_Intranet.Controllers
             }
             return View(discount);
         }
-        
-        
+
+
         /// <summary>
         /// Metodo que realiza la actualizacion del cupon.
         /// </summary>
@@ -112,11 +145,13 @@ namespace EFood_Intranet.Controllers
         [HttpPost]
         public Task<ActionResult> DiscountEdit(ReturnDiscount discount)
         {
-            var result =_updateMethods.UpdateDiscount(new DiscountCupons
+            var result = _updateMethods.UpdateDiscount(new DiscountCupons
             {
                 PkCode = discount.PkCode
-                ,Description = discount.Description
-                ,NewCupons = discount.Available
+                ,
+                Description = discount.Description
+                ,
+                NewCupons = discount.Available
             }).Result;
 
             if (!result)
@@ -125,18 +160,18 @@ namespace EFood_Intranet.Controllers
             }
             else
             {
-                ModelState.AddModelError(key: "", errorMessage: "Guardado con exito.\n");    
+                ModelState.AddModelError(key: "", errorMessage: "Guardado con exito.\n");
             }
-            
+
             return Task.FromResult<ActionResult>(View());
         }
-        
-        
+
+
         [HttpGet]
         public async Task<ActionResult> DiscountDelete(int id)
         {
             if (id == 0)
-                return await Task.FromResult(new  HttpStatusCodeResult(HttpStatusCode.BadRequest));
+                return await Task.FromResult(new HttpStatusCodeResult(HttpStatusCode.BadRequest));
 
             var discount = _returnMethods.ReturnDiscount(id).Result;
             if (discount == null)
@@ -146,7 +181,7 @@ namespace EFood_Intranet.Controllers
 
             return await Task.FromResult(View(discount));
         }
-        
+
         [HttpGet]
         public Task<ActionResult> DiscountDeleteConfirmed(int id)
         {
@@ -166,28 +201,68 @@ namespace EFood_Intranet.Controllers
         {
             return View();
         }
-        
+
         public ActionResult TypeCardEdit()
         {
             return View();
         }
-        
+
         #endregion
-        
-        #region TypeLine
-        public ActionResult TypeLineList()
+
+        #region LineType
+        public ActionResult LineTypeList()
+        {
+            var list = ConvertDStoList_LineType(_queryMethods.LineType().Result);
+            return View(list);
+        }
+
+        public ActionResult LineTypeCreate()
         {
             return View();
         }
 
-        public ActionResult TypeLineCreate()
+        [HttpPost]
+        public async Task<ActionResult> LineTypeCreate(LineType data)
         {
-            return View();
+            if (!ModelState.IsValid)
+                return await Task.FromResult<ActionResult>(View(data));
+
+            var result = _existsMethods.ExistsLineType(data.Type).Result;
+            switch (result)
+            {
+                case false:
+                    var resultInsertLineType = await _insertMethods.InsertLineType(data);
+                    if (resultInsertLineType)
+                        return RedirectToAction("LineTypeList");
+
+                    ModelState.AddModelError(key: "", errorMessage: "Ha ocurrido un error.\n");
+                    return await Task.FromResult<ActionResult>(View(data));
+
+                case true:
+                    ModelState.AddModelError("", "¡El tipo de comida ya existe!\n");
+                    return await Task.FromResult<ActionResult>(View());
+
+                default:
+                    ModelState.AddModelError("", "¡Error! Conexion con servidor perdida.\n");
+                    return await Task.FromResult<ActionResult>(View());
+            }
         }
-        
-        public ActionResult TypeLineEdit()
+
+        public ActionResult LineTypeEdit(int id)
         {
-            return View();
+            var lineType = _returnMethods.ReturnLineType(id).Result;
+            if (lineType == null)
+            {
+                return HttpNotFound();
+            }
+            return View(lineType);
+        }
+
+        [HttpGet]
+        public Task<ActionResult> LineTypeDeleteConfirmed(int id)
+        {
+            _deleteMethods.DeleteLineType(id);
+            return Task.FromResult<ActionResult>(RedirectToAction("LineTypeList"));
         }
 
         #endregion
@@ -221,42 +296,42 @@ namespace EFood_Intranet.Controllers
                     var resultInsert = await _insertMethods.InsertPaymentProcessor(data);
                     if (resultInsert)
                         return RedirectToAction("PayMethodList");
-                    
+
                     ModelState.AddModelError(key: "", errorMessage: "Ha ocurrido un error.\n");
                     return await Task.FromResult<ActionResult>(View(data));
-                
+
                 case true:
                     ModelState.AddModelError("", "¡El procesador ya existe!\n");
                     return await Task.FromResult<ActionResult>(View());
-                
+
                 default:
                     ModelState.AddModelError("", "¡Error! Conexion con servidor perdida.\n");
                     return await Task.FromResult<ActionResult>(View());
             }
         }
-        
+
         [HttpGet]
         public ActionResult PayMethodEdit(int id)
         {
             var list = ConvertDStoList_PayMethods(_queryMethods.PayMethods().Result);
 
             var processor = _returnMethods.ReturnPaymentProcessor(id).Result;
-            
+
             if (processor == null)
                 return HttpNotFound();
 
             if (processor.Code.IsNullOrWhiteSpace())
                 processor.Code = "No posee";
-                    
+
             ViewBag.VBPayMethods = list;
-            
+
             return View(processor);
         }
-        
+
         [HttpPost]
         public Task<ActionResult> PayMethodEdit(ReturnPaymentProcessor data)
         {
-            var result =_updateMethods.UpdatePaymentProcessor(new PaymentChanges
+            var result = _updateMethods.UpdatePaymentProcessor(new PaymentChanges
             {
                 PkCode = data.PkCode
                 ,NewStatus = data.Status
@@ -265,12 +340,12 @@ namespace EFood_Intranet.Controllers
             }).Result;
 
             if (result) return Task.FromResult<ActionResult>(RedirectToAction("PayMethodList"));
-            
+
             ModelState.AddModelError(key: "", errorMessage: "Ha ocurrido un error.\n");
             return Task.FromResult<ActionResult>(View());
 
         }
-        
+
         [HttpGet]
         public Task<ActionResult> PayMethodDeleteConfirmed(int id)
         {
@@ -284,7 +359,7 @@ namespace EFood_Intranet.Controllers
             var list = await GetProcessorCardList(id);
             return View(list);
         }
-        
+
         [HttpPost]
         public async Task<ActionResult> RelationCard(IEnumerable<RelationCardProcessor> data)
         {
@@ -328,7 +403,7 @@ namespace EFood_Intranet.Controllers
         
         
         #endregion
-        
+
         #region ProductPrice
 
         public ActionResult PriceProductList(int id)
@@ -339,7 +414,7 @@ namespace EFood_Intranet.Controllers
         {
             return View();
         }
-        
+
         public ActionResult PriceProductEdit()
         {
             return View();
@@ -347,32 +422,60 @@ namespace EFood_Intranet.Controllers
 
         #endregion
 
-        #region TypePrice
-        public ActionResult TypePriceList()
+        #region PriceType
+        public ActionResult PriceTypeList()
+        {
+            var list = ConvertDStoList_PriceType(_queryMethods.PriceTypes().Result);
+            return View(list);
+        }
+
+        public ActionResult PriceTypeCreate()
         {
             return View();
         }
-        
-        public ActionResult TypePriceCreate()
+
+        [HttpPost]
+        public async Task<ActionResult> PriceTypeCreate(PriceType data)
         {
-            return View();
+            if (!ModelState.IsValid)
+                return await Task.FromResult<ActionResult>(View(data));
+
+            var result = _existsMethods.ExistsPriceType(data.Type).Result;
+            switch (result)
+            {
+                case false:
+                    var resultInsertPriceType = await _insertMethods.InsertPriceType(data);
+                    if (resultInsertPriceType)
+                        return RedirectToAction("PriceTypeList");
+
+                    ModelState.AddModelError(key: "", errorMessage: "Ha ocurrido un error.\n");
+                    return await Task.FromResult<ActionResult>(View(data));
+
+                case true:
+                    ModelState.AddModelError("", "¡El tipo de precio ya existe!\n");
+                    return await Task.FromResult<ActionResult>(View());
+
+                default:
+                    ModelState.AddModelError("", "¡Error! Conexion con servidor perdida.\n");
+                    return await Task.FromResult<ActionResult>(View());
+            }
         }
-        
-        public ActionResult TypePriceEdit()
+
+        public ActionResult PriceTypeEdit(int id)
         {
             return View();
         }
 
         #endregion
-        
+
         #region Produts
-        
+
         [HttpGet]
         public ActionResult ProductList()
         {
             // Se realiza la consulta donde se obtiene los tipos de linea que existen.
-            var typeLinelist = ConvertDStoList_LineType(_queryMethods.LineTypes().Result);
-            
+            var lineTypelist = ConvertDStoList_LineType(_queryMethods.LineType().Result);
+
             // Si existiera algún tipo de linea, automaticamente se mostraria los productos relacionados al primer datos de la lista.
             var productList = typeLinelist.Count != 0 ? ConvertDStoList_Product(_queryMethods.ProductsByLineType(typeLinelist[0].PkCode).Result) : null;
             
@@ -381,7 +484,7 @@ namespace EFood_Intranet.Controllers
             
             //Se guardan los datos en el ViewBag para luego obtenelos con el id VBTypeLineList
             ViewBag.VBTypeLineList = selectList;
-            
+
             //Se envian los datos a la pagina
             return View(productList);
         }
@@ -390,39 +493,39 @@ namespace EFood_Intranet.Controllers
         public ActionResult ProductList(LineTypeList typeList)
         {
             // Se crea la lista que contiene los tipos de linea que existen.
-            var typeLinelist = ConvertDStoList_LineType(_queryMethods.LineTypes().Result);
-            
+            var lineTypelist = ConvertDStoList_LineType(_queryMethods.LineType().Result);
+
             //Se crea un campo para almacenar la llave de tipo de linea.
-            int typeLineCode = 0;
-            
+            int lineTypeCode = 0;
+
             //Se recorre la lista hasta encontrar el dato obtenido de la pagina.
-            foreach (var item in typeLinelist)
+            foreach (var item in lineTypelist)
             {
                 if (item.Type.Equals(typeList.Type))
-                    typeLineCode = item.PkCode;
+                    lineTypeCode = item.PkCode;
             }
-            
-            //Se crear la lista con los productos segun el tipo de linea.
-            var productList = ConvertDStoList_Product(_queryMethods.ProductsByLineType(typeLineCode).Result);
 
-            //Se crea el objeto de tipo SelectList que será envia a el dropdown de la pagina, el cual obtendra el id de typeLinelist (primer parametro).
-            var selectList = new SelectList(typeLinelist,"PkCode", "Type");
-            
+            //Se crear la lista con los productos segun el tipo de linea.
+            var productList = ConvertDStoList_Product(_queryMethods.ProductsByLineType(lineTypeCode).Result);
+
+            //Se crea el objeto de tipo SelectList que será envia a el dropdown de la pagina, el cual obtendra el id de lineTypelist (primer parametro).
+            var selectList = new SelectList(lineTypelist, "PkCode", "Type");
+
             //Se agrega el obteto selectList al ViewBag de la pagina.
             ViewBag.VBTypeLineList = selectList;
-            
+
             //Se envia los datos obtenidos, en otras palabras aquí se retornan dos listas (tipos de linea y productos)
             return View(productList);
         }
-        
+
         [HttpGet]
         public ActionResult ProductCreate()
         {
-            var typeLinelist = ConvertDStoList_LineType(_queryMethods.LineTypes().Result);
-            ViewBag.VBTypeLineList = typeLinelist;
+            var lineTypelist = ConvertDStoList_LineType(_queryMethods.LineType().Result);
+            ViewBag.VBTypeLineList = lineTypelist;
             return View();
         }
-        
+
         [HttpPost]
         public async Task<ActionResult> ProductCreate(Product product)
         {
@@ -436,54 +539,57 @@ namespace EFood_Intranet.Controllers
                     var resultInsertProduct = await _insertMethods.InsertProduct(product);
                     if (resultInsertProduct)
                         return RedirectToAction("ProductList");
-                    
+
                     ModelState.AddModelError(key: "", errorMessage: "Ha ocurrido un error.\n");
                     return await Task.FromResult<ActionResult>(View(product));
-                
+
                 case true:
                     ModelState.AddModelError("", "¡La el producto ya existe! (Descripción)\n");
                     return await Task.FromResult<ActionResult>(View());
-                
+
                 default:
                     ModelState.AddModelError("", "¡Error! Conexion con servidor perdida.\n");
                     return await Task.FromResult<ActionResult>(View());
             }
         }
-        
+
         [HttpGet]
         public ActionResult ProductEdit(int id)
         {
-            var typeLinelist = ConvertDStoList_LineType(_queryMethods.LineTypes().Result);
-          
+            var lineTypelist = ConvertDStoList_LineType(_queryMethods.LineType().Result);
+
             var product = _returnMethods.ReturnProduct(id).Result;
 
-            
+
             if (product == null)
                 return HttpNotFound();
 
             if (product.Code.IsNullOrWhiteSpace())
                 product.Code = "No posee";
-                    
-            ViewBag.VBTypeLineList =  typeLinelist;
+
+            ViewBag.VBTypeLineList = lineTypelist;
 
             return View(product);
         }
-        
+
         [HttpPost]
         public async Task<ActionResult> ProductEdit(ReturnProduct product)
         {
-            var typeLinelist = ConvertDStoList_LineType(_queryMethods.LineTypes().Result);
-            ViewBag.VBTypeLineList = new SelectList(typeLinelist,"PkCode", "Type");
+            var lineTypelist = ConvertDStoList_LineType(_queryMethods.LineType().Result);
+            ViewBag.VBTypeLineList = new SelectList(lineTypelist, "PkCode", "Type");
 
             if (!ModelState.IsValid)
-                return  await Task.FromResult<ActionResult>(View(product));
-            
-            var result =_updateMethods.UpdateProduct(new ProductChanges
+                return await Task.FromResult<ActionResult>(View(product));
+
+            var result = _updateMethods.UpdateProduct(new ProductChanges
             {
                 PkCode = product.PkCode
-                ,NewContent = product.Content
-                ,NewDescription = product.Description
-                ,NewLineType = product.LineType
+                ,
+                NewContent = product.Content
+                ,
+                NewDescription = product.Description
+                ,
+                NewLineType = product.LineType
             }).Result;
 
             if (!result)
@@ -492,7 +598,7 @@ namespace EFood_Intranet.Controllers
                 return await Task.FromResult<ActionResult>(View(product));
             }
             return await Task.FromResult<ActionResult>(RedirectToAction("ProductList"));
-            
+
         }
 
         [HttpGet]
@@ -501,99 +607,121 @@ namespace EFood_Intranet.Controllers
             _deleteMethods.DeleteProduct(id);
             return Task.FromResult<ActionResult>(RedirectToAction("ProductList"));
         }
-        
+
         #endregion
-        
+
         #region DataSetToList
         private List<DiscountList> ConvertDStoList_Discount(DataSet dataSet)
         {
             DataSet ds = dataSet;
-            List<DiscountList > list = new List<DiscountList >();
+            List<DiscountList> list = new List<DiscountList>();
             foreach (DataRow dr in ds.Tables[0].Rows)
             {
-                list.Add(new DiscountList { 
-                    PkCode = (int) (dr["CODE"])
-                    ,Code = (string) dr["CODIGO"]
-                    ,Description = (string) dr["DESCRIPCION"]
-                    ,Available = (int) (dr["DISPONIBLES"])
-                    ,Discount = (int) (dr["DESCUENTO"]) 
+                list.Add(new DiscountList
+                {
+                    PkCode = (int)(dr["CODE"])
+                    ,
+                    Code = (string)dr["CODIGO"]
+                    ,
+                    Description = (string)dr["DESCRIPCION"]
+                    ,
+                    Available = (int)(dr["DISPONIBLES"])
+                    ,
+                    Discount = (int)(dr["DESCUENTO"])
                 });
             }
             return list;
         }
-        
+
         private List<LineTypeList> ConvertDStoList_LineType(DataSet dataSet)
         {
             DataSet ds = dataSet;
-            List<LineTypeList > list = new List<LineTypeList >();
+            List<LineTypeList> list = new List<LineTypeList>();
             foreach (DataRow dr in ds.Tables[0].Rows)
             {
-                list.Add(new LineTypeList {
-                    PkCode = (int) dr["CODE"]
-                    ,Code = (string) dr["CODIGO"]
-                    ,Type = (string) dr["TIPO"]
+                list.Add(new LineTypeList
+                {
+                    PkCode = (int)dr["CODE"]
+                    ,
+                    Code = (string)dr["CODIGO"]
+                    ,
+                    Type = (string)dr["TIPO"]
                 });
             }
             return list;
         }
-        
+
         private List<ProductList> ConvertDStoList_Product(DataSet dataSet)
         {
             DataSet ds = dataSet;
-            List<ProductList > list = new List<ProductList >();
+            List<ProductList> list = new List<ProductList>();
             foreach (DataRow dr in ds.Tables[0].Rows)
             {
-                list.Add(new ProductList {
-                    PkCode = (int) dr["CODE"]
-                    ,Code = (string) dr["CODIGO"]
-                    ,Description = (string) dr["DESCRIPCION"]
+                list.Add(new ProductList
+                {
+                    PkCode = (int)dr["CODE"]
+                    ,
+                    Code = (string)dr["CODIGO"]
+                    ,
+                    Description = (string)dr["DESCRIPCION"]
                 });
             }
             return list;
         }
-        
+
         private List<ConsecutiveList> ConvertDStoList_Consecutives(DataSet dataSet)
         {
             DataSet ds = dataSet;
-            List<ConsecutiveList > list = new List<ConsecutiveList >();
+            List<ConsecutiveList> list = new List<ConsecutiveList>();
             foreach (DataRow dr in ds.Tables[0].Rows)
             {
-                list.Add(new ConsecutiveList {
-                    PkCode = (int) dr["CODE"]
-                    ,Type = (string) dr["TIPO"]
-                    ,ConsecutiveId = (int) dr["ID_CONSECUTIVO"]
+                list.Add(new ConsecutiveList
+                {
+                    PkCode = (int)dr["CODE"]
+                    ,
+                    Type = (string)dr["TIPO"]
+                    ,
+                    ConsecutiveId = (int)dr["ID_CONSECUTIVO"]
                 });
             }
             return list;
         }
-        
+
         private List<PaymentProcessorList> ConvertDStoList_Processor(DataSet dataSet)
         {
             DataSet ds = dataSet;
-            List<PaymentProcessorList > list = new List<PaymentProcessorList >();
+            List<PaymentProcessorList> list = new List<PaymentProcessorList>();
             foreach (DataRow dr in ds.Tables[0].Rows)
             {
-                list.Add(new PaymentProcessorList {
-                    PkCode = (int) dr["CODE"]
-                    ,Code = (string) dr["CODIGO"]
-                    ,ProcessorName = (string) dr["PROCESADOR"]
-                    ,Status = (bool) dr["ESTADO"]
-                    ,Type = (string) dr["TIPO"]
+                list.Add(new PaymentProcessorList
+                {
+                    PkCode = (int)dr["CODE"]
+                    ,
+                    Code = (string)dr["CODIGO"]
+                    ,
+                    ProcessorName = (string)dr["PROCESADOR"]
+                    ,
+                    Status = (bool)dr["ESTADO"]
+                    ,
+                    Type = (string)dr["TIPO"]
                 });
             }
             return list;
         }
-        
+
         private List<TypeCardsList> ConvertDStoList_TypeCard(DataSet dataSet)
         {
             DataSet ds = dataSet;
-            List<TypeCardsList > list = new List<TypeCardsList >();
+            List<TypeCardsList> list = new List<TypeCardsList>();
             foreach (DataRow dr in ds.Tables[0].Rows)
             {
-                list.Add(new TypeCardsList {
-                    PkCode = (int) dr["CODE"]
-                    ,Code = (string) dr["CODIGO"]
-                    ,Type = (string) dr["TIPO"]
+                list.Add(new TypeCardsList
+                {
+                    PkCode = (int)dr["CODE"]
+                    ,
+                    Code = (string)dr["CODIGO"]
+                    ,
+                    Type = (string)dr["TIPO"]
                 });
             }
             return list;
@@ -622,27 +750,32 @@ namespace EFood_Intranet.Controllers
         private List<PriceTypeList> ConvertDStoList_PriceType(DataSet dataSet)
         {
             DataSet ds = dataSet;
-            List<PriceTypeList > list = new List<PriceTypeList >();
+            List<PriceTypeList> list = new List<PriceTypeList>();
             foreach (DataRow dr in ds.Tables[0].Rows)
             {
-                list.Add(new PriceTypeList {
-                    PkCode = (int) dr["CODE"]
-                    ,Code = (string) dr["CODIGO"]
-                    ,Type = (string) dr["TIPO"]
-                    });
+                list.Add(new PriceTypeList
+                {
+                    PkCode = (int)dr["CODE"]
+                    ,
+                    Code = (string)dr["CODIGO"]
+                    ,
+                    Type = (string)dr["TIPO"]
+                });
             }
             return list;
         }
-        
+
         private List<PayMethodList> ConvertDStoList_PayMethods(DataSet dataSet)
         {
             DataSet ds = dataSet;
-            List<PayMethodList > list = new List<PayMethodList >();
+            List<PayMethodList> list = new List<PayMethodList>();
             foreach (DataRow dr in ds.Tables[0].Rows)
             {
-                list.Add(new PayMethodList {
-                    PkCode = (int) dr["CODE"]
-                    ,Type = (string) dr["TIPO"]
+                list.Add(new PayMethodList
+                {
+                    PkCode = (int)dr["CODE"]
+                    ,
+                    Type = (string)dr["TIPO"]
                 });
             }
             return list;

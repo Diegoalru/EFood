@@ -25,7 +25,7 @@ namespace EFood_Intranet.Controllers
 
         public ActionResult Products()
         {
-            /*var list = ConvertDSToList_LineType(_queryMethods.LineTypes().Result);
+            /*var list = ConvertDSToList_LineType(_queryMethods.TypeLine().Result);
             return View(list);*/
             return View();
         }

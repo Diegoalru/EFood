@@ -1,15 +1,15 @@
-@model IEnumerable<EFoodBLL.IntranetModels.ConsecutiveList>
+@model IEnumerable<EFoodBLL.IntranetModels.PriceTypeList>
 
 @{
-    ViewBag.Title = "Listado de Consecutivos";
+    ViewBag.Title = "Lista de Tipo de Precio";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <div id="home">
     <div class="container">
         <div class="omb_login">
-            <h4 class="omb_authTitle" style="color: orangered;overflow-x:auto;">Lista Consecutivos:</h4>
-            @Html.ActionLink("Crear Consecutivo", "ConsecutiveCreate", "Administration", null, new { @class = "primary-btn" })
+            <h4 class="omb_authTitle" style="color: orangered;overflow-x:auto;">Lista de Tipo de Precio:</h4>
+            @Html.ActionLink("Crear Tipo de Precio", "PriceTypeCreate", "Administration", null, new { @class = "primary-btn" })
             <br />
             <br />
             @Html.ValidationSummary(true, "", new { @class = "ErrorMessage" })
@@ -19,10 +19,10 @@
                         @Html.DisplayNameFor(model => model.PkCode)
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.Type)
+                        @Html.DisplayNameFor(model => model.Code)
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.ConsecutiveId)
+                        @Html.DisplayNameFor(model => model.Type)
                     </th>
                     <th></th>
                 </tr>
@@ -34,13 +34,13 @@
                             @Html.DisplayFor(modelItem => item.PkCode)
                         </td>
                         <td>
+                            @Html.DisplayFor(modelItem => item.Code)
+                        </td>
+                        <td>
                             @Html.DisplayFor(modelItem => item.Type)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.ConsecutiveId)
-                        </td>
-                        <td>
-                            @Html.ActionLink("Edit", "ConsecutiveEdit", null, new { id = item.PkCode }, null)
+                            @Html.ActionLink("Edit", "PriceTypeEdit", null, new { id = item.PkCode }, null)
                             @*|@Html.ActionLink("Delete", "DiscountDeleteConfirmed", new { id = item.PkCode })*@
                         </td>
                     </tr>
@@ -49,48 +49,47 @@
         </div>
     </div>
 </div>
+@*
+<div id="home">
+    <!-- container -->
 
-@*<div class="container">
+
+    <div class="container">
 
         <div class="omb_login">
             <br></br><br><br><br><br>
-            <h4 class="omb_authTitle" style="color: orangered;">Lista de Consecutivos</h4>
+            <h4 class="omb_authTitle" style="color: orangered;">Lista </h4>
         </div>
-        <br><br><br><br>
+        <br><br><br>
         <table class="table">
             <thead class="thead-dark">
                 <tr>
-                    <th scope="col">Descripci?n</th>
-                    <th scope="col">Consecutivo</th>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">C?digo</th>
                     <th scope="col">Cambiar</th>
                     <th scope="col">Eliminar</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <th scope="row">Tipos de Precios</th>
+                    <th scope="row">Regular</th>
                     <td>1</td>
-                    <td><a href="InfoConsecutivo.html">Editar</a></td>
+                    <td><a href="InfoTipoPrecio.html">Editar</a></td>
                     <td><a>Eliminar</a></td>
                 </tr>
                 <tr>
-                    <th scope="row">Procesadores de Pago</th>
+                    <th scope="row">Mediano</th>
                     <td>2</td>
-                    <td><a href="InfoConsecutivo.html">Editar</a></td>
+                    <td><a href="InfoTipoPrecio.html">Editar</a></td>
                     <td><a>Eliminar</a></td>
                 </tr>
                 <tr>
-                    <th scope="row">Lineas de Comida</th>
+                    <th scope="row">Agrandado</th>
                     <td>3</td>
-                    <td><a href="InfoConsecutivo.html">Editar</a></td>
-                    <td><a>Eliminar</a></td>
-                </tr>
-                <tr>
-                    <th scope="row">Productos</th>
-                    <td>10</td>
-                    <td><a href="InfoConsecutivo.html">Editar</a></td>
+                    <td><a href="InfoTipoPrecio.html">Editar</a></td>
                     <td><a>Eliminar</a></td>
                 </tr>
             </tbody>
         </table>
+        <!-- /container -->
     </div>*@

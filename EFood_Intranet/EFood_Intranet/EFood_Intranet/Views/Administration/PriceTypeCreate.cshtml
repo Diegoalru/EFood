@@ -1,0 +1,50 @@
+@model EFoodBLL.IntranetModels.PriceTypeList
+
+@{
+    ViewBag.Title = "Crear Tipo de Precio";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div id="home">
+    <div class="container">
+        <div class="omb_login">
+            <br />
+            @using (Html.BeginForm("PriceTypeCreate", "Administration", new { ResponseUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { role = "form", @class = "center3" }))
+            {
+                <h4 style="color: orangered;">Crear Tipo de Precio</h4>
+                @Html.ValidationSummary("", new { @class = "ErrorMessage" })
+                <br />
+                <label for="PrefijoInt">Code:</label>
+                @Html.TextBoxFor(item => item.Code, new { id = "fname", placeholder = "Codigo", maxlength = 12 })
+                <br />
+                <label for="PrefijoInt">Type:</label>
+                @Html.TextBoxFor(item => item.Type, new { id = "fname", placeholder = "Descripcion", maxlength = 12 })
+                <input type="submit" class="primary-btn" value="Guardar" />
+                @Html.ActionLink("Volver", "PriceTypeList")
+            }
+        </div>
+    </div>
+</div>
+
+<div id="home">
+    <div class="container">
+        <div class="omb_login">
+            </br>
+            <form class="center3">
+                <div class="row omb_row-sm-offset-3 omb_socialButtons">
+                </div>
+                <br>
+                <h4 style="color: orangered;">Informacion del Tipo de Precio</h4>
+                </br>
+                <label for="fname">Codigo:</label>
+                <input type="text" id="fname" name="fname"><br>
+                <br>
+                <label for="PrefijoInt">Descripcion:</label>
+                <input type="text" id="fname" name="fname"><br>
+                <br>
+                <input type="submit" value="Guardar" />
+                <input type="submit" value="cancelar" />
+            </form>
+        </div>
+    </div>
+</div>
