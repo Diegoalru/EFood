@@ -1,9 +1,54 @@
-@model EFoodBLL.IntranetModels.ConsecutiveList
+@model IEnumerable<EFoodBLL.IntranetModels.ConsecutiveList>
 
 @{
     ViewBag.Title = "Listado de Consecutivos";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
+<div id="home">
+    <div class="container">
+        <div class="omb_login">
+            <h4 class="omb_authTitle" style="color: orangered;overflow-x:auto;">Lista Consecutivos:</h4>
+            @Html.ActionLink("Crear Consecutivo", "ConsecutiveCreate", "Administration", null, new { @class = "primary-btn" })
+            <br />
+            <br />
+            @Html.ValidationSummary(true, "", new { @class = "ErrorMessage" })
+            <table class="table table-hover">
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.PkCode)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Type)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.ConsecutiveId)
+                    </th>
+                    <th></th>
+                </tr>
+
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.PkCode)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Type)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ConsecutiveId)
+                        </td>
+                        <td>
+                            @Html.ActionLink("Edit", "ConsecutiveEdit", null, new { id = item.PkCode }, null)
+                            @*|@Html.ActionLink("Delete", "DiscountDeleteConfirmed", new { id = item.PkCode })*@
+                        </td>
+                    </tr>
+                }
+            </table>
+        </div>
+    </div>
+</div>
 
 <div class="container">
 
@@ -17,7 +62,7 @@
     <table class="table">
         <thead class="thead-dark">
             <tr>
-                <th scope="col">Descripción</th>
+                <th scope="col">Descripci?n</th>
                 <th scope="col">Consecutivo</th>
                 <th scope="col">Cambiar</th>
                 <th scope="col">Eliminar</th>

@@ -1,10 +1,40 @@
-@model EFoodBLL.IntranetModels.Consecutive
+@using EFoodBLL.IntranetModels
+@model EFoodBLL.IntranetModels.ReturnConsecutive
 
 @{
     ViewBag.Title = "Edicion de consecutivos";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<div id="home">
+    <div class="container">
+        <div class="omb_login">
+            <br />
+            @using (Html.BeginForm("ConsecutiveEdit", "Administration", null, FormMethod.Post, new { role = "form", @class = "center3" }))
+            {
+                <h4 style="color: orangered;">Informacion de consecutivo</h4>
+                @Html.ValidationSummary("", new { @class = "ErrorMessage" })
+                @Html.TextBoxFor(item => item.PkCode, new { @type = "hidden", @readonly = "readonly" })
+                <br />
+                <label for="Code">Type:</label>
+                @Html.TextBoxFor(item => item.Type, new { id = "fname", placeholder = "Type", maxlength = 6, @readonly = "readonly" })
+                <br />
+                <label for="Description">IdConsecutive:</label>
+                @Html.TextBoxFor(item => item.IdConsecutive, new { id = "fname", placeholder = "IdConsecutive", maxlength = 50, @readonly = "readonly" })
+                <br />
+                <label for="Available">HasPrefix:</label>
+                @Html.CheckBoxFor(item => item.HasPrefix)
+                <br />
+                <label for="Percentage">Posee prefijo:</label>
+                @Html.TextBoxFor(item => item.Prefix, new { id = "fname", placeholder = "Introduzca Prefijo", maxlength = 12 })
+                <input type="submit" class="primary-btn" value="Guardar" />
+                @Html.ActionLink("Volver", "ConsecutiveList")
+            }
+        </div>
+    </div>
+</div>
+
+@*
     <div id="home">
         <!-- container -->
 
@@ -16,12 +46,12 @@
             <form class="center3">
                 <div class="row omb_row-sm-offset-3 omb_socialButtons">
                 </div>
-                <h4 style="color: orangered;">Información de consecutivo</h4>
+                <h4 style="color: orangered;">Informaci?n de consecutivo</h4>
                 </br>
                 </br>
 
                 <form>
-                    <label for="Descripcion">Descripción:</label>
+                    <label for="Descripcion">Descripci?n:</label>
                     <select name="Descripcion" id="Descripcion">
                         <optgroup label="Tipo">
                             <option value="Activo">Linea de comidas</option>
@@ -55,3 +85,4 @@
 
         <!-- /container -->
     </div>
+*@
