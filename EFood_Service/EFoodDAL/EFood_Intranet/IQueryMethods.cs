@@ -77,7 +77,7 @@ namespace EFoodDB.EFood_Intranet
         /// <summary>
         /// Muestra los tipos de linea de productos queisten.
         /// </summary>
-        Task<DataSet> LineTypes();
+        Task<DataSet> LineType();
         
         /// <summary>
         /// Muestra los medios de pago que exissten.
@@ -416,7 +416,7 @@ namespace EFoodDB.EFood_Intranet
             }
         }
 
-        public Task<DataSet> LineTypes()
+        public Task<DataSet> LineType()
         {
             try
             {

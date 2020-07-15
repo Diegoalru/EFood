@@ -33,6 +33,33 @@ namespace EFood_Intranet.Controllers
             return View();
         }
 
+        [HttpPost]
+        public async Task<ActionResult> ConsecutiveCreate(Consecutive data)
+        {
+            if (!ModelState.IsValid)
+                return await Task.FromResult<ActionResult>(View(data));
+
+            var result = _existsMethods.ExistConsecutive(data.TypeConsecutive, data.Prefix).Result;
+            switch (result)
+            {
+                case false:
+                    var resultInsertConsecutive = await _insertMethods.InsertConsecutive(data);
+                    if (resultInsertConsecutive)
+                        return RedirectToAction("ConsecutiveList");
+
+                    ModelState.AddModelError(key: "", errorMessage: "Ha ocurrido un error.\n");
+                    return await Task.FromResult<ActionResult>(View(data));
+
+                case true:
+                    ModelState.AddModelError("", "¡El consecutivo ya existe!\n");
+                    return await Task.FromResult<ActionResult>(View());
+
+                default:
+                    ModelState.AddModelError("", "¡Error! Conexion con servidor perdida.\n");
+                    return await Task.FromResult<ActionResult>(View());
+            }
+        }
+
         [HttpGet]
         public ActionResult ConsecutiveEdit(int id)
         {
@@ -182,20 +209,60 @@ namespace EFood_Intranet.Controllers
 
         #endregion
 
-        #region TypeLine
-        public ActionResult TypeLineList()
+        #region LineType
+        public ActionResult LineTypeList()
+        {
+            var list = ConvertDStoList_LineType(_queryMethods.LineType().Result);
+            return View(list);
+        }
+
+        public ActionResult LineTypeCreate()
         {
             return View();
         }
 
-        public ActionResult TypeLineCreate()
+        [HttpPost]
+        public async Task<ActionResult> LineTypeCreate(Consecutive data)
         {
-            return View();
+            if (!ModelState.IsValid)
+                return await Task.FromResult<ActionResult>(View(data));
+
+            var result = _existsMethods.ExistConsecutive(data.TypeConsecutive, data.Prefix).Result;
+            switch (result)
+            {
+                case false:
+                    var resultInsertConsecutive = await _insertMethods.InsertConsecutive(data);
+                    if (resultInsertConsecutive)
+                        return RedirectToAction("LineTypeList");
+
+                    ModelState.AddModelError(key: "", errorMessage: "Ha ocurrido un error.\n");
+                    return await Task.FromResult<ActionResult>(View(data));
+
+                case true:
+                    ModelState.AddModelError("", "¡El tipo de comida ya existe!\n");
+                    return await Task.FromResult<ActionResult>(View());
+
+                default:
+                    ModelState.AddModelError("", "¡Error! Conexion con servidor perdida.\n");
+                    return await Task.FromResult<ActionResult>(View());
+            }
         }
 
-        public ActionResult TypeLineEdit()
+        public ActionResult LineTypeEdit(int id)
         {
-            return View();
+            var lineType = _returnMethods.ReturnLineType(id).Result;
+            if (lineType == null)
+            {
+                return HttpNotFound();
+            }
+            return View(lineType);
+        }
+
+        [HttpGet]
+        public Task<ActionResult> LineTypeDeleteConfirmed(int id)
+        {
+            _deleteMethods.DeleteLineType(id);
+            return Task.FromResult<ActionResult>(RedirectToAction("LineTypeList"));
         }
 
         #endregion
@@ -322,18 +389,46 @@ namespace EFood_Intranet.Controllers
 
         #endregion
 
-        #region TypePrice
-        public ActionResult TypePriceList()
+        #region PriceType
+        public ActionResult PriceTypeList()
+        {
+            var list = ConvertDStoList_PriceType(_queryMethods.PriceTypes().Result);
+            return View(list);
+        }
+
+        public ActionResult PriceTypeCreate()
         {
             return View();
         }
 
-        public ActionResult TypePriceCreate()
+        [HttpPost]
+        public async Task<ActionResult> PriceTypeCreate(PriceType data)
         {
-            return View();
+            if (!ModelState.IsValid)
+                return await Task.FromResult<ActionResult>(View(data));
+
+            var result = _existsMethods.ExistsPriceType(data.Type).Result;
+            switch (result)
+            {
+                case false:
+                    var resultInsertPriceType = await _insertMethods.InsertPriceType(data);
+                    if (resultInsertPriceType)
+                        return RedirectToAction("PriceTypeList");
+
+                    ModelState.AddModelError(key: "", errorMessage: "Ha ocurrido un error.\n");
+                    return await Task.FromResult<ActionResult>(View(data));
+
+                case true:
+                    ModelState.AddModelError("", "¡El tipo de precio ya existe!\n");
+                    return await Task.FromResult<ActionResult>(View());
+
+                default:
+                    ModelState.AddModelError("", "¡Error! Conexion con servidor perdida.\n");
+                    return await Task.FromResult<ActionResult>(View());
+            }
         }
 
-        public ActionResult TypePriceEdit()
+        public ActionResult PriceTypeEdit(int id)
         {
             return View();
         }
@@ -346,13 +441,13 @@ namespace EFood_Intranet.Controllers
         public ActionResult ProductList()
         {
             // Se realiza la consulta donde se obtiene los tipos de linea que existen.
-            var typeLinelist = ConvertDStoList_LineType(_queryMethods.LineTypes().Result);
+            var lineTypelist = ConvertDStoList_LineType(_queryMethods.LineType().Result);
 
             // Si existiera algún tipo de linea, automaticamente se mostraria los productos relacionados al primer datos de la lista.
-            var productList = typeLinelist.Count != 0 ? ConvertDStoList_Product(_queryMethods.ProductsByLineType(typeLinelist[0].PkCode).Result) : null;
+            var productList = lineTypelist.Count != 0 ? ConvertDStoList_Product(_queryMethods.ProductsByLineType(lineTypelist[0].PkCode).Result) : null;
 
-            //Se crea el tipo de objeto SelectList, el cual es retornado a la pagina para mostrarse en el dropdown con el id typeLinelist (primer parametro) 
-            var selectList = new SelectList(typeLinelist, "PkCode", "Type");
+            //Se crea el tipo de objeto SelectList, el cual es retornado a la pagina para mostrarse en el dropdown con el id lineTypelist (primer parametro) 
+            var selectList = new SelectList(lineTypelist, "PkCode", "Type");
 
             //Se guardan los datos en el ViewBag para luego obtenelos con el id VBTypeLineList
             ViewBag.VBTypeLineList = selectList;
@@ -365,23 +460,23 @@ namespace EFood_Intranet.Controllers
         public ActionResult ProductList(LineTypeList typeList)
         {
             // Se crea la lista que contiene los tipos de linea que existen.
-            var typeLinelist = ConvertDStoList_LineType(_queryMethods.LineTypes().Result);
+            var lineTypelist = ConvertDStoList_LineType(_queryMethods.LineType().Result);
 
             //Se crea un campo para almacenar la llave de tipo de linea.
-            int typeLineCode = 0;
+            int lineTypeCode = 0;
 
             //Se recorre la lista hasta encontrar el dato obtenido de la pagina.
-            foreach (var item in typeLinelist)
+            foreach (var item in lineTypelist)
             {
                 if (item.Type.Equals(typeList.Type))
-                    typeLineCode = item.PkCode;
+                    lineTypeCode = item.PkCode;
             }
 
             //Se crear la lista con los productos segun el tipo de linea.
-            var productList = ConvertDStoList_Product(_queryMethods.ProductsByLineType(typeLineCode).Result);
+            var productList = ConvertDStoList_Product(_queryMethods.ProductsByLineType(lineTypeCode).Result);
 
-            //Se crea el objeto de tipo SelectList que será envia a el dropdown de la pagina, el cual obtendra el id de typeLinelist (primer parametro).
-            var selectList = new SelectList(typeLinelist, "PkCode", "Type");
+            //Se crea el objeto de tipo SelectList que será envia a el dropdown de la pagina, el cual obtendra el id de lineTypelist (primer parametro).
+            var selectList = new SelectList(lineTypelist, "PkCode", "Type");
 
             //Se agrega el obteto selectList al ViewBag de la pagina.
             ViewBag.VBTypeLineList = selectList;
@@ -393,8 +488,8 @@ namespace EFood_Intranet.Controllers
         [HttpGet]
         public ActionResult ProductCreate()
         {
-            var typeLinelist = ConvertDStoList_LineType(_queryMethods.LineTypes().Result);
-            ViewBag.VBTypeLineList = typeLinelist;
+            var lineTypelist = ConvertDStoList_LineType(_queryMethods.LineType().Result);
+            ViewBag.VBTypeLineList = lineTypelist;
             return View();
         }
 
@@ -428,7 +523,7 @@ namespace EFood_Intranet.Controllers
         [HttpGet]
         public ActionResult ProductEdit(int id)
         {
-            var typeLinelist = ConvertDStoList_LineType(_queryMethods.LineTypes().Result);
+            var lineTypelist = ConvertDStoList_LineType(_queryMethods.LineType().Result);
 
             var product = _returnMethods.ReturnProduct(id).Result;
 
@@ -439,7 +534,7 @@ namespace EFood_Intranet.Controllers
             if (product.Code.IsNullOrWhiteSpace())
                 product.Code = "No posee";
 
-            ViewBag.VBTypeLineList = typeLinelist;
+            ViewBag.VBTypeLineList = lineTypelist;
 
             return View(product);
         }
@@ -447,8 +542,8 @@ namespace EFood_Intranet.Controllers
         [HttpPost]
         public async Task<ActionResult> ProductEdit(ReturnProduct product)
         {
-            var typeLinelist = ConvertDStoList_LineType(_queryMethods.LineTypes().Result);
-            ViewBag.VBTypeLineList = new SelectList(typeLinelist, "PkCode", "Type");
+            var lineTypelist = ConvertDStoList_LineType(_queryMethods.LineType().Result);
+            ViewBag.VBTypeLineList = new SelectList(lineTypelist, "PkCode", "Type");
 
             if (!ModelState.IsValid)
                 return await Task.FromResult<ActionResult>(View(product));

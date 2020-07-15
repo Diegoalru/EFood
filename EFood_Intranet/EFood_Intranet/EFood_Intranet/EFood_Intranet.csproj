@@ -197,12 +197,12 @@
     <Content Include="Views\Administration\TypeCardEdit.cshtml" />
     <Content Include="Views\Administration\TypeCardList.cshtml" />
     <Content Include="Views\Administration\ProductList.cshtml" />
-    <Content Include="Views\Administration\TypeLineCreate.cshtml" />
-    <Content Include="Views\Administration\TypeLineEdit.cshtml" />
-    <Content Include="Views\Administration\TypeLineList.cshtml" />
-    <Content Include="Views\Administration\TypePriceList.cshtml" />
-    <Content Include="Views\Administration\TypePriceCreate.cshtml" />
-    <Content Include="Views\Administration\TypePriceEdit.cshtml" />
+    <Content Include="Views\Administration\LineTypeCreate.cshtml" />
+    <Content Include="Views\Administration\LineTypeEdit.cshtml" />
+    <Content Include="Views\Administration\LineTypeList.cshtml" />
+    <Content Include="Views\Administration\PriceTypeList.cshtml" />
+    <Content Include="Views\Administration\PriceTypeCreate.cshtml" />
+    <Content Include="Views\Administration\PriceTypeEdit.cshtml" />
     <Content Include="Views\Queries\Errors.cshtml" />
     <Content Include="Views\Queries\Logs.cshtml" />
     <Content Include="Views\Queries\Orders.cshtml" />
@@ -282,6 +282,11 @@
         </WebProjectProperties>
       </FlavorProperties>
     </VisualStudio>
+    <MonoDevelop>
+      <Properties>
+        <XspParameters Port="8080" Address="127.0.0.1" SslMode="None" SslProtocol="Default" KeyType="None" CertFile="" KeyFile="" PasswordOptions="None" Password="" Verbose="True" />
+      </Properties>
+    </MonoDevelop>
   </ProjectExtensions>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

@@ -34,7 +34,7 @@ namespace EFoodDB.EFood_Intranet
         Task<bool?> ExistsPaymentProcessor(string paymentProcessor);
         Task<bool?> ExistsProduct(string description);
         Task<bool?> ExistsLineType(string type);
-        Task<bool?> ExistsTypeOfPrice(string type);
+        Task<bool?> ExistsPriceType(string type);
         Task<bool?> ExistsTypeOfCard(string type);
     }
 
@@ -204,7 +204,7 @@ namespace EFoodDB.EFood_Intranet
                 return null;
             }
         }
-        public Task<bool?> ExistsTypeOfPrice(string type)
+        public Task<bool?> ExistsPriceType(string type)
         {
             try
             {
