@@ -16,6 +16,13 @@ namespace EFoodDB.EFood_Intranet
         /// Retornará <code>true</code> en caso de existir el nombre de usuario ingresado.
         /// Ademas retornará NULL en caso de haber un error con el servidor.</returns>
         Task<bool?> ExistsUser(string username);
+
+        /// <summary>
+        /// Valida que no exista el consecutivo (segundo textbox pag 11)
+        /// </summary>
+        /// <param name="consecutive">Id del consecutivo brindado por el usuario.</
+        /// <param name="prefix">Prefijo asignado por el usuario.</param>
+        Task<bool?> ExistConsecutive(int consecutive, string prefix);
         
         /// <summary>
         /// Valida si existe el codigo para el Cupon.
@@ -57,6 +64,31 @@ namespace EFoodDB.EFood_Intranet
                 return null;
             }
         }
+
+        public Task<bool?> ExistConsecutive(int consecutive, string prefix)
+        {
+            try
+            {
+                Task<bool?> result;
+                using (var conn = _settings.GetConnection())
+                {
+                    if (conn.State == ConnectionState.Closed)
+                        conn.Open();
+                    
+                    var query = $"Select dbo.EXISTE_CONSECUTIVO({consecutive}, N'{prefix}');";
+                    using (var cmd = new SqlCommand(query, conn))
+                    {
+                        result = Task.FromResult((bool?) cmd.ExecuteScalar());
+                    }
+                }
+                return result;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
         public Task<bool?> ExistsDiscount(string codeDiscount)
         {
             try
