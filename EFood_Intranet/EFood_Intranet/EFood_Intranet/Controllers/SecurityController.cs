@@ -23,12 +23,7 @@ namespace EFood_Intranet.Controllers
         {
             return View();
         }
-        
-        public ActionResult RoleUser()
-        {
-            return View();
-        }
-        
+
         [HttpGet]
         public async Task<ActionResult> StatusUsers()
         {
@@ -63,10 +58,31 @@ namespace EFood_Intranet.Controllers
             return RedirectToAction("StatusUsers");
         }
         
+        [HttpGet]
         public ActionResult Users()
         {
             return View();
         }
+
+        [HttpGet]
+        public async Task<ActionResult> RoleUserList()
+        {
+            var usersList = ConvertDStoList_TotalUsers(await _queryMethods.TotalUsers());
+            return View(usersList);
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> RoleUserEdit(string user)
+        {
+            var userStatus = _returnMethods.ReturnRole(user).Result;
+            
+            if (userStatus != null) return View(userStatus);
+            
+            ModelState.AddModelError("", "¡El usuario no existe!\n");
+            return RedirectToAction("RoleUserList");
+        }
+        
+        
         
         private List<UsersList> ConvertDStoList_TotalUsers(DataSet dataSet)
         {

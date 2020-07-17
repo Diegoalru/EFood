@@ -1,0 +1,39 @@
+@model IEnumerable<EFoodBLL.IntranetModels.UsersList>
+
+@{
+    ViewBag.Title = "title";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div id="home">
+    <div class="container">
+        <div class="omb_login">
+            <br/>
+                <br/>
+                <h4 class="omb_authTitle" style="color: orangered;">Lista de Usuarios</h4>
+                <br/>
+                <br/>
+                <table class="table table-hover">
+                @Html.ValidationSummary(true,"", new {@class="ErrorMessage"})
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Username)
+                    </th>
+                    <th></th>
+                </tr>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Username)
+                        </td>
+                        <td>
+                            @Html.ActionLink("Editar", "", "Security", new {id = item.PkCode}, null)
+                        </td>
+                    </tr>
+                }
+                </table>
+                @Html.ActionLink("Volver", "Users")
+            </div>
+    </div>
+</div>

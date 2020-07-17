@@ -8,11 +8,11 @@ namespace EFood_Intranet.Controllers
     {
         private static UserRole _userRole { get; set; } = null;
 
-        public static void SetLogin(string loginUsername, ReturnRole userRoles)
+        public static void SetLogin(ReturnRole userRoles)
         {
             _userRole = new UserRole()
             {
-                Username = loginUsername, IsAdministrator = userRoles.IsAdministrator, IsAudit = userRoles.IsAudit,
+                Username = userRoles.Username, IsAdministrator = userRoles.IsAdministrator, IsAudit = userRoles.IsAudit,
                 IsMaintenance = userRoles.IsMaintenance, IsSecurity = userRoles.IsSecurity
             };
         }
@@ -44,8 +44,6 @@ namespace EFood_Intranet.Controllers
         {
             return _userRole.IsMaintenance;
         }
-        
-        
         
         public static void CloseSession()
         {

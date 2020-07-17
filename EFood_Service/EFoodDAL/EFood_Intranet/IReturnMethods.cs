@@ -315,10 +315,11 @@ namespace EFoodDB.EFood_Intranet
                         var dr = cmd.ExecuteReader();
                         while (dr.Read())
                         {
-                            role.IsAdministrator = dr.GetBoolean(0);
-                            role.IsSecurity = dr.GetBoolean(1);
-                            role.IsMaintenance= dr.GetBoolean(2);
-                            role.IsAudit = dr.GetBoolean(3);
+                            role.Username = (string) dr[0];
+                            role.IsAdministrator = dr.GetBoolean(1);
+                            role.IsSecurity = dr.GetBoolean(2);
+                            role.IsMaintenance= dr.GetBoolean(3);
+                            role.IsAudit = dr.GetBoolean(4);
                         }
                     }
                 }

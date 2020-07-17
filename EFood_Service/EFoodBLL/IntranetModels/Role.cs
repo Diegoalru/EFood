@@ -14,6 +14,7 @@ namespace EFoodBLL.IntranetModels
 
     public class ReturnRole
     {
+        public string Username { get; set; }
         public bool IsAdministrator { get; set; }
         public bool IsSecurity { get; set; }
         public bool IsMaintenance { get; set; }

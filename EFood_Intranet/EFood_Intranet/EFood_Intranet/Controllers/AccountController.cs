@@ -32,7 +32,7 @@ namespace EFood_Intranet.Controllers
 
                     if (userRoles != null)
                     {
-                        AppAccount.SetLogin(login.Username, userRoles);
+                        AppAccount.SetLogin(userRoles);
                         return RedirectToAction("Index", "Home");    
                     }
 

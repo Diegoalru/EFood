@@ -210,7 +210,8 @@
     <Content Include="Views\Queries\Products.cshtml" />
     <Content Include="Views\Security\ChangePassword.cshtml" />
     <Content Include="Views\Security\Register.cshtml" />
-    <Content Include="Views\Security\RoleUser.cshtml" />
+    <Content Include="Views\Security\RoleUserEdit.cshtml" />
+    <Content Include="Views\Security\RoleUserList.cshtml" />
     <Content Include="Views\Security\StatusUserEdit.cshtml" />
     <Content Include="Views\Security\StatusUsers.cshtml" />
     <Content Include="Views\Security\Users.cshtml" />
