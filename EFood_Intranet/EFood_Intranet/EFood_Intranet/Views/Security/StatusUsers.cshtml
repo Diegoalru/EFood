@@ -1,4 +1,4 @@
-@model dynamic
+@model IEnumerable<EFoodBLL.IntranetModels.UsersList>
 
 @{
     ViewBag.Title = "title";
@@ -9,28 +9,37 @@
     <div class="container">
         <div class="omb_login">
             <br/>
-            @using (Html.BeginForm("StatusUsers", "Security", null, FormMethod.Post, new {role = "form", @class = "center3"}))
-            {
                 <br/>
                 <h4 class="omb_authTitle" style="color: orangered;">Lista de Usuarios</h4>
-                <div class="row omb_row-sm-offset-3 omb_socialButtons">	
-                </div>
-                <div style="width:150px;height:150px;line-height:3em;overflow:auto;padding:5px;" class="center">
-                    @Html.DropDownList("VBUsersList", Model.UsersList, new {@id = "ddl"})
-                    @Html.Hidden("Username", "PkCode", new {@id = "hf"})
-                </div>
-                <input type="button" value="Buscar" onclick='@Url.Action("StatusUsers", "Security")'/>
                 <br/>
                 <br/>
-                <label for="Status">Estado Actual:</label>
-                @Html.DisplayNameFor(item => item.NewStatus)
-                <br/>
-                @Html.CheckBoxFor(item => item.NewStatus)
-                <br/>
-                <br/>
-                <input type="submit" value="Guardar"/>
+                <table class="table table-hover">
+                @Html.ValidationSummary(true,"", new {@class="ErrorMessage"})
+                                <tr>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.Username)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.Status)
+                                    </th>
+                                    <th></th>
+                                </tr>
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Username)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Status)
+                                        </td>
+                                        <td>
+                                            @Html.ActionLink("Editar", "StatusUserEdit", "Security", new {id = item.PkCode}, null)
+                                        </td>
+                                    </tr>
+                                }
+                            </table>
                 @Html.ActionLink("Volver", "Users")
-            }
-        </div>
+            </div>
     </div>
 </div>

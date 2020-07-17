@@ -1,6 +1,6 @@
+using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Dynamic;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using EFoodBLL.IntranetModels;
@@ -33,30 +33,34 @@ namespace EFood_Intranet.Controllers
         public async Task<ActionResult> StatusUsers()
         {
             var usersList = ConvertDStoList_TotalUsers(await _queryMethods.TotalUsers());
-            
-            dynamic mymodel = new ExpandoObject();
-            mymodel.userList = usersList;
-            ViewBag.VBUsersList = usersList;
-            return View();
+            return View(usersList);
         }
         
-        public async Task<ActionResult> StatusUsers(string user)
+        [HttpGet]
+        public ActionResult StatusUserEdit(int id)
         {
-            var usersList = ConvertDStoList_TotalUsers(await _queryMethods.TotalUsers());
-            var status = await _returnMethods.ReturnUserStatus(user);
+            var userStatus = _returnMethods.ReturnUserStatus(id).Result;
+            
+            if (userStatus != null) return View(userStatus);
+            
+            ModelState.AddModelError("", "¡El usuario no existe!\n");
+            return RedirectToAction("StatusUsers");
+        }
 
-            ViewBag.VBUsersList = usersList;
-            
-            if (status == null)
+        [HttpPost]
+        public ActionResult StatusUserEdit(UsersList data)
+        {
+            var result = _updateMethods.UpdateUserStatus(new UserStatus()
             {
-                return View();
+                Username = data.Username, NewStatus = data.Status
+            }).Result;
+
+            if (!result)
+            {
+                ModelState.AddModelError("", "¡Error al guardar los datos!\n");
+                return RedirectToAction("StatusUsers");
             }
-            
-            return View(new UserStatus()
-            {
-                Username = user
-                ,NewStatus = (bool) status
-            });
+            return RedirectToAction("StatusUsers");
         }
         
         public ActionResult Users()
@@ -74,10 +78,10 @@ namespace EFood_Intranet.Controllers
                 {
                     PkCode = (int) dr[0]
                     ,Username = (string) dr[1]
+                    ,Status = (bool) dr[2]
                 });
             }
             return list;
         }
-        
     }
 }

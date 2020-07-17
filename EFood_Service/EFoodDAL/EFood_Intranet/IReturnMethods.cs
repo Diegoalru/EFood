@@ -10,7 +10,7 @@ namespace EFoodDB.EFood_Intranet
 {
     public interface IReturnMethods
     {
-        Task<bool?> ReturnUserStatus(string username);
+        Task<UsersList> ReturnUserStatus(int pkUser);
         /// <summary>
         /// Este metodo funciona para retornar la lista de articulos comprados relacionados con a una orden.
         /// </summary>
@@ -32,27 +32,29 @@ namespace EFoodDB.EFood_Intranet
     {
         private readonly IDbSettings _settings = new EFoodAdministration();
         
-        public Task<bool?> ReturnUserStatus(string username)
+        public Task<UsersList> ReturnUserStatus(int pkUser)
         {
             try
             {
-                Task<bool?> result = null;
+                UsersList user = new UsersList();
                 using (var conn = _settings.GetConnection())
                 {
                     if (conn.State == ConnectionState.Closed) conn.Open();
 
-                    string query = $"SELECT * FROM RETORNA_ESTADO_ADMINISTRADOR({username});";
+                    string query = $"SELECT * FROM RETORNA_ESTADO_ADMINISTRADOR({pkUser});";
                     using (var cmd = new SqlCommand(query, conn))
                     {
                         cmd.CommandType = CommandType.Text;
                         var dr = cmd.ExecuteReader();
                         while (dr.Read())
                         {
-                            result = Task.FromResult((bool?) dr.GetBoolean(0));
+                            user.PkCode = dr.GetInt32(0);
+                            user.Username = dr.GetString(1);
+                            user.Status = dr.GetBoolean(2);
                         }
                     }
                 }
-                return result;
+                return Task.FromResult(user);
             }
             catch (Exception)
             {

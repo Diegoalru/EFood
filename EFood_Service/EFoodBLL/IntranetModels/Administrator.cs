@@ -10,6 +10,7 @@ namespace EFoodBLL.IntranetModels
     {
         [Required(ErrorMessage = "Usuario no ingresado.")]
         public string Username { get; set; }
+
         [Required(ErrorMessage = "Clave no ingreada.")]
         public string Password { get; set; }
     }
@@ -47,6 +48,9 @@ namespace EFoodBLL.IntranetModels
         
         [DisplayName("Usuario")]
         public string Username { get; set; }
+        
+        [DisplayName("Estado")] 
+        public bool Status { get; set; }
     }
 
     /// <summary>

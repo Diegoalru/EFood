@@ -586,10 +586,8 @@ namespace EFood_Intranet.Controllers
         public ActionResult ProductEdit(int id)
         {
             var lineTypelist = ConvertDStoList_LineType(_queryMethods.LineType().Result);
-
             var product = _returnMethods.ReturnProduct(id).Result;
-
-
+            
             if (product == null)
                 return HttpNotFound();
 
