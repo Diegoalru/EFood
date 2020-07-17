@@ -1,3 +1,6 @@
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+
 namespace EFoodBLL.IntranetModels
 {
     /// <summary>
@@ -15,6 +18,7 @@ namespace EFoodBLL.IntranetModels
     public class ReturnRole
     {
         public string Username { get; set; }
+        [DisplayName("Administrador")]
         public bool IsAdministrator { get; set; }
         public bool IsSecurity { get; set; }
         public bool IsMaintenance { get; set; }

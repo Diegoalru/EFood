@@ -28,7 +28,7 @@
                             @Html.DisplayFor(modelItem => item.Username)
                         </td>
                         <td>
-                            @Html.ActionLink("Editar", "", "Security", new {id = item.PkCode}, null)
+                            @Html.ActionLink("Editar", "RoleUserEdit", "Security", new {user = item.Username}, null)
                         </td>
                     </tr>
                 }

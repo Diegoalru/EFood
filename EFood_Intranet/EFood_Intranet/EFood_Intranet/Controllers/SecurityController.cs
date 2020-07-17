@@ -82,6 +82,23 @@ namespace EFood_Intranet.Controllers
             return RedirectToAction("RoleUserList");
         }
         
+        [HttpPost]
+        public ActionResult RoleUserEdit(string user, ReturnRole data)
+        {
+            var userStatus = _returnMethods.ReturnRole(data.Username).Result;
+            var result = _updateMethods.UpdateUserRole(new UserRole()
+            {
+                Username = user, IsAdministrator = data.IsAdministrator, IsAudit = data.IsAudit, 
+                IsMaintenance = data.IsMaintenance, IsSecurity = data.IsSecurity
+            }).Result;
+
+            if (!result)
+            {
+                ModelState.AddModelError("", "¡Error al guardar los datos!\n");
+                return RedirectToAction("RoleUserList");
+            }
+            return RedirectToAction("RoleUserList");
+        }
         
         
         private List<UsersList> ConvertDStoList_TotalUsers(DataSet dataSet)

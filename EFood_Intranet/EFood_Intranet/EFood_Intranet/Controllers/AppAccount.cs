@@ -1,13 +1,21 @@
 using System;
 using System.Security.Cryptography.X509Certificates;
 using EFoodBLL.IntranetModels;
+using EFoodDB.EFood_Intranet;
 
 namespace EFood_Intranet.Controllers
 {
     public static class AppAccount
     {
         private static UserRole _userRole { get; set; } = null;
+        private static readonly IReturnMethods _returnMethods = new ReturnMethods();
 
+        public static void UpdateRole(string user)
+        {
+            var userRoles = _returnMethods.ReturnRole(user).Result;
+            SetLogin(userRoles);
+        }
+        
         public static void SetLogin(ReturnRole userRoles)
         {
             _userRole = new UserRole()

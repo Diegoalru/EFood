@@ -203,7 +203,7 @@ namespace EFoodDB.EFood_Intranet
                     using (var cmd = new SqlCommand("MODIFICA_ROL_ADMINISTRADOR", conn))
                     {
                         cmd.CommandType = CommandType.StoredProcedure;
-                        cmd.Parameters.Add("@CODE", SqlDbType.Int).Value = role.Username;
+                        cmd.Parameters.Add("@USUARIO", SqlDbType.NVarChar).Value = role.Username;
                         cmd.Parameters.Add("@ADMINISTRADOR", SqlDbType.Bit).Value = role.IsAdministrator;
                         cmd.Parameters.Add("@SEGURIDAD", SqlDbType.Bit).Value = role.IsSecurity;
                         cmd.Parameters.Add("@MANTENIMIENTO", SqlDbType.Bit).Value = role.IsMaintenance;
@@ -214,8 +214,9 @@ namespace EFoodDB.EFood_Intranet
                 }
                 return Task.FromResult(true);
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                Console.WriteLine(e);
                 return Task.FromResult(false);
             }
         }
