@@ -10,20 +10,15 @@
             <h4 class="omb_authTitle">Opciones de Usuario</h4>
             <div class="row omb_row-sm-offset-3 omb_socialButtons">	
             </div>
-
-
             <div>
-                <a title="Ver Usuarios" href="VerUsuarios.html">
+                <a title="Ver Usuarios" href='@Url.Action("StatusUsers", "Security")'>
                     <img src="~/Images/verusuarios.png"
                          alt="Ver Usuarios" class="center"/>
                     <p style="text-align:center;">Lista usuarios</p>
                 </a>
-             
                 <br/>
                 <br/>
-
-                <a title="Crear Usuario" href="Register.html">
-                    
+                <a title="Crear Usuario" href='@Url.Action("Register", "Security")'>
                     <img src="~/Images/usuario.png"
                          alt="Crear Usuario" class="center"/>
                     <p style="text-align:center;">Crear usuario</p>

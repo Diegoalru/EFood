@@ -25,8 +25,8 @@
                         @Html.DisplayNameFor(model => model.Available)
                     </th>
                     <th></th>
+                    <th></th>
                 </tr>
-            
                 @foreach (var item in Model)
                 {
                     <tr>
@@ -41,6 +41,8 @@
                         </td>
                         <td>
                             @Html.ActionLink("Edit", "DiscountEdit", new { id = item.PkCode }) |
+                        </td>
+                        <td>
                             @Html.ActionLink("Delete", "DiscountDeleteConfirmed", new { id = item.PkCode })
                         </td>
                     </tr>

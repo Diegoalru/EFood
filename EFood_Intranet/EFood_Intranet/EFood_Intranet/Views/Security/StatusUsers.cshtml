@@ -1,4 +1,4 @@
-@model EFoodBLL.IntranetModels.UserStatus
+@model dynamic
 
 @{
     ViewBag.Title = "title";
@@ -9,23 +9,28 @@
     <div class="container">
         <div class="omb_login">
             <br/>
-            <form class="center3">
+            @using (Html.BeginForm("StatusUsers", "Security", null, FormMethod.Post, new {role = "form", @class = "center3"}))
+            {
                 <br/>
                 <h4 class="omb_authTitle" style="color: orangered;">Lista de Usuarios</h4>
                 <div class="row omb_row-sm-offset-3 omb_socialButtons">	
                 </div>
-                <div style="width:150px;height:150px;line-height:3em;overflow:auto;padding:5px;" class="center" >
-                    Usuario1abcd usuario2abcd ejemploadicional testing12 tiposdeuser15. 
+                <div style="width:150px;height:150px;line-height:3em;overflow:auto;padding:5px;" class="center">
+                    @Html.DropDownList("VBUsersList", Model.UsersList, new {@id = "ddl"})
+                    @Html.Hidden("Username", "PkCode", new {@id = "hf"})
                 </div>
-                <br/><br/>
-                <label for="Estado">Estado Actual:</label>
-                <select name="Estado" id="Estado">
-                    <optgroup label="Tipo de estado">
-                        <option value="Activo">Activo</option>
-                        <option value="Inactivo">Inactivo</option>
-                    </optgroup>
-                </select>
-            </form>
+                <input type="button" value="Buscar" onclick='@Url.Action("StatusUsers", "Security")'/>
+                <br/>
+                <br/>
+                <label for="Status">Estado Actual:</label>
+                @Html.DisplayNameFor(item => item.NewStatus)
+                <br/>
+                @Html.CheckBoxFor(item => item.NewStatus)
+                <br/>
+                <br/>
+                <input type="submit" value="Guardar"/>
+                @Html.ActionLink("Volver", "Users")
+            }
         </div>
     </div>
 </div>

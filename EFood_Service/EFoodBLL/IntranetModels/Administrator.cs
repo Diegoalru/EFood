@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace EFoodBLL.IntranetModels
@@ -43,6 +44,8 @@ namespace EFoodBLL.IntranetModels
     public class UsersList
     {
         public int PkCode { get; set; }
+        
+        [DisplayName("Usuario")]
         public string Username { get; set; }
     }
 
@@ -51,7 +54,10 @@ namespace EFoodBLL.IntranetModels
     /// </summary>
     public class UserStatus
     {
+        [DisplayName("Usuario")]
         public string Username { get; set; }
+        
+        [DisplayName("Estado")]
         public bool NewStatus { get; set; }
     }
 }

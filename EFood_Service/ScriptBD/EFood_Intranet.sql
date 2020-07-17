@@ -450,7 +450,7 @@ INSERT
         PREGUNTA
     (PREGUNTA)
 VALUES
-    (N'PREGUNTA #1');
+    (N'Nombre de su Escuela'), (N'Nombre de su mascota'), (N'Nombre de su Profesor'), (N'Nombre de su Novi@'), (N'Apodo Personal'), (N'Color Favorito'), (N'Pelicula Favorita'); 
 GO
 
 INSERT
