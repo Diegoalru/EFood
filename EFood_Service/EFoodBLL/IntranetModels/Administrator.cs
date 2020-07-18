@@ -32,9 +32,27 @@ namespace EFoodBLL.IntranetModels
     /// </summary>
     public class Register
     {
+        [DisplayName("Usuario")]
+        [Required(ErrorMessage = "EL usuario es obligatorio")]
+        [MaxLength(30, ErrorMessage = "El nombre de usuario no puede exceder los 30 caracteres")]
         public string Username { get; set; }
+        
+        [DisplayName("Contraseña")] 
+        [Required(ErrorMessage = "La contraseña es obligatoria")]
+        [MaxLength(30, ErrorMessage = "La contraseña no puede exceder los 30 caracteres")]
         public string Password { get; set; }
+        
+        [DisplayName("Confirmacion constraseña")]
+        [Required(ErrorMessage = "La confirmacion de la contraseña es obligatoria")]
+        [MaxLength(30, ErrorMessage = "La confirmacion de la contraseña no puede exceder los 30 caracteres")]
+        public string PasswordConf { get; set; }
+        
+        [DisplayName("Pregunta de seguridad")]
         public int Question { get; set; }
+        
+        [DisplayName("Repuesta de seguridad")]
+        [Required(ErrorMessage = "La respuesta de seguridad obligatoria")]
+        [MaxLength(30, ErrorMessage = "La respuesta de seguridad no puede exceder los 30 caracteres")]
         public string Answer { get; set; }
     }
 

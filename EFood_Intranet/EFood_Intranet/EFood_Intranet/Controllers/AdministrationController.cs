@@ -307,10 +307,11 @@ namespace EFood_Intranet.Controllers
         [HttpPost]
         public async Task<ActionResult> PayMethodCreate(PaymentProcessor data)
         {
+            
             if (!ModelState.IsValid)
                 return await Task.FromResult<ActionResult>(View(data));
 
-            var result = _existsMethods.ExistsDiscount(data.ProcessorName).Result;
+            var result = await _existsMethods.ExistsPaymentProcessor(data.ProcessorName);
             switch (result)
             {
                 case false:
@@ -863,6 +864,20 @@ namespace EFood_Intranet.Controllers
             }
             return list;
         }
+        
+        private List<TypeConsecutive> ConvertDStoList_TypeConsecutives(DataSet dataSet)
+        {
+            DataSet ds = dataSet;
+            List<TypeConsecutive> list = new List<TypeConsecutive>();
+            foreach (DataRow dr in ds.Tables[0].Rows)
+            {
+                list.Add(new TypeConsecutive
+                {
+                    PkCode = (int)dr["CODE"]
+                    ,Type = (string)dr["TIPO"]
+                });
+            }
+            return list;
         #endregion
     }
 }
