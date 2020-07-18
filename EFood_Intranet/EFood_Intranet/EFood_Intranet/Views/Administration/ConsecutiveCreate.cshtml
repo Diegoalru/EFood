@@ -14,17 +14,18 @@
                 <h4 style="color: orangered;">Informacion de consecutivo</h4>
                 @Html.ValidationSummary("", new { @class = "ErrorMessage" })
                 <br />
-                <label for="fname">TypeConsecutive:</label>
-                @Html.TextBoxFor(item => item.TypeConsecutive, new { id = "fname", placeholder = "TypeConsecutive", maxlength = 12 })
-                <br>
-                <label for="PrefijoInt">IdConsecutive:</label>
-                @Html.TextBoxFor(item => item.IdConsecutive, new { id = "fname", placeholder = "IdConsecutive", maxlength = 12 })
-                <br />
-                <label for="PrefijoInt">Posee prefijo:</label>
+                <label>@Html.DisplayNameFor(item => item.TypeConsecutive)</label><br />
+                @Html.TextBoxFor(item => item.TypeConsecutive, new { id = "fname", placeholder = "Tipo Consecutivo", maxlength = 12 })
+                <br><br />
+                <label>@Html.DisplayNameFor(item => item.IdConsecutive)</label><br />
+                @Html.TextBoxFor(item => item.IdConsecutive, new { id = "fname", placeholder = "Id Consecutivo", maxlength = 12 })
+                <br /><br />
+                <label>@Html.DisplayNameFor(item => item.HasPrefix)</label><br />
                 @Html.CheckBoxFor(item => item.HasPrefix)
-                <br />
-                <label for="PrefijoInt">Prefijo:</label>
+                <br /><br />
+                <label>@Html.DisplayNameFor(item => item.Prefix)</label><br />
                 @Html.TextBoxFor(item => item.Prefix, new { id = "fname", placeholder = "Introduzca Prefijo", maxlength = 12 })
+                <br /><br />
                 <input type="submit" class="primary-btn" value="Guardar" />
                 @Html.ActionLink("Volver", "ConsecutiveList")
             }
