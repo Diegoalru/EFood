@@ -14,7 +14,7 @@
         @using (Html.BeginForm("ProductEdit", "Administration", null, FormMethod.Post, new {role = "form", @class = "center3"}))
         {
             <h4 style="color: orangered;">Información del Producto</h4>
-            @Html.ValidationSummary("", new {@class = "ErrorMessage"})
+            @Html.ValidationSummary("", new {@class = "ErrorMessage"}) @*Validation Checked*@
             @Html.TextBoxFor(item => item.PkCode, new {@type = "hidden", @readonly = "readonly"})
             <br/>
             @Html.DisplayNameFor(model => model.Code)

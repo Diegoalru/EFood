@@ -19,7 +19,8 @@
                 </div>
                 <br>
                 <h4 style="color: orangered;">Información de la Tarjeta</h4>
-                </br>
+                <br />
+                @Html.ValidationSummary("", new { @class = "ErrorMessage" }) @*Validation Cheked*@
                 <label for="fname">Código:</label>
                 <input type="text" id="fname" name="fname"><br>
                 <br>

@@ -12,7 +12,7 @@
             @using (Html.BeginForm("ConsecutiveCreate", "Administration", new { ResponseUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { role = "form", @class = "center3" }))
             {
                 <h4 style="color: orangered;">Informacion de consecutivo</h4>
-                @Html.ValidationSummary("", new { @class = "ErrorMessage" })
+                @Html.ValidationSummary("", new { @class = "ErrorMessage" })@*Validation Cheked*@
                 <br />
                 <label>@Html.DisplayNameFor(item => item.TypeConsecutive)</label><br />
                 @Html.TextBoxFor(item => item.TypeConsecutive, new { id = "fname", placeholder = "Tipo Consecutivo", maxlength = 12 })

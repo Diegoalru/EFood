@@ -12,13 +12,14 @@
             @Html.ActionLink("Crear Consecutivo", "ConsecutiveCreate", "Administration", null, new { @class = "primary-btn" })
             <br />
             <br />
-            @Html.ValidationSummary(true, "", new { @class = "ErrorMessage" })
+            @Html.ValidationSummary("", new { @class = "ErrorMessage" })@*Validation Cheked*@
             <table class="table table-hover">
                 <tr>
                     <th>
                         <label>@Html.DisplayNameFor(item => item.Type)</label><br />
                     </th>
-                    <br /><br />
+                    <br />
+                    <br />
                     <th>
                         <label>@Html.DisplayNameFor(item => item.ConsecutiveId)</label><br />
                     </th>

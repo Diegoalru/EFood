@@ -7,33 +7,35 @@
 <div id="home">
     <div class="container">
         <br>
-        @using (Html.BeginForm("PayMethodCreate", "Administration", null, FormMethod.Post, new {@class = "centerInfoPP"}))
+        @using (Html.BeginForm("PayMethodCreate", "Administration", null, FormMethod.Post, new { @class = "centerInfoPP" }))
         {
             <div class="row omb_row-sm-offset-3 omb_socialButtons">
             </div>
             <h4 style="color: orangered;">Información del Procesador de Pago</h4>
-            <br/>
+            <br />
+            @Html.ValidationSummary("", new { @class = "ErrorMessage" })@*Validation Cheked*@
+            <br />
             @Html.DisplayNameFor(item => item.ProcessorName)
-            <br/>
-            @Html.TextBoxFor(item => item.ProcessorName, new {id = "fname", placeholder = "Nombre Procesador", maxlength = 30})
-            <br/>
-            <br/>
+            <br />
+            @Html.TextBoxFor(item => item.ProcessorName, new { id = "fname", placeholder = "Nombre Procesador", maxlength = 30 })
+            <br />
+            <br />
             @Html.DisplayNameFor(item => item.NameUI)
-            <br/>
-            @Html.TextBoxFor(item => item.NameUI, new {id = "fname", placeholder = "Nombre", maxlength = 30})
-            <br/>
-            <br/>
+            <br />
+            @Html.TextBoxFor(item => item.NameUI, new { id = "fname", placeholder = "Nombre", maxlength = 30 })
+            <br />
+            <br />
             @Html.DisplayNameFor(item => item.PaymentType)
-            <br/>
-            @Html.DropDownListFor(model => model.PaymentType, new SelectList(ViewBag.VBPayMethods, "PkCode", "Type"),new {@class=""})         
-            <br/>
-            <br/>
+            <br />
+            @Html.DropDownListFor(model => model.PaymentType, new SelectList(ViewBag.VBPayMethods, "PkCode", "Type"), new { @class = "" })
+            <br />
+            <br />
             @Html.DisplayNameFor(item => item.IsActive)
-            <br/>
+            <br />
             @Html.CheckBoxFor(item => item.IsActive)
-            <br/>
-            <br/>
-            <input type="submit" value="Crear" class="primary-btn"/>
+            <br />
+            <br />
+            <input type="submit" value="Crear" class="primary-btn" />
             @Html.ActionLink(" Volver", "PayMethodList")
         }
     </div>

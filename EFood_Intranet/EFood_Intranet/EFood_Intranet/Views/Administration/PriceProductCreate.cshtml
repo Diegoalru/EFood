@@ -12,7 +12,7 @@
             @using (Html.BeginForm("PriceProductCreate", "Administration", new { ResponseUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { role = "form", @class = "center3" }))
             {
                 <h4 style="color: orangered;">Creacion de Precios por Productos</h4>
-                @Html.ValidationSummary("", new { @class = "ErrorMessage" })
+                @Html.ValidationSummary("", new { @class = "ErrorMessage" })@*Validation Cheked*@
                 <br />
                 <label for="fname">Product:</label>
                 @Html.TextBoxFor(item => item.Product, new { id = "fname", placeholder = "Product", maxlength = 12 })

@@ -9,10 +9,10 @@
     <div class="container">
         <div class="omb_login">
             <h4 class="omb_authTitle" style="color: orangered;overflow-x:auto;">Lista Descuentos:</h4>
-            @Html.ActionLink("Crear Descuento", "DiscountCreate", "Administration", new { @class="primary-btn"})
-            <br/>
-            <br/>
-            @Html.ValidationSummary(true,"", new {@class="ErrorMessage"})
+            @Html.ActionLink("Crear Descuento", "DiscountCreate", "Administration", new { @class = "primary-btn" })
+            <br />
+            <br />
+            @Html.ValidationSummary("", new { @class = "ErrorMessage" })@*Validation Cheked*@
             <table class="table table-hover">
                 <tr>
                     <th>

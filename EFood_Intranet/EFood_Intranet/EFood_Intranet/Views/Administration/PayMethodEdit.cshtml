@@ -10,44 +10,44 @@
         <br>
         <div class="row omb_row-sm-offset-3 omb_socialButtons">
         </div>
-        @using (Html.BeginForm("PayMethodEdit", "Administration", null, FormMethod.Post, new {role = "form", @class = "center3"}))
+        @using (Html.BeginForm("PayMethodEdit", "Administration", null, FormMethod.Post, new { role = "form", @class = "center3" }))
         {
             <h4 style="color: orangered;">Edicion del Procesador</h4>
-            @Html.ValidationSummary("", new {@class = "ErrorMessage"})
-            @Html.TextBoxFor(item => item.PkCode, new {@type = "hidden", @readonly = "readonly"})
-            <br/>
+            @Html.ValidationSummary("", new { @class = "ErrorMessage" })@*Validation Cheked*@
+            @Html.TextBoxFor(item => item.PkCode, new { @type = "hidden", @readonly = "readonly" })
+            <br />
             @Html.DisplayNameFor(item => item.Code)
-            <br/>
-            @Html.TextBoxFor(item => item.Code, new {id = "fname", placeholder = "Codigo", maxlength = 11, @readonly = "readonly"})
-            <br/>
-            <br/>
+            <br />
+            @Html.TextBoxFor(item => item.Code, new { id = "fname", placeholder = "Codigo", maxlength = 11, @readonly = "readonly" })
+            <br />
+            <br />
             @Html.DisplayNameFor(item => item.Processor)
-            <br/>
-            @Html.TextBoxFor(item => item.Processor, new {id = "fname", placeholder = "Nombre", maxlength = 30})
-            <br/>
-            <br/>
+            <br />
+            @Html.TextBoxFor(item => item.Processor, new { id = "fname", placeholder = "Nombre", maxlength = 30 })
+            <br />
+            <br />
             @Html.DisplayNameFor(item => item.NameUI)
-            <br/>
-            @Html.TextBoxFor(item => item.NameUI, new {id = "fname", placeholder = "Nombre", maxlength = 30})
-            <br/>
-            <br/>
+            <br />
+            @Html.TextBoxFor(item => item.NameUI, new { id = "fname", placeholder = "Nombre", maxlength = 30 })
+            <br />
+            <br />
             @Html.DisplayNameFor(item => item.PaymentType)
-            <br/>
-            @Html.DropDownListFor(item => item.PaymentType, new SelectList(ViewBag.VBPayMethods, "PkCode", "Type"),new {@readonly = "readonly"})
-            <br/>
-            <br/>
+            <br />
+            @Html.DropDownListFor(item => item.PaymentType, new SelectList(ViewBag.VBPayMethods, "PkCode", "Type"), new { @readonly = "readonly" })
+            <br />
+            <br />
             @Html.DisplayNameFor(item => item.Status)
-            <br/>
+            <br />
             @Html.CheckBoxFor(item => item.Status)
-            <br/>
-            <br/>
-            <input type="submit" class="primary-btn" value="Guardar"/>
-            @Html.ActionLink("Volver", "PayMethodList", null, new{ @class="btn-link" })
-            <br/>
-            <br/>
+            <br />
+            <br />
+            <input type="submit" class="primary-btn" value="Guardar" />
+            @Html.ActionLink("Volver", "PayMethodList", null, new { @class = "btn-link" })
+            <br />
+            <br />
             if (Model.PaymentType == 2)
             {
-                @Html.ActionLink("Modificar Relacion tarjetas", "RelationCard", new {id = Model.PkCode}, new{@class="primary-btn", @type="button", @style="background-color: #2e86c1 "})
+                @Html.ActionLink("Modificar Relacion tarjetas", "RelationCard", new { id = Model.PkCode }, new { @class = "primary-btn", @type = "button", @style = "background-color: #2e86c1 " })
             }
         }
     </div>

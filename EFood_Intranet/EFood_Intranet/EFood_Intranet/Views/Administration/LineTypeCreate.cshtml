@@ -11,8 +11,8 @@
                 <br />
                 @using (Html.BeginForm("LineTypeCreate", "Administration", new { ResponseUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { role = "form", @class = "center3" }))
                 {
-            <h4 style="color: orangered;">Informacion de Tipo de Comida</h4>
-                    @Html.ValidationSummary("", new { @class = "ErrorMessage" })
+                    <h4 style="color: orangered;">Informacion de Tipo de Comida</h4>
+                    @Html.ValidationSummary("", new { @class = "ErrorMessage" }) @*Validation Cheked*@
                     <br />
                     <label for="fname">Type:</label>
                     @Html.TextBoxFor(item => item.Type, new { id = "fname", placeholder = "Type" })

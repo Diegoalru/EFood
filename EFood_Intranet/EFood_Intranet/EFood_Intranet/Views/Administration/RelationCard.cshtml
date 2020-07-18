@@ -6,7 +6,7 @@
 }
 
 <div id="home">
-    <div class="container">
+    <div class="container"> @*No ckecked Validation*@
         @using (Html.BeginForm("RelationCard", "Administration", new{ id = ViewBag.GetProcesorCode } , FormMethod.Post,  new {role = "form", @class = "centerInfoPP"}))
         {
             <h1>Lista de tarjetas</h1>
