@@ -43,7 +43,7 @@ namespace EFoodDB.DBSettings
                 ,InitialCatalog = _dbName
                 ,UserID = _uid
                 ,Password = _psw
-                //,ColumnEncryptionSetting = SqlConnectionColumnEncryptionSetting.Enabled
+                ,ColumnEncryptionSetting = SqlConnectionColumnEncryptionSetting.Enabled
             };
             
             return new SqlConnection(builder.ToString());
