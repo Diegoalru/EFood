@@ -13,6 +13,7 @@ namespace EFoodDB.EFood_Intranet
          * TODO: Crear comentarios.
          */
         Task<bool> UpdateUserStatus(UserStatus userStatus);
+        Task<bool> UpdateConsecutive(ConsecutiveEdit consecutiv);
         Task<bool> UpdateDiscount(DiscountCupons discountCupons);
         Task<bool> UpdateOrderStatus(OrderStatus orderStatus);
         Task<bool> UpdateProductPrice(ProductPrice productPrice);
@@ -55,6 +56,32 @@ namespace EFoodDB.EFood_Intranet
             }
         }
 
+        public Task<bool> UpdateConsecutive(ConsecutiveEdit consecutiv)
+        {
+            try
+            {
+                using (var conn = _settings.GetConnection())
+                {
+                    if (conn.State == ConnectionState.Closed)
+                        conn.Open();
+                    
+                    using (var cmd = new SqlCommand("MODIFICA_CONSECUTIVO", conn))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@CODE", SqlDbType.Int).Value = consecutiv.PkCode;
+                        cmd.Parameters.Add("@PREFIJO", SqlDbType.NVarChar).Value = consecutiv.Prefix;
+                        cmd.ExecuteNonQuery();
+                        conn.Close();
+                    }
+                }
+                return Task.FromResult(true);
+            }
+            catch (Exception)
+            {
+                return Task.FromResult(false);
+            }
+        }
+        
         public Task<bool> UpdateDiscount(DiscountCupons discountCupons)
         {
             try

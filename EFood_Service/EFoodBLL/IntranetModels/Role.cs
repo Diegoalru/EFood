@@ -17,11 +17,10 @@ namespace EFoodBLL.IntranetModels
 
     public class ReturnRole
     {
-        public string Username { get; set; }
-        [DisplayName("Administrador")]
-        public bool IsAdministrator { get; set; }
-        public bool IsSecurity { get; set; }
-        public bool IsMaintenance { get; set; }
-        public bool IsAudit { get; set; }
+        [DisplayName("Usuario")] public string Username { get; set; }
+        [DisplayName("Administrador")] public bool IsAdministrator { get; set; }
+        [DisplayName("Seguridad")] public bool IsSecurity { get; set; }
+        [DisplayName("Mantenimiento")] public bool IsMaintenance { get; set; }
+        [DisplayName("Auditoria")] public bool IsAudit { get; set; }
     }
 }

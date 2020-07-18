@@ -41,4 +41,10 @@ namespace EFoodBLL.IntranetModels
         [DisplayName("Consecutivo")]
         public int ConsecutiveId { get; set; }
     }
+
+    public class ConsecutiveEdit
+    {
+        public int PkCode { get; set; }
+        public bool Prefix { get; set; }
+    }
 }
