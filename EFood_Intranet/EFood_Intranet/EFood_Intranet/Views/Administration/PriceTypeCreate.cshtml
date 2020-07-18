@@ -14,9 +14,9 @@
                 <h4 style="color: orangered;">Crear Tipo de Precio</h4>
                 @Html.ValidationSummary("", new { @class = "ErrorMessage" }) @*Validation Cheked*@
                 <br />
-                <label>@Html.DisplayNameFor(item => item.Code)</label><br />
-                @Html.TextBoxFor(item => item.Code, new { id = "fname", placeholder = "Codigo", maxlength = 12 })
-                <br /><br />
+                @*<label>@Html.DisplayNameFor(item => item.Code)</label><br />
+            @Html.TextBoxFor(item => item.Code, new { id = "fname", placeholder = "Codigo", maxlength = 12 })
+            <br /><br />*@
                 <label>@Html.DisplayNameFor(item => item.Type)</label><br />
                 @Html.TextBoxFor(item => item.Type, new { id = "fname", placeholder = "Descripcion", maxlength = 12 })<br />
                 <br />

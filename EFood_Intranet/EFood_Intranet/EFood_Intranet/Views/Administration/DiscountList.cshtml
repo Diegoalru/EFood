@@ -9,23 +9,22 @@
     <div class="container">
         <div class="omb_login">
             <h4 class="omb_authTitle" style="color: orangered;overflow-x:auto;">Lista Descuentos:</h4>
-            @Html.ActionLink("Crear Descuento", "DiscountCreate", "Administration", new { @class = "primary-btn" })
+            @Html.ActionLink("Crear Descuento", "DiscountCreate", null, new { @class = "primary-btn" })
             <br />
             <br />
             @Html.ValidationSummary("", new { @class = "ErrorMessage" })@*Validation Cheked*@
             <table class="table table-hover">
                 <tr>
                     <th>
-                        @Html.DisplayNameFor(model => model.Code)
+                        <label>@Html.DisplayNameFor(model => model.Code)</label>
+</th>
+                    <th>
+                        <label>@Html.DisplayNameFor(model => model.Description)</label>
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.Description)
+                       <label>@Html.DisplayNameFor(model => model.Available)</label>
                     </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Available)
-                    </th>
-                    <th></th>
-                    <th></th>
+                    <th>Opciones</th>
                 </tr>
                 @foreach (var item in Model)
                 {
@@ -40,10 +39,10 @@
                             @Html.DisplayFor(modelItem => item.Available)
                         </td>
                         <td>
-                            @Html.ActionLink("Edit", "DiscountEdit", new { id = item.PkCode }) |
+                            @Html.ActionLink("Editar", "DiscountEdit", new { id = item.PkCode }) |
                         </td>
                         <td>
-                            @Html.ActionLink("Delete", "DiscountDeleteConfirmed", new { id = item.PkCode })
+                            @Html.ActionLink("Eliminar", "DiscountDeleteConfirmed", new { id = item.PkCode })
                         </td>
                     </tr>
                 }

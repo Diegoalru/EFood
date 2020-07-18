@@ -13,15 +13,16 @@
             {
                 <h4 style="color: orangered;">Creacion de Precios por Productos</h4>
                 @Html.ValidationSummary("", new { @class = "ErrorMessage" })@*Validation Cheked*@
+                <br /><br />
+                <label for="fname">Producto:</label>
+                @Html.TextBoxFor(item => item.Product, new { id = "fname", placeholder = "Producto", maxlength = 12 })
+                <br /><br />
+                <label for="PrefijoInt">Tipo:</label>
+                @Html.TextBoxFor(item => item.Type, new { id = "fname", placeholder = "Tipo", maxlength = 12 })
+                <br /><br />
+                <label for="PrefijoInt">Monto:</label>
+                @Html.TextBoxFor(item => item.Amount, new { id = "fname", placeholder = "Monto", maxlength = 12 })
                 <br />
-                <label for="fname">Product:</label>
-                @Html.TextBoxFor(item => item.Product, new { id = "fname", placeholder = "Product", maxlength = 12 })
-                <br>
-                <label for="PrefijoInt">Type:</label>
-                @Html.TextBoxFor(item => item.Type, new { id = "fname", placeholder = "Type", maxlength = 12 })
-                <br />
-                <label for="PrefijoInt">Amount:</label>
-                @Html.TextBoxFor(item => item.Amount, new { id = "fname", placeholder = "Amount", maxlength = 12 })
                 <input type="submit" class="primary-btn" value="Guardar" />
                 @Html.ActionLink("Volver", "PriceProductList")
             }

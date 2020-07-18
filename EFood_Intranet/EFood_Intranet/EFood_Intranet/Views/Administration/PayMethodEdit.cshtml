@@ -33,7 +33,7 @@
             <br />
             @Html.DisplayNameFor(item => item.PaymentType)
             <br />
-            @Html.DropDownListFor(item => item.PaymentType, new SelectList(ViewBag.VBPayMethods, "PkCode", "Type"), new { @readonly = "readonly" })
+            @Html.DropDownListFor(item => item.PaymentType, new SelectList(ViewBag.VBPayMethods, "PkCode", "Type"), new { @readonly = "readonly",@disable="disable"})
             <br />
             <br />
             @Html.DisplayNameFor(item => item.Status)
