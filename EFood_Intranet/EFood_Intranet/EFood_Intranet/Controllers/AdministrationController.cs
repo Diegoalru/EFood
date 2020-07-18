@@ -468,11 +468,39 @@ namespace EFood_Intranet.Controllers
 
         public ActionResult PriceProductList(int id)
         {
-            return View();
+            var list = ConvertDStoList_ProductPriceList(_queryMethods.ProductPrices(id).Result);
+            return View(list);
         }
         public ActionResult PriceProductCreate()
         {
             return View();
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> PriceProductCreate(ReturnPrice data)
+        {
+            if (!ModelState.IsValid)
+                return await Task.FromResult<ActionResult>(View(data));
+
+            var result = _existsMethods.ExistsPrice(data.Type, data.Product).Result;
+            switch (result)
+            {
+                case false:
+                    var resultInsertPriceProduct= await _insertMethods.InsertPrice(data);
+                    if (resultInsertPriceProduct)
+                        return RedirectToAction("PriceProductList");
+
+                    ModelState.AddModelError(key: "", errorMessage: "Ha ocurrido un error.\n");
+                    return await Task.FromResult<ActionResult>(View(data));
+
+                case true:
+                    ModelState.AddModelError("", "¡El consecutivo ya existe!\n");
+                    return await Task.FromResult<ActionResult>(View());
+
+                default:
+                    ModelState.AddModelError("", "¡Error! Conexion con servidor perdida.\n");
+                    return await Task.FromResult<ActionResult>(View());
+            }
         }
 
         public ActionResult PriceProductEdit()
@@ -710,6 +738,26 @@ namespace EFood_Intranet.Controllers
                     Available = (int)(dr["DISPONIBLES"])
                     ,
                     Discount = (int)(dr["DESCUENTO"])
+                });
+            }
+            return list;
+        }
+
+        private List<ReturnPrice> ConvertDStoList_ProductPriceList(DataSet dataSet)
+        {
+            DataSet ds = dataSet;
+            List<ReturnPrice> list = new List<ReturnPrice>();
+            foreach (DataRow dr in ds.Tables[0].Rows)
+            {
+                list.Add(new ReturnPrice
+                {
+                    PkCode = (int)(dr["CODE"])
+                    ,
+                    Type = (int)dr["TIPO"]
+                    ,
+                    Product = (int)dr["PRODUCTO"]
+                    ,
+                    Amount = (decimal)dr["CANTIDAD"]
                 });
             }
             return list;

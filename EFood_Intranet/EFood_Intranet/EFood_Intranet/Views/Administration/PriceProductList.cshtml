@@ -1,9 +1,50 @@
-@model EFoodBLL.IntranetModels.ProductPriceList
+@model IEnumerable<EFoodBLL.IntranetModels.ReturnPrice>
 
 @{
     ViewBag.Title = "Lista de Precios por Producto";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
+<div id="home">
+    <div class="container">
+        <div class="omb_login">
+            <h4 class="omb_authTitle" style="color: orangered;overflow-x:auto;">Lista Consecutivos:</h4>
+            @Html.ActionLink("Crear Precio", "PriceProductCreate", "Administration", null, new { @class = "primary-btn" })
+            <br />
+            <br />
+            @Html.ValidationSummary(true, "", new { @class = "ErrorMessage" })
+            <table class="table table-hover">
+                <tr>
+                    <th>
+                        <label>@Html.DisplayNameFor(item => item.Type)</label><br />
+                    </th>
+                    <br />
+                    <br />
+                    <th>
+                        <label>@Html.DisplayNameFor(item => item.Amount)</label><br />
+                    </th>
+                    <th></th>
+                </tr>
+
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Type)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Amount)
+                        </td>
+                        <td>
+                            @Html.ActionLink("Edit", "PriceProductEdit", "Administration", new { id = item.PkCode }, null)
+                            @*|@Html.ActionLink("Delete", "DiscountDeleteConfirmed", new { id = item.PkCode })*@
+                        </td>
+                    </tr>
+                }
+            </table>
+        </div>
+    </div>
+</div>
 
 <div id="home">
     <!-- container -->
@@ -29,7 +70,7 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <th scope="row">Pequeño</th>
+                        <th scope="row">Peque?o</th>
                         <td>1,250.00</td>
                         <td><a href="InfoPrecioDelProducto.html">Editar</a></td>
                         <td><a>Eliminar</a></td>
@@ -54,7 +95,7 @@
             <form class="center3">
                 <div class="row omb_row-sm-offset-3 omb_socialButtons">
                 </div>
-                <h4 style="color: orangered;">Información de Producto</h4>
+                <h4 style="color: orangered;">Informaci?n de Producto</h4>
                 </br>
                 </br>
 

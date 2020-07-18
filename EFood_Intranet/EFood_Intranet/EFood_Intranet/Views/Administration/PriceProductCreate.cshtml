@@ -1,12 +1,36 @@
-@model EFoodBLL.IntranetModels.ProductPrice
+@model EFoodBLL.IntranetModels.ReturnPrice
 
 @{
-    ViewBag.Title = "Creación de Precios por Productos";
+    ViewBag.Title = "Creacion de Precios por Productos";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<div id="home">
+    <div class="container">
+        <div class="omb_login">
+            <br />
+            @using (Html.BeginForm("PriceProductCreate", "Administration", new { ResponseUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { role = "form", @class = "center3" }))
+            {
+                <h4 style="color: orangered;">Creacion de Precios por Productos</h4>
+                @Html.ValidationSummary("", new { @class = "ErrorMessage" })
+                <br />
+                <label for="fname">Product:</label>
+                @Html.TextBoxFor(item => item.Product, new { id = "fname", placeholder = "Product", maxlength = 12 })
+                <br>
+                <label for="PrefijoInt">Type:</label>
+                @Html.TextBoxFor(item => item.Type, new { id = "fname", placeholder = "Type", maxlength = 12 })
+                <br />
+                <label for="PrefijoInt">Amount:</label>
+                @Html.TextBoxFor(item => item.Amount, new { id = "fname", placeholder = "Amount", maxlength = 12 })
+                <input type="submit" class="primary-btn" value="Guardar" />
+                @Html.ActionLink("Volver", "PriceProductList")
+            }
+        </div>
+    </div>
+</div>
 
 
+@*
 <div id="home">
     <!-- container VERSION CREATE -->
 
@@ -18,7 +42,7 @@
         <form class="centerInfoPP">
             <div class="row omb_row-sm-offset-3 omb_socialButtons">
             </div>
-            <h4 style="color: orangered;">Edición precios del Producto</h4>
+            <h4 style="color: orangered;">Edici?n precios del Producto</h4>
 
             <form>
 
@@ -39,3 +63,5 @@
 
 
             <!-- /container -->
+
+            *@
