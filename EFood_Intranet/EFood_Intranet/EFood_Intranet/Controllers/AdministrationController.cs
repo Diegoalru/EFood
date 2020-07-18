@@ -20,7 +20,6 @@ namespace EFood_Intranet.Controllers
         private readonly IExistsMethods _existsMethods = new ExistsMethods();
 
         #region Consecutives
-
         public ActionResult ConsecutiveList()
         {
             var list = ConvertDStoList_Consecutives(_queryMethods.Consecutives().Result);
@@ -307,7 +306,7 @@ namespace EFood_Intranet.Controllers
         [HttpPost]
         public async Task<ActionResult> PayMethodCreate(PaymentProcessor data)
         {
-
+            
             if (!ModelState.IsValid)
                 return await Task.FromResult<ActionResult>(View(data));
 
@@ -922,12 +921,12 @@ namespace EFood_Intranet.Controllers
                 list.Add(new TypeConsecutive
                 {
                     PkCode = (int)dr["CODE"]
-                    ,
-                    Type = (string)dr["TIPO"]
+                    ,Type = (string)dr["TIPO"]
                 });
             }
             return list;
-            #endregion
         }
+
+        #endregion
     }
 }

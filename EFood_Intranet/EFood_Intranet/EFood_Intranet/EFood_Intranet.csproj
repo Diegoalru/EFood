@@ -208,7 +208,8 @@
     <Content Include="Views\Queries\Logs.cshtml" />
     <Content Include="Views\Queries\Orders.cshtml" />
     <Content Include="Views\Queries\Products.cshtml" />
-    <Content Include="Views\Security\ChangePassword.cshtml" />
+    <Content Include="Views\Security\ChangePasswordEdit.cshtml" />
+    <Content Include="Views\Security\ChangePasswordUsers.cshtml" />
     <Content Include="Views\Security\Register.cshtml" />
     <Content Include="Views\Security\RoleUserEdit.cshtml" />
     <Content Include="Views\Security\RoleUserList.cshtml" />
