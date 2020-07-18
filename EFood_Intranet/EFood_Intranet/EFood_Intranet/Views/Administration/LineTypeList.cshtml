@@ -16,23 +16,19 @@
                 <table class="table table-hover">
                     <tr>
                         <th>
-                            @Html.DisplayNameFor(model => model.PkCode)
-                        </th>
-                        <th>
                             @Html.DisplayNameFor(model => model.Code)
                         </th>
                         <th>
                             @Html.DisplayNameFor(model => model.Type)
                         </th>
-                        <th></th>
+                        <th>
+                            <label>Opciones</label>
+                        </th>
                     </tr>
 
                     @foreach (var item in Model)
                     {
                         <tr>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.PkCode)
-                            </td>
                             <td>
                                 @Html.DisplayFor(modelItem => item.Code)
                             </td>
@@ -40,8 +36,8 @@
                                 @Html.DisplayFor(modelItem => item.Type)
                             </td>
                             <td>
-                                @Html.ActionLink("Edit", "LineTypeEdit", new { id = item.PkCode }, null) |
-                                @Html.ActionLink("Delete", "LineTypeDeleteConfirmed", new { id = item.PkCode })
+                                @Html.ActionLink("Editar", "LineTypeEdit", new { id = item.PkCode }) |
+                                @Html.ActionLink("Eliminar", "LineTypeDeleteConfirmed", new { id = item.PkCode })
                             </td>
                         </tr>
                     }

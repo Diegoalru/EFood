@@ -168,22 +168,18 @@ namespace EFood_Intranet.Controllers
             var result = _updateMethods.UpdateDiscount(new DiscountCupons
             {
                 PkCode = discount.PkCode
-                ,
-                Description = discount.Description
-                ,
-                NewCupons = discount.Available
+                ,Description = discount.Description
+                ,NewCupons = discount.Available
             }).Result;
 
-            if (!result)
+            if (result)
             {
-                ModelState.AddModelError(key: "", errorMessage: "Ha ocurrido un error.\n");
+                
+                return Task.FromResult<ActionResult>(RedirectToAction("DiscountList"));
             }
-            else
-            {
-                ModelState.AddModelError(key: "", errorMessage: "Guardado con exito.\n");
-            }
-
+            ModelState.AddModelError(key: "", errorMessage: "Ha ocurrido un error.\n");
             return Task.FromResult<ActionResult>(View());
+            
         }
 
 
@@ -212,19 +208,85 @@ namespace EFood_Intranet.Controllers
         #endregion
 
         #region TypeCards
-
+        
+        [HttpGet]
         public ActionResult TypeCardList()
         {
-            return View();
+            var list = ConvertDStoList_CardType(_queryMethods.CardsTypes().Result);
+            return View(list);
         }
+        
+        [HttpGet]
         public ActionResult TypeCardCreate()
         {
             return View();
         }
-
-        public ActionResult TypeCardEdit()
+        
+        [HttpPost]
+        public async Task<ActionResult> TypeCardCreate(CardType data)
         {
-            return View();
+            if (!ModelState.IsValid)
+                return await Task.FromResult<ActionResult>(View(data));
+
+            var result = await _existsMethods.ExistsTypeOfCard(data.Type);
+            
+            switch (result)
+            {
+                case false:
+                    var resultInsertLineType = await _insertMethods.InsertCardType(data);
+                    if (resultInsertLineType)
+                    {
+                        ModelState.AddModelError(key: "", errorMessage: "Insertado correctamente.\n");
+                        return RedirectToAction("TypeCardList");
+                    }
+
+                    ModelState.AddModelError(key: "", errorMessage: "Ha ocurrido un error.\n");
+                    return await Task.FromResult<ActionResult>(View(data));
+
+                case true:
+                    ModelState.AddModelError("", "¡El tipo de tarjeta ya existe!\n");
+                    return await Task.FromResult<ActionResult>(View());
+
+                default:
+                    ModelState.AddModelError("", "¡Error! Conexion con servidor perdida.\n");
+                    return await Task.FromResult<ActionResult>(View());
+            }
+        }
+        
+        [HttpGet]
+        public async Task<ActionResult> TypeCardEdit(int id)
+        {
+            var cardType = await _returnMethods.ReturnCardType(id);
+            if (cardType == null)
+            {
+                return HttpNotFound();
+            }
+            return await Task.FromResult<ActionResult>(View(cardType));
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> TypeCardEdit(ReturnCardType data)
+        {
+            if (!ModelState.IsValid)
+                return await Task.FromResult<ActionResult>(View(data));
+
+            var result = await  _updateMethods.UpdateCardType(data.PkCode, data.Type);
+
+            if (!result)
+            {
+                ModelState.AddModelError(key: "", errorMessage: "Ha ocurrido un error.\n");
+                return await Task.FromResult<ActionResult>(View(data));
+            }
+            return await Task.FromResult<ActionResult>(RedirectToAction("TypeCardList"));
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> TypeCardDelete(int id)
+        {
+            var result = await _deleteMethods.DeleteCardType(id);
+            if(!result) ModelState.AddModelError(key: "", errorMessage: "Ha ocurrido un error.\n");
+            return await Task.FromResult<ActionResult>(RedirectToAction("TypeCardList"));
+            
         }
 
         #endregion
@@ -268,6 +330,7 @@ namespace EFood_Intranet.Controllers
             }
         }
 
+        [HttpGet]
         public ActionResult LineTypeEdit(int id)
         {
             var lineType = _returnMethods.ReturnLineType(id).Result;
@@ -276,6 +339,22 @@ namespace EFood_Intranet.Controllers
                 return HttpNotFound();
             }
             return View(lineType);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> LineTypeEdit(ReturnLineType data)
+        {
+            if (!ModelState.IsValid)
+                return await Task.FromResult<ActionResult>(View(data));
+
+            var result = await  _updateMethods.UpdateLineType(data.PkCode, data.Type);
+
+            if (!result)
+            {
+                ModelState.AddModelError(key: "", errorMessage: "Ha ocurrido un error.\n");
+                return await Task.FromResult<ActionResult>(View(data));
+            }
+            return await Task.FromResult<ActionResult>(RedirectToAction("LineTypeList"));
         }
 
         [HttpGet]
@@ -565,14 +644,22 @@ namespace EFood_Intranet.Controllers
         {
             var result = await _updateMethods.UpdatePriceType(priceType.PkCode, priceType.Type);
             var returnPriceType = await _returnMethods.ReturnPriceType(priceType.PkCode);
-            
+
             if (result)
             {
                 return await Task.FromResult<ActionResult>(RedirectToAction("PriceTypeList"));
             }
-            
+
             ModelState.AddModelError(key: "", errorMessage: "Ha ocurrido un error.\n");
             return View(returnPriceType);
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> PriceTypeDelete(int id)
+        {
+            var result = await _deleteMethods.DeletePriceType(id);
+            if (!result) ModelState.AddModelError("", "¡Error al eliminar el tipo de precio!\n");
+            return await Task.FromResult<ActionResult>(RedirectToAction("PriceTypeList"));
         }
 
         #endregion
@@ -768,6 +855,24 @@ namespace EFood_Intranet.Controllers
             foreach (DataRow dr in ds.Tables[0].Rows)
             {
                 list.Add(new LineTypeList
+                {
+                    PkCode = (int)dr["CODE"]
+                    ,
+                    Code = (string)dr["CODIGO"]
+                    ,
+                    Type = (string)dr["TIPO"]
+                });
+            }
+            return list;
+        }
+        
+        private List<TypeCardsList> ConvertDStoList_CardType(DataSet dataSet)
+        {
+            DataSet ds = dataSet;
+            List<TypeCardsList> list = new List<TypeCardsList>();
+            foreach (DataRow dr in ds.Tables[0].Rows)
+            {
+                list.Add(new TypeCardsList
                 {
                     PkCode = (int)dr["CODE"]
                     ,
