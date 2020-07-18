@@ -52,10 +52,12 @@ namespace EFoodBLL.IntranetModels
         /// <summary>
         /// Numero o porcentaje de descuento.
         /// </summary>
+        [DisplayName("Descuento")]
         public int Discount { get; set; }
         /// <summary>
         /// Cantidad de cupones disponibles.
         /// </summary>
+        [DisplayName("Disponibles")]
         public int Available { get; set; }
     }
     
