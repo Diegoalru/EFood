@@ -45,6 +45,6 @@ namespace EFoodBLL.IntranetModels
     public class ConsecutiveEdit
     {
         public int PkCode { get; set; }
-        public bool Prefix { get; set; }
+        public string Prefix { get; set; }
     }
 }

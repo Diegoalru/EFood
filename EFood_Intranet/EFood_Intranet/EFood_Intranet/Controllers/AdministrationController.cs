@@ -68,6 +68,28 @@ namespace EFood_Intranet.Controllers
             }
             return View(consecutive);
         }
+
+        [HttpPost]
+        public Task<ActionResult> ConsecutiveEdit(ReturnConsecutive consecutive)
+        {
+            var result = _updateMethods.UpdateConsecutive(new ConsecutiveEdit
+            {
+                PkCode = consecutive.PkCode
+                ,
+                Prefix = consecutive.Prefix
+            }).Result;
+
+            if (!result)
+            {
+                ModelState.AddModelError(key: "", errorMessage: "Ha ocurrido un error.\n");
+            }
+            else
+            {
+                ModelState.AddModelError(key: "", errorMessage: "Guardado con exito.\n");
+            }
+
+            return Task.FromResult<ActionResult>(RedirectToAction("ConsecutiveList"));
+        }
         #endregion
 
         #region Discount
@@ -333,9 +355,12 @@ namespace EFood_Intranet.Controllers
             var result = _updateMethods.UpdatePaymentProcessor(new PaymentChanges
             {
                 PkCode = data.PkCode
-                ,NewStatus = data.Status
-                ,NewProcessorName = data.Processor
-                ,NewNameUI = data.NameUI
+                ,
+                NewStatus = data.Status
+                ,
+                NewProcessorName = data.Processor
+                ,
+                NewNameUI = data.NameUI
             }).Result;
 
             if (result) return Task.FromResult<ActionResult>(RedirectToAction("PayMethodList"));
@@ -364,25 +389,25 @@ namespace EFood_Intranet.Controllers
         {
             try
             {
-                var listPost = (List<RelationCardProcessor>) data;
+                var listPost = (List<RelationCardProcessor>)data;
                 SetRelationList(listPost, id);
                 return await Task.FromResult<ActionResult>(RedirectToAction("PayMethodList"));
             }
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
-                return await Task.FromResult<ActionResult>(RedirectToAction("PayMethodList")); 
+                return await Task.FromResult<ActionResult>(RedirectToAction("PayMethodList"));
             }
-            
+
         }
-    
+
         /// <summary>
         /// Este metodo es para poder obtener la lista de tarjetas relacionadas con el procesador o aquellas que esten sin procesador. 
         /// </summary>
         private async Task<List<RelationCardProcessor>> GetProcessorCardList(int id)
         {
             var list = new List<RelationCardProcessor>();
-            
+
             var unusedCardslist = ConvertDStoList_TypeCard_RelationCard(await _queryMethods.CardsWithoutProcessor());
             var usedCardslist = ConvertDStoList_TypeCard_RelationCard(await _queryMethods.CardsWithProcessor(id));
 
@@ -391,8 +416,10 @@ namespace EFood_Intranet.Controllers
                 list.Add(new RelationCardProcessor()
                 {
                     PkCode = item.PkCode
-                    ,Type = item.Type
-                    ,Status = false
+                    ,
+                    Type = item.Type
+                    ,
+                    Status = false
                 });
             }
 
@@ -401,8 +428,10 @@ namespace EFood_Intranet.Controllers
                 list.Add(new RelationCardProcessor()
                 {
                     PkCode = item.PkCode
-                    ,Type = item.Type
-                    ,Status = true
+                    ,
+                    Type = item.Type
+                    ,
+                    Status = true
                 });
             }
             return list;
@@ -413,8 +442,8 @@ namespace EFood_Intranet.Controllers
             /*
              * FIXME: Solucionar el error de que la lista obtenida (parametro data) se recibe como nula.
              */
-            
-            var originalValues =  await GetProcessorCardList(id);
+
+            var originalValues = await GetProcessorCardList(id);
             for (int index = 0; index < originalValues.Count; index++)
             {
                 var result = originalValues[index].Status ^ data[index].Status;
@@ -431,7 +460,7 @@ namespace EFood_Intranet.Controllers
                 }
             }
         }
-        
+
         #endregion
 
         #region ProductPrice
@@ -493,7 +522,12 @@ namespace EFood_Intranet.Controllers
 
         public ActionResult PriceTypeEdit(int id)
         {
-            return View();
+            var priceType = _returnMethods.ReturnPriceType(id).Result;
+            if (priceType == null)
+            {
+                return HttpNotFound();
+            }
+            return View(priceType);
         }
 
         #endregion
@@ -508,10 +542,10 @@ namespace EFood_Intranet.Controllers
 
             // Si existiera algún tipo de linea, automaticamente se mostraria los productos relacionados al primer datos de la lista.
             var productList = lineTypelist.Count != 0 ? ConvertDStoList_Product(_queryMethods.ProductsByLineType(lineTypelist[0].PkCode).Result) : null;
-            
+
             //Se crea el tipo de objeto SelectList, el cual es retornado a la pagina para mostrarse en el dropdown con el id typeLinelist (primer parametro)
-            var selectList = new SelectList(lineTypelist,"PkCode", "Type");
-            
+            var selectList = new SelectList(lineTypelist, "PkCode", "Type");
+
             //Se guardan los datos en el ViewBag para luego obtenelos con el id VBTypeLineList
             ViewBag.VBTypeLineList = selectList;
 
@@ -588,7 +622,7 @@ namespace EFood_Intranet.Controllers
         {
             var lineTypelist = ConvertDStoList_LineType(_queryMethods.LineType().Result);
             var product = _returnMethods.ReturnProduct(id).Result;
-            
+
             if (product == null)
                 return HttpNotFound();
 
@@ -754,8 +788,8 @@ namespace EFood_Intranet.Controllers
             }
             return list;
         }
-        
-        
+
+
         /// <summary>
         /// Este metodo es solo para RelationCard
         /// </summary>
@@ -764,17 +798,19 @@ namespace EFood_Intranet.Controllers
         private List<TypeCardsList> ConvertDStoList_TypeCard_RelationCard(DataSet dataSet)
         {
             DataSet ds = dataSet;
-            List<TypeCardsList > list = new List<TypeCardsList >();
+            List<TypeCardsList> list = new List<TypeCardsList>();
             foreach (DataRow dr in ds.Tables[0].Rows)
             {
-                list.Add(new TypeCardsList {
-                    PkCode = (int) dr["CODE"]
-                    ,Type = (string) dr["TIPO"]
+                list.Add(new TypeCardsList
+                {
+                    PkCode = (int)dr["CODE"]
+                    ,
+                    Type = (string)dr["TIPO"]
                 });
             }
             return list;
         }
-        
+
         private List<PriceTypeList> ConvertDStoList_PriceType(DataSet dataSet)
         {
             DataSet ds = dataSet;
