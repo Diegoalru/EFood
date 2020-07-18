@@ -22,19 +22,6 @@
         {
             @Html.ActionLink("Iniciar Sesión", "Login", "Account", null, new { @role="a", @class="text-uppercase"})
         }
-        @if (AppAccount.IsLoggedIn())
-        {
-            <ul class="custom-menu">
-                @*
-                <li>
-                    <a href="Login.html"><i class="fa fa-unlock-alt"></i>Cambio Contrase&ntilde;a</a>
-                </li>
-                *@
-                <li>
-                    @Html.ActionLink("  Salir", "CloseSession", "Account", null, new {@role = "a", @class = "text-uppercase fa fa-sign-out"})
-                </li>
-            </ul>
-        }
     </li>
     <li class="nav-toggle">
         <button class="nav-toggle-btn main-btn icon-btn">
