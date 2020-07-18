@@ -35,8 +35,8 @@
                             @Html.DisplayFor(modelItem => item.Type)
                         </td>
                         <td>
-                            @Html.ActionLink("Editar", "PriceTypeEdit", null, new { id = item.PkCode }, null)
-                            @*|@Html.ActionLink("Delete", "DiscountDeleteConfirmed", new { id = item.PkCode })*@
+                            @Html.ActionLink("Edit", "PriceTypeEdit", "Administration", new { id = item.PkCode }, null) |
+                            @Html.ActionLink("Delete", "PriceTypeEditDelete", "Administration", new { id = item.PkCode }, null)
                         </td>
                     </tr>
                 }
