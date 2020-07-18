@@ -1,25 +1,36 @@
 @using EFood_Intranet.Controllers
 @model EFoodBLL.IntranetModels.Register
-@using EFood_Intranet.Controllers
 
 @{
     ViewBag.Title = "Registro";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+@if (AppAccount.GetLogin() == null)
+{
+    <div id="home">
+        <div class="container">
+            <h4 style="color: orangered;">NO HAS INICIADO SESION</h4>
+        </div>
+    </div>
+}
+else
+{
 
-        @if (AppAccount.GetLogin() == null)
-        {
-            <div id="home">
-                <div class="container">
-                    <h4 style="color: orangered;">NO HAS INICIADO SESION</h4>
-                </div>
-            </div>
-        }
-        else
-        {
+    if (AppAccount.HasAdministrationRole() || AppAccount.HasMaintenanceRole())
+    {
 
-            if (AppAccount.HasAdministrationRole() || AppAccount.HasSecurityRole())
+@if (AppAccount.GetLogin() == null)
+{
+    <div id="home">
+        <div class="container">
+            <h4 style="color: orangered;">NO HAS INICIADO SESION</h4>
+        </div>
+        </div>
+}
+else
+{
+    if (AppAccount.HasAdministrationRole() || AppAccount.HasSecurityRole())
             {
                 <div id="home">
                     <div class="container">
@@ -32,27 +43,27 @@
                                         {
                                             <div class="input-group">
                                                 <span class="input-group-addon"><i class="fa fa-user"></i></span>
-                                                @Html.TextBoxFor(item => item.Username, new { @classs = "form-control", @placeholder = "Usuario" })
+                                                @Html.TextBoxFor(item => item.Username, new {@classs = "form-control", @placeholder = "Usuario"})
                                             </div>
 
                                             <div class="input-group">
                                                 <span class="input-group-addon"><i class="fa fa-lock"></i></span>
-                                                @Html.TextBoxFor(item => item.Password, new { @classs = "form-control", @placeholder = "Contraseña", @type = "password" })
+                                                @Html.TextBoxFor(item => item.Password, new {@classs = "form-control", @placeholder = "Contraseña", @type = "password"})
                                             </div>
 
                                             <div class="input-group">
                                                 <span class="input-group-addon"><i class="fa fa-lock"></i></span>
-                                                @Html.TextBoxFor(item => item.PasswordConf, new { @classs = "form-control", @placeholder = "Confirmar contraseña", @type = "password" })
+                                                @Html.TextBoxFor(item => item.PasswordConf, new {@classs = "form-control", @placeholder = "Confirmar contraseña", @type = "password"})
                                             </div>
 
                                             <div class="input-group">
                                                 <span class="input-group-addon"><i class="fa fa-caret-down"></i></span>
-                                                @Html.DropDownListFor(model => model.Question, new SelectList(ViewBag.VBQuestionList, "PkCode", "Question"), new { @class = "" })
+                                                @Html.DropDownListFor(model => model.Question, new SelectList(ViewBag.VBQuestionList, "PkCode", "Question"), new {@class = ""})
                                             </div>
 
                                             <div class="input-group">
                                                 <span class="input-group-addon"><i class="fa fa-angle-right"></i></span>
-                                                @Html.TextBoxFor(item => item.Answer, new { @classs = "form-control", @placeholder = "Respuesta de Seguridad", @type = "password" })
+                                                @Html.TextBoxFor(item => item.Answer, new {@classs = "form-control", @placeholder = "Respuesta de Seguridad", @type = "password"})
                                             </div>
 
                                             <button class="btn btn-lg btn-primary btn-block" type="submit">Registrar</button>
@@ -74,5 +85,5 @@
                 </div>
             }
         }
-
+}
 
