@@ -36,7 +36,9 @@ namespace EFoodBLL.IntranetModels
     public class PriceTypeEdit
     {
         public int PkCode { get; set; }
+        [DisplayName("Codigo")]
         public string Code { get; set; }
+        [DisplayName("Tipo")]
         public string Type { get; set; }
     }
 }
