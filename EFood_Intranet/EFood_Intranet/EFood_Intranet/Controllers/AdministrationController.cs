@@ -482,6 +482,7 @@ namespace EFood_Intranet.Controllers
         #endregion
 
         #region PriceType
+
         public ActionResult PriceTypeList()
         {
             var list = ConvertDStoList_PriceType(_queryMethods.PriceTypes().Result);
@@ -528,6 +529,23 @@ namespace EFood_Intranet.Controllers
                 return HttpNotFound();
             }
             return View(priceType);
+        }
+
+        [HttpPost]
+        public Task<ActionResult> PriceTypeEdit(ReturnPriceType priceType)
+        {
+            var result = _updateMethods.UpdatePriceType(priceType.PkCode, priceType.Type).Result;
+
+            if (!result)
+            {
+                ModelState.AddModelError(key: "", errorMessage: "Ha ocurrido un error.\n");
+            }
+            else
+            {
+                ModelState.AddModelError(key: "", errorMessage: "Guardado con exito.\n");
+            }
+
+            return Task.FromResult<ActionResult>(RedirectToAction("PriceTypeList"));
         }
 
         #endregion
@@ -673,6 +691,7 @@ namespace EFood_Intranet.Controllers
         #endregion
 
         #region DataSetToList
+
         private List<DiscountList> ConvertDStoList_Discount(DataSet dataSet)
         {
             DataSet ds = dataSet;
@@ -853,10 +872,10 @@ namespace EFood_Intranet.Controllers
             {
                 list.Add(new TypeConsecutive
                 {
-                    PkCode = (int) dr["CODE"], Type = (string) dr["TIPO"]
+                    PkCode = (int)dr["CODE"]
+                    ,Type = (string)dr["TIPO"]
                 });
             }
-
             return list;
         }
 
