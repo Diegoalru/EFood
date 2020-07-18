@@ -844,7 +844,7 @@ namespace EFood_Intranet.Controllers
             }
             return list;
         }
-        
+
         private List<TypeConsecutive> ConvertDStoList_TypeConsecutives(DataSet dataSet)
         {
             DataSet ds = dataSet;
@@ -853,11 +853,13 @@ namespace EFood_Intranet.Controllers
             {
                 list.Add(new TypeConsecutive
                 {
-                    PkCode = (int)dr["CODE"]
-                    ,Type = (string)dr["TIPO"]
+                    PkCode = (int) dr["CODE"], Type = (string) dr["TIPO"]
                 });
             }
+
             return list;
+        }
+
         #endregion
     }
 }
