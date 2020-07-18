@@ -1,29 +1,55 @@
+@using EFood_Intranet.Controllers
 @model EFoodBLL.IntranetModels.UsersList
 
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <br/>
-<div id="home">
-    <div class="container">
-        <div class="omb_login">
-            <br />
-            @using (Html.BeginForm("StatusUserEdit", "Security", null, FormMethod.Post, new { role = "form", @class = "center3" }))
-            {
-                <h4 style="color: orangered;">Editar Estado: @Model.Username</h4>
-                @Html.ValidationSummary("", new { @class = "ErrorMessage" })
-                @Html.TextBoxFor(item => item.PkCode, new { @type = "hidden", @readonly = "readonly" })
-                <br />
-                <label for="Code">Usuario:</label>
-                @Html.TextBoxFor(item => item.Username, new { id = "fname", placeholder = "Type", maxlength = 30, @readonly = "readonly" })
-                <br />
-                <label for="Description">Estado:</label>
-                @Html.CheckBoxFor(item => item.Status)
-                <br />
-                <input type="submit" class="primary-btn" value="Guardar" />
-                @Html.ActionLink("Volver", "StatusUsers")
-            }
+
+
+@if (AppAccount.GetLogin() == null)
+{
+    <div id="home">
+        <div class="container">
+            <h4 style="color: orangered;">NO HAS INICIADO SESION</h4>
         </div>
     </div>
-</div>
+}
+else
+{
+    
+    if (AppAccount.HasAdministrationRole() || AppAccount.HasSecurityRole())
+    {
+        <div id="home">
+            <div class="container">
+                <div class="omb_login">
+                    <br />
+                    @using (Html.BeginForm("StatusUserEdit", "Security", null, FormMethod.Post, new { role = "form", @class = "center3" }))
+                    {
+                        <h4 style="color: orangered;">Editar Estado: @Model.Username</h4>
+                        @Html.ValidationSummary("", new { @class = "ErrorMessage" })
+                        @Html.TextBoxFor(item => item.PkCode, new { @type = "hidden", @readonly = "readonly" })
+                        <br />
+                        <label for="Code">Usuario:</label>
+                        @Html.TextBoxFor(item => item.Username, new { id = "fname", placeholder = "Type", maxlength = 30, @readonly = "readonly" })
+                        <br />
+                        <label for="Description">Estado:</label>
+                        @Html.CheckBoxFor(item => item.Status)
+                        <br />
+                        <input type="submit" class="primary-btn" value="Guardar" />
+                        @Html.ActionLink("Volver", "StatusUsers")
+                    }
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div id="home">
+            <div class="container">
+                <h4 style="color: orangered;">NO TIENES PERMISOS</h4>
+            </div>
+        </div>
+    }    
+}
 

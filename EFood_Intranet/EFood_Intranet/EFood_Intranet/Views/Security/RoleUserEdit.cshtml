@@ -1,3 +1,4 @@
+@using EFood_Intranet.Controllers
 @model EFoodBLL.IntranetModels.ReturnRole
 
 @{
@@ -5,30 +6,53 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div id="home">
-    <div class="container">
-        <div class="omb_login">
-            <br/>
-            @using (Html.BeginForm("RoleUserEdit", "Security", new {user = @Model.Username}, FormMethod.Post, new {role = "form", @class = "center3"}))
-            {
-                <h3 style="color: orangered;">Roles del usuario: @Model.Username</h3>
-                @Html.ValidationSummary(true,"", new {@class="ErrorMessage"})
-                <br/>
-                <label>@Html.DisplayNameFor(item => item.IsAdministrator)</label>
-                @Html.CheckBoxFor(item => item.IsAdministrator)
-                <br/>
-                <label>@Html.DisplayNameFor(item => item.IsSecurity)</label>
-                @Html.CheckBoxFor(item => item.IsSecurity)
-                <br/>
-                <label>@Html.DisplayNameFor(item => item.IsMaintenance)</label>
-                @Html.CheckBoxFor(item => item.IsMaintenance)
-                <br/>
-                <label>@Html.DisplayNameFor(item => item.IsAudit)</label>
-                @Html.CheckBoxFor(item => item.IsAudit)
-                <br/>
-                <input type="submit"  value="Actualizar Roles">                                                                                 
-                @Html.ActionLink("Volver", "RoleUserList")
-            }
+@if (AppAccount.GetLogin() == null)
+{
+    <div id="home">
+        <div class="container">
+            <h4 style="color: orangered;">NO HAS INICIADO SESION</h4>
         </div>
     </div>
-</div>
+}
+else
+{
+    
+    if (AppAccount.HasAdministrationRole() || AppAccount.HasSecurityRole())
+    {
+        <div id="home">
+            <div class="container">
+                <div class="omb_login">
+                    <br/>
+                    @using (Html.BeginForm("RoleUserEdit", "Security", new {user = @Model.Username}, FormMethod.Post, new {role = "form", @class = "center3"}))
+                    {
+                        <h3 style="color: orangered;">Roles del usuario: @Model.Username</h3>
+                        @Html.ValidationSummary(true,"", new {@class="ErrorMessage"})
+                        <br/>
+                        <label>@Html.DisplayNameFor(item => item.IsAdministrator)</label>
+                        @Html.CheckBoxFor(item => item.IsAdministrator)
+                        <br/>
+                        <label>@Html.DisplayNameFor(item => item.IsSecurity)</label>
+                        @Html.CheckBoxFor(item => item.IsSecurity)
+                        <br/>
+                        <label>@Html.DisplayNameFor(item => item.IsMaintenance)</label>
+                        @Html.CheckBoxFor(item => item.IsMaintenance)
+                        <br/>
+                        <label>@Html.DisplayNameFor(item => item.IsAudit)</label>
+                        @Html.CheckBoxFor(item => item.IsAudit)
+                        <br/>
+                        <input type="submit"  value="Actualizar Roles">                                                                                 
+                        @Html.ActionLink("Volver", "RoleUserList")
+                    }
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div id="home">
+            <div class="container">
+                <h4 style="color: orangered;">NO TIENES PERMISOS</h4>
+            </div>
+        </div>
+    }    
+}
