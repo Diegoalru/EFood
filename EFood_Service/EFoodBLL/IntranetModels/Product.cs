@@ -53,7 +53,11 @@ namespace EFoodBLL.IntranetModels
     public class ProductList
     {
         public int PkCode { get; set; }
+        
+        [DisplayName("Codigo")]
         public string Code { get; set; }
+        
+        [DisplayName("Descripcion")]
         public string Description { get; set; }
     }
 }
