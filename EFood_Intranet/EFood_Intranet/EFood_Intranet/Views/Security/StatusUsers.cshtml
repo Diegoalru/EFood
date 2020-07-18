@@ -1,5 +1,6 @@
 @using EFood_Intranet.Controllers
 @model IEnumerable<EFoodBLL.IntranetModels.UsersList>
+@using EFood_Intranet.Controllers
 
 @{
     ViewBag.Title = "title";
@@ -16,19 +17,19 @@
 }
 else
 {
-    
+
     if (AppAccount.HasAdministrationRole() || AppAccount.HasSecurityRole())
     {
         <div id="home">
             <div class="container">
                 <div class="omb_login">
-                    <br/>
-                    <br/>
+                    <br />
+                    <br />
                     <h4 class="omb_authTitle" style="color: orangered;">Lista de Usuarios</h4>
-                    <br/>
-                    <br/>
+                    <br />
+                    <br />
                     <table class="table table-hover">
-                        @Html.ValidationSummary(true,"", new {@class="ErrorMessage"})
+                        @Html.ValidationSummary(true, "", new { @class = "ErrorMessage" })
                         <tr>
                             <th>
                                 @Html.DisplayNameFor(model => model.Username)
@@ -48,7 +49,7 @@ else
                                     @Html.DisplayFor(modelItem => item.Status)
                                 </td>
                                 <td>
-                                    @Html.ActionLink("Editar", "StatusUserEdit", "Security", new {id = item.PkCode}, null)
+                                    @Html.ActionLink("Editar", "StatusUserEdit", "Security", new { id = item.PkCode }, null)
                                 </td>
                             </tr>
                         }
@@ -65,5 +66,5 @@ else
                 <h4 style="color: orangered;">NO TIENES PERMISOS</h4>
             </div>
         </div>
-    }    
+    }
 }

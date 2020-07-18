@@ -7,19 +7,6 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-@if (AppAccount.GetLogin() == null)
-{
-    <div id="home">
-        <div class="container">
-            <h4 style="color: orangered;">NO HAS INICIADO SESION</h4>
-        </div>
-    </div>
-}
-else
-{
-
-    if (AppAccount.HasAdministrationRole() || AppAccount.HasMaintenanceRole())
-    {
 
         @if (AppAccount.GetLogin() == null)
         {
