@@ -2,7 +2,7 @@
 @model EFoodBLL.IntranetModels.Register
 
 @{
-    ViewBag.Title = "title";
+    ViewBag.Title = "Registro";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -12,65 +12,64 @@
         <div class="container">
             <h4 style="color: orangered;">NO HAS INICIADO SESION</h4>
         </div>
-    </div>
+        </div>
 }
 else
 {
-    
     if (AppAccount.HasAdministrationRole() || AppAccount.HasSecurityRole())
-    {
-        <div id="home">
-        <div class="container">
-            <div class="omb_login">
-                <h3 class="omb_authTitle">Registro </h3>
-                <div class="row omb_row-sm-offset-3 omb_socialButtons">
-                    <div class="row omb_row-sm-offset-3">
-                        <div class="col-xs-12 col-sm-6">
-                            @using (Html.BeginForm("Register", "Security", null, FormMethod.Post))
-                            {
-                                <div class="input-group">
-                                    <span class="input-group-addon"><i class="fa fa-user"></i></span>
-                                    @Html.TextBoxFor(item => item.Username, new {@classs = "form-control", @placeholder = "Usuario"})
-                                </div>
+            {
+                <div id="home">
+                    <div class="container">
+                        <div class="omb_login">
+                            <h3 class="omb_authTitle">Registro </h3>
+                            <div class="row omb_row-sm-offset-3 omb_socialButtons">
+                                <div class="row omb_row-sm-offset-3">
+                                    <div class="col-xs-12 col-sm-6">
+                                        @using (Html.BeginForm("Register", "Security", null, FormMethod.Post))
+                                        {
+                                            <div class="input-group">
+                                                <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                                                @Html.TextBoxFor(item => item.Username, new {@classs = "form-control", @placeholder = "Usuario"})
+                                            </div>
 
-                                <div class="input-group">
-                                    <span class="input-group-addon"><i class="fa fa-lock"></i></span>
-                                    @Html.TextBoxFor(item => item.Password, new {@classs = "form-control", @placeholder = "Contraseña", @type = "password"})
-                                </div>
+                                            <div class="input-group">
+                                                <span class="input-group-addon"><i class="fa fa-lock"></i></span>
+                                                @Html.TextBoxFor(item => item.Password, new {@classs = "form-control", @placeholder = "Contraseña", @type = "password"})
+                                            </div>
 
-                                <div class="input-group">
-                                    <span class="input-group-addon"><i class="fa fa-lock"></i></span>
-                                    @Html.TextBoxFor(item => item.PasswordConf, new {@classs = "form-control", @placeholder = "Confirmar contraseña", @type = "password"})
-                                </div>
+                                            <div class="input-group">
+                                                <span class="input-group-addon"><i class="fa fa-lock"></i></span>
+                                                @Html.TextBoxFor(item => item.PasswordConf, new {@classs = "form-control", @placeholder = "Confirmar contraseña", @type = "password"})
+                                            </div>
 
-                                <div class="input-group">
-                                    <span class="input-group-addon"><i class="fa fa-caret-down"></i></span>
-                                    @Html.DropDownListFor(model => model.Question, new SelectList(ViewBag.VBQuestionList, "PkCode", "Question"), new {@class = ""})
-                                </div>
+                                            <div class="input-group">
+                                                <span class="input-group-addon"><i class="fa fa-caret-down"></i></span>
+                                                @Html.DropDownListFor(model => model.Question, new SelectList(ViewBag.VBQuestionList, "PkCode", "Question"), new {@class = ""})
+                                            </div>
 
-                                <div class="input-group">
-                                    <span class="input-group-addon"><i class="fa fa-angle-right"></i></span>
-                                    @Html.TextBoxFor(item => item.Answer, new {@classs = "form-control", @placeholder = "Respuesta de Seguridad", @type = "password"})
-                                </div>
+                                            <div class="input-group">
+                                                <span class="input-group-addon"><i class="fa fa-angle-right"></i></span>
+                                                @Html.TextBoxFor(item => item.Answer, new {@classs = "form-control", @placeholder = "Respuesta de Seguridad", @type = "password"})
+                                            </div>
 
-                                <button class="btn btn-lg btn-primary btn-block" type="submit">Registrar</button>
-                                @Html.ActionLink("Inicio", "Index", "Home")
-                            }
+                                            <button class="btn btn-lg btn-primary btn-block" type="submit">Registrar</button>
+                                            @Html.ActionLink("Inicio", "Index", "Home")
+                                        }
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
-    }
-    else
-    {
-        <div id="home">
-            <div class="container">
-                <h4 style="color: orangered;">NO TIENES PERMISOS</h4>
-            </div>
-        </div>
-    }    
+            }
+            else
+            {
+                <div id="home">
+                    <div class="container">
+                        <h4 style="color: orangered;">NO TIENES PERMISOS</h4>
+                    </div>
+                </div>
+            }
+        }
 }
-
 
