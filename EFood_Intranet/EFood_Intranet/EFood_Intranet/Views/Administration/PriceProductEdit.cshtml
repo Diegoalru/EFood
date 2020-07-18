@@ -1,70 +1,49 @@
-@using EFood_Intranet.Controllers
+@model EFoodBLL.IntranetModels.ReturnProduct
 
 @{
-    ViewBag.Title = "Edita Precio Productos";
+    ViewBag.Title = "Edicion de Producto";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-
-@if (AppAccount.GetLogin() == null)
-{
-    <div id="home">
-        <div class="container">
-            <h4 style="color: orangered;">NO HAS INICIADO SESION</h4>
+<div id="home">
+    <div class="container">
+        <br>
+        <div class="row omb_row-sm-offset-3 omb_socialButtons">
         </div>
+        
+        @using (Html.BeginForm("ProductEdit", "Administration", null, FormMethod.Post, new {role = "form", @class = "center3"}))
+        {
+            <h4 style="color: orangered;">InformaciÃ³n del Producto</h4>
+            @Html.ValidationSummary("", new {@class = "ErrorMessage"}) @*Validation Checked*@
+            @Html.TextBoxFor(item => item.PkCode, new {@type = "hidden", @readonly = "readonly"})
+            <br/>
+            @Html.DisplayNameFor(model => model.Code)
+            <br/>
+            @Html.TextBoxFor(item => item.Code, new {id = "fname", placeholder = "Codigo", maxlength = 11, @readonly = "readonly"})
+            <br/>
+            <br/>
+            @Html.DisplayNameFor(model => model.Description)
+            <br/>
+            @Html.TextBoxFor(item => item.Description, new {id = "fname", placeholder = "Codigo", maxlength = 30})
+            <br/>
+            <br/>
+            @Html.DisplayNameFor(model => model.LineType)
+            <br/>
+            @Html.DropDownListFor(model => model.LineType, new SelectList(ViewBag.VBTypeLineList, "PkCode", "Type"),new {@class=""})
+            <br/>
+            <br/>
+            @Html.DisplayNameFor(model => model.Content)
+            <br/>
+            @Html.TextBoxFor(item => item.Content, new {id = "fname", placeholder = "Codigo", maxlength = 200})
+            <br/>
+            <br>
+            @*
+            <label for="Foto">Foto:</label>
+            <input type="file" onchange="previewFile()">
+            <img src="" height="120" alt="Vista Previa...">
+            *@
+            <input type="submit" class="primary-btn" value="Guardar"/>
+            @Html.ActionLink("Volver", "ProductList")   
+        }
     </div>
-}
-else
-{
-
-    if (AppAccount.HasAdministrationRole() || AppAccount.HasMaintenanceRole())
-    {
-
-        <div id="home">
-            <!-- container -->
-
-
-            <div class="container">
-
-
-                </br>
-                <form class="centerInfoPP">
-                    <div class="row omb_row-sm-offset-3 omb_socialButtons">
-                    </div>
-                    <h4 style="color: orangered;">Edición precios del Producto</h4>
-                    @Html.ValidationSummary("", new { @class = "ErrorMessage" })@*Validation Cheked*@
-
-                    <form>
-
-                        <br>
-                        <label for="fname">Indique Precio Anterior:</label>
-                        <input type="text" id="fname" name="fname"><br>
-                        <br>
-                        <label for="fname"> Indique Precio Nuevo:</label>
-                        <input type="text" id="fname" name="fname"><br>
-                        <br>
-                        <input type="submit" value="Guardar"> </input>
-                        <input type="submit" value="cancelar"> </input>
-                        <br>
-                        <br>
-                        <a style="color: orangered;" href="PrecioDelProducto.html">Volver a Productos</a>
-
-                    </form>
-                </form>
-
-
-
-                <!-- /container -->
-            </div>
-        </div>
-
-    }
-    else
-    {
-        <div id="home">
-            <div class="container">
-                <h4 style="color: orangered;">NO TIENES PERMISOS</h4>
-            </div>
-        </div>
-    }
-}
+</div>

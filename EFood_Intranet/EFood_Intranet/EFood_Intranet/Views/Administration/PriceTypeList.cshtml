@@ -1,90 +1,46 @@
 @model IEnumerable<EFoodBLL.IntranetModels.PriceTypeList>
-@using EFood_Intranet.Controllers
-
 
 @{
-    ViewBag.Title = "Lista Tipo Precio";
+    ViewBag.Title = "Lista de Tipo de Precio";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-@if (AppAccount.GetLogin() == null)
-{
-    <div id="home">
-        <div class="container">
-            <h4 style="color: orangered;">NO HAS INICIADO SESION</h4>
-        </div>
-    </div>
-}
-else
-{
-
-    if (AppAccount.HasAdministrationRole() || AppAccount.HasMaintenanceRole())
-    {
-
-
-
-        @*else
-                {
-            <div id="home">
-                <div class="container">
-                    <h4 style="color: orangered;">NO TIENES PERMISOS</h4>
-                </div>
-            </div>
-                }
-            }
-        *@}
-
-    <div id="home">
-        <div class="container">
-            <div class="omb_login">
-                <h4 class="omb_authTitle" style="color: orangered;overflow-x:auto;">Lista de Tipo de Precio:</h4>
-                @Html.ActionLink("Crear Tipo de Precio", "PriceTypeCreate", "Administration", null, new { @class = "primary-btn" })
-                <br />
-                <br />
-                @Html.ValidationSummary("", new { @class = "ErrorMessage" }) @*Validation Cheked*@
-                <table class="table table-hover">
-                    <tr>
-                        <th>
-                            <label> @Html.DisplayNameFor(model => model.Code) </label><br />
-                        </th>
-                        <th>
-                            <label> @Html.DisplayNameFor(model => model.Type) </label><br />
-                        </th>
-                        <th>
-                            <label>Opciones</label>
-                        </th>
-                    </tr>
-                    @foreach (var item in Model)
-                    {
-                        <tr>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Code)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Type)
-                            </td>
-                            <td>
-                                @Html.ActionLink("Editar", "PriceTypeEdit", "Administration", new { id = item.PkCode }, null) |
-                                @Html.ActionLink("Eliminar", "PriceTypeDelete", "Administration", new { id = item.PkCode }, null)
-                            </td>
-                        </tr>
-                    }
-                </table>
-            </div>
-        </div>
-    </div>
-
-}
-                </div>
-            </div>
-        </div>
-  }
-    else
-    {
 <div id="home">
     <div class="container">
-        <h4 style="color: orangered;">NO TIENES PERMISOS</h4>
+        <div class="omb_login">
+            <h4 class="omb_authTitle" style="color: orangered;overflow-x:auto;">Lista de Tipo de Precio:</h4>
+            @Html.ActionLink("Crear Tipo de Precio", "PriceTypeCreate", "Administration", null, new { @class = "primary-btn" })
+            <br />
+            <br />
+            @Html.ValidationSummary("", new { @class = "ErrorMessage" }) @*Validation Cheked*@
+            <table class="table table-hover">
+                <tr>
+                    <th>
+                        <label> @Html.DisplayNameFor(model => model.Code) </label><br />
+                    </th>
+                    <th>
+                        <label> @Html.DisplayNameFor(model => model.Type) </label><br />
+                    </th>
+                    <th>
+                        <label>Opciones</label>
+                    </th>
+                </tr>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Code)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Type)
+                        </td>
+                        <td>
+                            @Html.ActionLink("Editar", "PriceTypeEdit", "Administration", new {id = item.PkCode}, null) |
+                            @Html.ActionLink("Eliminar", "PriceTypeDelete", "Administration", new {id = item.PkCode}, null)
+                        </td>
+                    </tr>
+                }
+            </table>
+        </div>
     </div>
 </div>
-    }
-}
