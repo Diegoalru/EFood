@@ -548,7 +548,8 @@ namespace EFood_Intranet.Controllers
                     return await Task.FromResult<ActionResult>(View());
             }
         }
-
+        
+        [HttpGet]
         public ActionResult PriceTypeEdit(int id)
         {
             var priceType = _returnMethods.ReturnPriceType(id).Result;
@@ -560,20 +561,18 @@ namespace EFood_Intranet.Controllers
         }
 
         [HttpPost]
-        public Task<ActionResult> PriceTypeEdit(ReturnPriceType priceType)
+        public async Task<ActionResult> PriceTypeEdit(ReturnPriceType priceType)
         {
-            var result = _updateMethods.UpdatePriceType(priceType.PkCode, priceType.Type).Result;
-
-            if (!result)
+            var result = await _updateMethods.UpdatePriceType(priceType.PkCode, priceType.Type);
+            var returnPriceType = await _returnMethods.ReturnPriceType(priceType.PkCode);
+            
+            if (result)
             {
-                ModelState.AddModelError(key: "", errorMessage: "Ha ocurrido un error.\n");
+                return await Task.FromResult<ActionResult>(RedirectToAction("PriceTypeList"));
             }
-            else
-            {
-                ModelState.AddModelError(key: "", errorMessage: "Guardado con exito.\n");
-            }
-
-            return Task.FromResult<ActionResult>(RedirectToAction("PriceTypeList"));
+            
+            ModelState.AddModelError(key: "", errorMessage: "Ha ocurrido un error.\n");
+            return View(returnPriceType);
         }
 
         #endregion
