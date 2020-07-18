@@ -27,15 +27,12 @@ namespace EFood_Intranet.Controllers
             switch (result)
             {
                 case 1:
-
                     var userRoles = await _returnMethods.ReturnRole(login.Username);
-
                     if (userRoles != null)
                     {
                         AppAccount.SetLogin(userRoles);
                         return RedirectToAction("Index", "Home");    
                     }
-
                     ModelState.AddModelError(key: "", errorMessage: "Ha ocurrido un error.\n");
                     return View();
                     

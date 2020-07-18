@@ -7,11 +7,11 @@
             </div>
             @if (AppAccount.IsLoggedIn())
             {
-                <strong class="text-uppercase">@AppAccount.GetLogin().Username <i class="fa fa-caret-down"></i></strong>
+                <strong class="text-uppercase">@AppAccount.GetLogin().Username</strong>
             }
             else
             {
-                <strong class="text-uppercase">Mi cuenta <i class="fa fa-caret-down"></i></strong>
+                <strong class="text-uppercase">Mi cuenta</strong>
             }
         </div>
         @if(AppAccount.IsLoggedIn())

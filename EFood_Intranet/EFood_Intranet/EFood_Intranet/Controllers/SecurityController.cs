@@ -13,15 +13,57 @@ namespace EFood_Intranet.Controllers
         private readonly IQueryMethods _queryMethods = new QueryMethods();
         private readonly IUpdateMethods _updateMethods = new UpdateMethods();
         private readonly IReturnMethods _returnMethods = new ReturnMethods();
+        private readonly IExistsMethods _existsMethods = new ExistsMethods();
+        private readonly IInsertMethods _insertMethods = new InsertMethods();
         
         public ActionResult ChangePassword()
         {
             return View();
         }
 
-        public ActionResult Register()
+        [HttpGet]
+        public async Task<ActionResult> Register()
         {
+            var questionsList = ConverList_Questions(await _queryMethods.Questions());
+            ViewBag.VBQuestionList = questionsList;
             return View();
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> Register(Register data)
+        {
+            var questionsList = ConverList_Questions(await _queryMethods.Questions());
+            ViewBag.VBQuestionList = questionsList;
+            
+            if (!ModelState.IsValid)
+                return await Task.FromResult<ActionResult>(View(data));
+
+            if (data.Password.Equals(data.PasswordConf, StringComparison.Ordinal))
+            {
+                ModelState.AddModelError(key: "", errorMessage: "Las contraseñas no coinciden.\n");
+                return await Task.FromResult<ActionResult>(View(data));
+            }
+
+            var result = await _existsMethods.ExistsUser(data.Username);
+            switch (result)
+            {
+                case false:
+                    var resultInsert = await _insertMethods.Register(data);
+                    
+                    if (resultInsert)
+                        return RedirectToAction("Users");
+
+                    ModelState.AddModelError(key: "", errorMessage: "Ha ocurrido un error.\n");
+                    return await Task.FromResult<ActionResult>(View(data));
+
+                case true:
+                    ModelState.AddModelError("", "¡El usuario ya existe!\n");
+                    return await Task.FromResult<ActionResult>(View());
+
+                default:
+                    ModelState.AddModelError("", "¡Error! Conexion con servidor perdida.\n");
+                    return await Task.FromResult<ActionResult>(View());
+            }
         }
 
         [HttpGet]
@@ -112,6 +154,21 @@ namespace EFood_Intranet.Controllers
                     PkCode = (int) dr[0]
                     ,Username = (string) dr[1]
                     ,Status = (bool) dr[2]
+                });
+            }
+            return list;
+        }
+
+        private List<QuestionList> ConverList_Questions(DataSet dataSet)
+        {
+            DataSet ds = dataSet;
+            List<QuestionList> list = new List<QuestionList>();
+            foreach (DataRow dr in ds.Tables[0].Rows)
+            {
+                list.Add(new QuestionList()
+                {
+                    PkCode = (int) dr[0]
+                    ,Question = (string) dr[1]
                 });
             }
             return list;
