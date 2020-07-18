@@ -1,3 +1,5 @@
+using System.ComponentModel;
+
 namespace EFoodBLL.IntranetModels
 {
     public class Price
@@ -17,8 +19,14 @@ namespace EFoodBLL.IntranetModels
     public class ReturnPrice
     {
         public int PkCode { get; set; }
+
+        [DisplayName("Tipo")]
         public int Type { get; set; }
+        
+        [DisplayName("Producto")]
         public int Product { get; set; }
+        
+        [DisplayName("Monto")]
         public decimal Amount { get; set; }
     }
 
