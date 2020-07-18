@@ -5,13 +5,41 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div id="home">
-    <div class="container">
-        <div class="omb_login">
-            <h4 class="omb_authTitle" style="color: orangered;">Consulta Productos:</h4>
-            <div class="row omb_row-sm-offset-3 omb_socialButtons">
-                
-            </div>
+@if (AppAccount.GetLogin() == null)
+{
+    <div id="home">
+        <div class="container">
+            <h4 style="color: orangered;">NO HAS INICIADO SESION</h4>
         </div>
     </div>
-</div>
+}
+else
+{
+
+    {
+
+        if (AppAccount.HasAuditRole() || AppAccount.HasAuditRole())
+        {
+
+
+            <div id="home">
+                <div class="container">
+                    <div class="omb_login">
+                        <h4 class="omb_authTitle" style="color: orangered;">Consulta Productos:</h4>
+                        <div class="row omb_row-sm-offset-3 omb_socialButtons">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        }
+        else
+        {
+            <div id="home">
+                <div class="container">
+                    <h4 style="color: orangered;">NO TIENES PERMISOS</h4>
+                </div>
+            </div>
+        }
+    }

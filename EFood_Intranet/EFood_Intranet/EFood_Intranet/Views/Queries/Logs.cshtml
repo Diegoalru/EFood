@@ -1,17 +1,43 @@
-@model IEnumerable< EFoodBLL.IntranetModels.LogList>
-
+@model IEnumerable<EFoodBLL.IntranetModels.LogList>
+@using EFood_Intranet.Controllers
 @{
-    ViewBag.Title = "title";
+    ViewBag.Title = "Consultas";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-<div id="home">
-    <div class="container">
-        <div class="omb_login">
-            <h4 class="omb_authTitle" style="color: orangered;">Consulta Bitacoras:</h4>
-            <div class="row omb_row-sm-offset-3 omb_socialButtons">	
-            </div>
-            <br><br><br>
+@if (AppAccount.GetLogin() == null)
+{
+    <div id="home">
+        <div class="container">
+            <h4 style="color: orangered;">NO HAS INICIADO SESION</h4>
         </div>
     </div>
-</div>
+}
+else
+{
+
+    if (AppAccount.HasAdministrationRole() || AppAccount.HasAuditRole())
+    {
+
+
+        <div id="home">
+            <div class="container">
+                <div class="omb_login">
+                    <h4 class="omb_authTitle" style="color: orangered;">Consulta Bitacoras:</h4>
+                    <div class="row omb_row-sm-offset-3 omb_socialButtons">
+                    </div>
+                    <br><br><br>
+                </div>
+            </div>
+        </div>
+
+
+    }
+    else
+    {
+        <div id="home">
+            <div class="container">
+                <h4 style="color: orangered;">NO TIENES PERMISOS</h4>
+            </div>
+        </div>
+    }
+}

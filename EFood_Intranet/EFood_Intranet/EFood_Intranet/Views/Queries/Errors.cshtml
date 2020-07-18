@@ -1,44 +1,69 @@
 @model IEnumerable<EFoodBLL.IntranetModels.ErrorList>
-
+@using EFood_Intranet.Controllers
 @{
-    ViewBag.Title = "title";
+    ViewBag.Title = "Errores";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-<div id="home">
-    <div class="container">
-        <div class="omb_login">
-            <h4 class="omb_authTitle" style="color: orangered;overflow-x:auto;">Lista Errores:</h4>
-            <br/>
-            <br/>    
-            <table class="table table-hover">
-                <tr>
-                    <th>
-                        @Html.DisplayNameFor(model => model.ErrorCode)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Message)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.DateTime)
-                    </th>
-                </tr>
-            
-                @foreach (var item in Model)
-                {
-                    <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.ErrorCode)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Message)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.DateTime)
-                        </td>
-                    </tr>
-                }
-            </table>
+@if (AppAccount.GetLogin() == null)
+{
+    <div id="home">
+        <div class="container">
+            <h4 style="color: orangered;">NO HAS INICIADO SESION</h4>
         </div>
     </div>
-</div>
+}
+else
+{
+
+    if (AppAccount.HasAdministrationRole() || AppAccount.HasAuditRole())
+    {
+
+
+        <div id="home">
+            <div class="container">
+                <div class="omb_login">
+                    <h4 class="omb_authTitle" style="color: orangered;overflow-x:auto;">Lista Errores:</h4>
+                    <br />
+                    <br />
+                    <table class="table table-hover">
+                        <tr>
+                            <th>
+                                @Html.DisplayNameFor(model => model.ErrorCode)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Message)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.DateTime)
+                            </th>
+                        </tr>
+
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ErrorCode)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Message)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.DateTime)
+                                </td>
+                            </tr>
+                        }
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    }
+    else
+    {
+        <div id="home">
+            <div class="container">
+                <h4 style="color: orangered;">NO TIENES PERMISOS</h4>
+            </div>
+        </div>
+    }
+}
