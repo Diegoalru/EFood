@@ -1,63 +1,25 @@
-@using EFood_Intranet.Controllers
-
+@model EFoodBLL.IntranetModels.ReturnCardType
 @{
     ViewBag.Title = "Edita Tipo de Tarjeta";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-@if (AppAccount.GetLogin() == null)
-{
-    <div id="home">
-        <div class="container">
-            <h4 style="color: orangered;">NO HAS INICIADO SESION</h4>
-        </div>
-    </div>
-}
-else
-{
-
-    if (AppAccount.HasAdministrationRole() || AppAccount.HasMaintenanceRole())
-    {
 
 <div id="home">
-    <!-- container -->
-
-
     <div class="container">
-
-
         <div class="omb_login">
-            </br>
-            <form class="center3">
-                <div class="row omb_row-sm-offset-3 omb_socialButtons">
-                </div>
-                <br>
-                <h4 style="color: orangered;">Información de la Tarjeta</h4>
-                <br />
+            <br />
+            @using (Html.BeginForm("TypeCardEdit", "Administration", null, FormMethod.Post, new { role = "form", @class = "center3" }))
+            {
+                <h4 style="color: orangered;">Informacion de consecutivo</h4>
                 @Html.ValidationSummary("", new { @class = "ErrorMessage" }) @*Validation Cheked*@
-                <label for="fname">Código:</label>
-                <input type="text" id="fname" name="fname"><br>
-                <br>
-                <label for="PrefijoInt">Descripción:</label>
-                <input type="text" id="fname" name="fname"><br>
-                <br>
-                <input type="submit" onclick="location.href='Tarjetas.html';" value="Guardar"> </input>
-                <input type="submit" value="cancelar"> </input>
-            </form>
+                @Html.TextBoxFor(item => item.PkCode, new { @type = "hidden", @readonly = "readonly" })
+                <br />
+                <label>@Html.DisplayNameFor(item => item.Type)</label><br />
+                @Html.TextBoxFor(item => item.Type, new { id = "fname", placeholder = "Tipo" })
+                <br /><br />
+                <input type="submit" class="primary-btn" value="Guardar" />
+                @Html.ActionLink("Volver", "TypeCardList")
+            }
         </div>
-
-        <!-- /container -->
     </div>
 </div>
-
-
-
-        }
-        else
-        {
-            <div id="home">
-                <div class="container">
-                    <h4 style="color: orangered;">NO TIENES PERMISOS</h4>
-                </div>
-            </div>
-        }
-    }

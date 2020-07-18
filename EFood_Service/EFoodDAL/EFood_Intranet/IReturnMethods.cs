@@ -349,7 +349,8 @@ namespace EFoodDB.EFood_Intranet
                         while (dr.Read())
                         {
                             lineType.PkCode = dr.GetInt32(0);
-                            lineType.Type = dr.GetString(1);
+                            lineType.Code = (dr.IsDBNull(1) ? null : dr.GetString(1));
+                            lineType.Type = dr.GetString(2);
                         }
                     }
                 }

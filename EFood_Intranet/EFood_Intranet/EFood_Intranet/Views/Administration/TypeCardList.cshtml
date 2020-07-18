@@ -1,81 +1,46 @@
-@model EFoodBLL.IntranetModels.TypeCardsList
-@using EFood_Intranet.Controllers
+@model IEnumerable<EFoodBLL.IntranetModels.TypeCardsList>
 
 @{
-    ViewBag.Title = "Tarjeta Listado";
+    ViewBag.Title = "Listado por Tarjetas";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-@if (AppAccount.GetLogin() == null)
-{
-    <div id="home">
-        <div class="container">
-            <h4 style="color: orangered;">NO HAS INICIADO SESION</h4>
-        </div>
-    </div>
-}
-else
-{
-
-    if (AppAccount.HasAdministrationRole() || AppAccount.HasMaintenanceRole())
-    {
 
 <div id="home">
-    <!-- container -->
-
-
     <div class="container">
-
-
         <div class="omb_login">
-            <br></br><br><br><br><br>
-            <h4 class="omb_authTitle" style="color: orangered;">Lista de Tarjetas</h4>
+            <h4 class="omb_authTitle" style="color: orangered;overflow-x:auto;">Lista de Tarjetas:</h4>
+            @Html.ActionLink("Crear Tipo de Tarjeta", "TypeCardCreate", "Administration", null, new { @class = "primary-btn" })
             <br />
-            @Html.ValidationSummary("", new { @class = "ErrorMessage" }) @*Validation Cheked*@
-            <div class="row omb_row-sm-offset-3 omb_socialButtons">
-            </div>
-            <br><br><br>
-            <table class="table">
-                <thead class="thead-dark">
+            <br />
+            @Html.ValidationSummary("", new { @class = "ErrorMessage" })@*Validation Cheked*@
+            <table class="table table-hover">
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Code)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Type)
+                    </th>
+                    <th>
+                        <label>Opciones</label>
+                    </th>
+                </tr>
+                @foreach (var item in Model)
+                {
                     <tr>
-                        <th scope="col">Nombre</th>
-                        <th scope="col">Código</th>
-                        <th scope="col">Cambiar</th>
-                        <th scope="col">Borrar</th>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Code)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Type)
+                        </td>
+                        <td>
+                            @Html.ActionLink("Editar", "TypeCardEdit", new { id = item.PkCode }) |
+                            @Html.ActionLink("Eliminar", "TypeCardDelete", new { id = item.PkCode })
+                        </td>
                     </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <th scope="row">Master Card</th>
-                        <td>1</td>
-                        <td><a href="InfoTarjeta.html">Editar</a></td>
-                        <td><a>Eliminar</a></td>
-                    </tr>
-                    <tr>
-                        <th scope="row">Visa</th>
-                        <td>2</td>
-                        <td><a href="InfoTarjeta.html">Editar</a></td>
-                        <td><a>Eliminar</a></td>
-                    </tr>
-                    <tr>
-                        <th scope="row">American Express</th>
-                        <td>3</td>
-                        <td><a href="InfoTarjeta.html">Editar</a></td>
-                        <td><a>Eliminar</a></td>
-                    </tr>
-                </tbody>
+                }
             </table>
-
-            <!-- /container -->
         </div>
     </div>
 </div>
-                }
-                else
-                {
-                <div id="home">
-                    <div class="container">
-                        <h4 style="color: orangered;">NO TIENES PERMISOS</h4>
-                    </div>
-                </div>
-                }
-                }

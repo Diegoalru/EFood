@@ -1,53 +1,26 @@
-@model EFoodBLL.IntranetModels.PriceTypeList
-@using EFood_Intranet.Controllers
+@model EFoodBLL.IntranetModels.PriceType
 
 @{
-    ViewBag.Title = "Crea Tipo Precio";
+    ViewBag.Title = "Crear Tipo de Precio";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-@if (AppAccount.GetLogin() == null)
-{
-    <div id="home">
-        <div class="container">
-            <h4 style="color: orangered;">NO HAS INICIADO SESION</h4>
+<div id="home">
+    <div class="container">
+        <div class="omb_login">
+            <br />
+            @using (Html.BeginForm("PriceTypeCreate", "Administration", new { ResponseUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { role = "form", @class = "center3" }))
+            {
+                <h4 style="color: orangered;">Crear Tipo de Precio</h4>
+                @Html.ValidationSummary("", new { @class = "ErrorMessage" }) @*Validation Cheked*@
+                <br />
+                <label>@Html.DisplayNameFor(item => item.Type)</label><br />
+                @Html.TextBoxFor(item => item.Type, new { id = "fname", placeholder = "Descripcion", maxlength = 12 })<br />
+                <br />
+                <input type="submit" class="primary-btn" value="Guardar" />
+                @Html.ActionLink("Volver", "PriceTypeList")
+            }
         </div>
     </div>
-}
-else
-{
+</div>
 
-    if (AppAccount.HasAdministrationRole() || AppAccount.HasMaintenanceRole())
-    {
-        <div id="home">
-            <div class="container">
-                <div class="omb_login">
-                    <br />
-                    @using (Html.BeginForm("PriceTypeCreate", "Administration", new { ResponseUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { role = "form", @class = "center3" }))
-                    {
-                        <h4 style="color: orangered;">Crear Tipo de Precio</h4>
-                        @Html.ValidationSummary("", new { @class = "ErrorMessage" }) @*Validation Cheked*@
-                        <br />
-                        @*<label>@Html.DisplayNameFor(item => item.Code)</label><br />
-                            @Html.TextBoxFor(item => item.Code, new { id = "fname", placeholder = "Codigo", maxlength = 12 })
-                            <br /><br />*@
-                        <label>@Html.DisplayNameFor(item => item.Type)</label><br />
-                        @Html.TextBoxFor(item => item.Type, new { id = "fname", placeholder = "Descripcion", maxlength = 12 })<br />
-                        <br />
-                        <input type="submit" class="primary-btn" value="Guardar" />
-                        @Html.ActionLink("Volver", "PriceTypeList")
-                    }
-                </div>
-            </div>
-        </div>
-
-    }
-    else
-    {
-        <div id="home">
-            <div class="container">
-                <h4 style="color: orangered;">NO TIENES PERMISOS</h4>
-            </div>
-        </div>
-    }
-}

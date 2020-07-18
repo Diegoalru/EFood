@@ -16,13 +16,13 @@
                         @Html.ValidationSummary("", new { @class = "ErrorMessage" })
                         <div class="input-group">
                             <span class="input-group-addon"><i class="fa fa-user"></i></span>
-                            @Html.TextBoxFor(model => model.Username, new {@class="form-control", @placeholder="Username"})
+                            @Html.TextBoxFor(model => model.Username, new {@class="form-control", @placeholder="Usuario"})
                         </div>
                         <span class="help-block"></span>
 
                         <div class="input-group">
                             <span class="input-group-addon"><i class="fa fa-lock"></i></span>
-                            @Html.TextBoxFor(model => model.Password, new {@class="form-control", @placeholder="Username", @type="password"})
+                            @Html.TextBoxFor(model => model.Password, new {@class="form-control", @placeholder="Contraseña", @type="password"})
                         </div>
                         <br/>
                         <button class="btn btn-lg btn-primary btn-block" type="submit">Login</button>

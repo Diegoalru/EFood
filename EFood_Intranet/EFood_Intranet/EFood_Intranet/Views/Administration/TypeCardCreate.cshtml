@@ -1,65 +1,25 @@
 @model EFoodBLL.IntranetModels.CardType
-@using EFood_Intranet.Controllers
 
 @{
-    ViewBag.Title = "Crear Tarjeta Tipo";
+    ViewBag.Title = "Crear Tipo Tarjeta";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-
-
-@if (AppAccount.GetLogin() == null)
-{
-    <div id="home">
+<div id="home">
         <div class="container">
-            <h4 style="color: orangered;">NO HAS INICIADO SESION</h4>
+            <div class="omb_login">
+                <br />
+                @using (Html.BeginForm("TypeCardCreate", "Administration", new { ResponseUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { role = "form", @class = "center3" }))
+                {
+                    <h4 style="color: orangered;">Crear Tipo de Tarjeta</h4>
+                    @Html.ValidationSummary("", new { @class = "ErrorMessage" }) @*Validation Cheked*@
+                    <br />
+                    <label for="fname">Tipo:</label>
+                    @Html.TextBoxFor(item => item.Type, new { id = "fname", placeholder = "Tipo" })
+                    <br />
+                    <input type="submit" class="primary-btn" value="Guardar" />
+                    @Html.ActionLink("Volver", "TypeCardList")
+                }
+            </div>
         </div>
     </div>
-}
-else
-{
-
-    if (AppAccount.HasAdministrationRole() || AppAccount.HasMaintenanceRole())
-    {
-        <div id="home">
-            <!-- container -->
-
-
-            <div class="container">
-
-
-                <div class="omb_login">
-                    </br>
-                    <form class="center3">
-                        <div class="row omb_row-sm-offset-3 omb_socialButtons">
-                        </div>
-                        <br>
-                        <h4 style="color: orangered;">Información de la Tarjeta</h4>
-                        <br />
-                        @Html.ValidationSummary("", new { @class = "ErrorMessage" }) @*Validation Cheked*@
-                        <label for="fname">Código:</label>
-                        <input type="text" id="fname" name="fname"><br>
-                        <br>
-                        <label for="PrefijoInt">Descripción:</label>
-                        <input type="text" id="fname" name="fname"><br>
-                        <br>
-                        <input type="submit" onclick="location.href='Tarjetas.html';" value="Guardar"> </input>
-                        <input type="submit" value="cancelar"> </input>
-                    </form>
-                </div>
-
-                <!-- /container -->
-            </div>
-      </div>
-
-
-    }
-    else
-    {
-        <div id="home">
-            <div class="container">
-                <h4 style="color: orangered;">NO TIENES PERMISOS</h4>
-            </div>
-        </div>
-    }
-}

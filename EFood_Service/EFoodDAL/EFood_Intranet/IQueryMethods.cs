@@ -89,6 +89,8 @@ namespace EFoodDB.EFood_Intranet
         /// </summary>
         Task<DataSet> PriceTypes();
         
+        Task<DataSet> CardsTypes();
+        
         /// <summary>
         /// Muestra todas las tarjetas que no hayan sido utilizadas.
         /// </summary>
@@ -478,6 +480,32 @@ namespace EFoodDB.EFood_Intranet
                     if (conn.State == ConnectionState.Closed) conn.Open();
                     
                     string query = $@"SELECT * FROM V_TIPO_PRECIO;";
+                    using (var cmd = new SqlCommand(query, conn))
+                    {
+                        using (SqlDataAdapter adapter = new SqlDataAdapter(cmd))
+                        {
+                            adapter.Fill(ds);
+                        }
+                    }
+                }
+                return Task.FromResult(ds);
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+        
+        public Task<DataSet> CardsTypes()
+        {
+            try
+            {
+                DataSet ds = new DataSet();
+                using (var conn = _settings.GetConnection())
+                {
+                    if (conn.State == ConnectionState.Closed) conn.Open();
+                    
+                    string query = $@"SELECT * FROM V_TIPO_TARJETAS;";
                     using (var cmd = new SqlCommand(query, conn))
                     {
                         using (SqlDataAdapter adapter = new SqlDataAdapter(cmd))
