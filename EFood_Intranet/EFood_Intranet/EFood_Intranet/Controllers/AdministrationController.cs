@@ -20,6 +20,7 @@ namespace EFood_Intranet.Controllers
         private readonly IExistsMethods _existsMethods = new ExistsMethods();
 
         #region Consecutives
+
         public ActionResult ConsecutiveList()
         {
             var list = ConvertDStoList_Consecutives(_queryMethods.Consecutives().Result);
@@ -481,6 +482,7 @@ namespace EFood_Intranet.Controllers
         #endregion
 
         #region PriceType
+
         public ActionResult PriceTypeList()
         {
             var list = ConvertDStoList_PriceType(_queryMethods.PriceTypes().Result);
@@ -527,6 +529,23 @@ namespace EFood_Intranet.Controllers
                 return HttpNotFound();
             }
             return View(priceType);
+        }
+
+        [HttpPost]
+        public Task<ActionResult> PriceTypeEdit(ReturnPriceType priceType)
+        {
+            var result = _updateMethods.UpdatePriceType(priceType.PkCode, priceType.Type).Result;
+
+            if (!result)
+            {
+                ModelState.AddModelError(key: "", errorMessage: "Ha ocurrido un error.\n");
+            }
+            else
+            {
+                ModelState.AddModelError(key: "", errorMessage: "Guardado con exito.\n");
+            }
+
+            return Task.FromResult<ActionResult>(RedirectToAction("PriceTypeList"));
         }
 
         #endregion
@@ -672,6 +691,7 @@ namespace EFood_Intranet.Controllers
         #endregion
 
         #region DataSetToList
+
         private List<DiscountList> ConvertDStoList_Discount(DataSet dataSet)
         {
             DataSet ds = dataSet;
