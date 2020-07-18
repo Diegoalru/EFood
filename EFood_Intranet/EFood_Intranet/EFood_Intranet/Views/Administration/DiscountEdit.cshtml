@@ -1,36 +1,62 @@
 @using EFoodBLL.IntranetModels
 @model EFoodBLL.IntranetModels.ReturnDiscount
+@using EFood_Intranet.Controllers
 
 @{
     ViewBag.Title = "Editar Descuento";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-<div id="home">
-    <div class="container">
-        <div class="omb_login">
-            <br />
-            @using (Html.BeginForm("DiscountEdit", "Administration", null, FormMethod.Post, new { role = "form", @class = "center3" }))
-            {
-                <h4 style="color: orangered;">Información del Tiquete Descuento</h4>
-                @Html.ValidationSummary("", new { @class = "ErrorMessage" }) @*Validation Cheked*@
-                @Html.TextBoxFor(item => item.PkCode, new { @type = "hidden", @readonly = "readonly" })
-                <br />
-                <label for="Code">Código:</label>
-                <br />
-                @Html.TextBoxFor(item => item.Code, new { id = "fname", placeholder = "Codigo", maxlength = 6, @readonly = "readonly" })
-                <br>
-                <label for="Description">Descripción:</label>
-                @Html.TextBoxFor(item => item.Description, new { id = "fname", placeholder = "Descripcion", maxlength = 50 })
-                <br>
-                <label for="Available">Disponibles:</label>
-                @Html.TextBoxFor(item => item.Available, new { id = "fname", placeholder = "Disponibles", maxlength = 6 })
-                <br>
-                <label for="Percentage">Descuento:</label>
-                @Html.TextBoxFor(item => item.Percentage, new { id = "fname", placeholder = "Descuento", maxlength = 3, @readonly = "readonly" })
-                <input type="submit" class="primary-btn" value="Guardar" />
-                @Html.ActionLink("Volver", "DiscountList")
-            }
+@if (AppAccount.GetLogin() == null)
+{
+    <div id="home">
+        <div class="container">
+            <h4 style="color: orangered;">NO HAS INICIADO SESION</h4>
         </div>
     </div>
-</div>
+}
+else
+{
+
+    if (AppAccount.HasAdministrationRole() || AppAccount.HasMaintenanceRole())
+    {
+
+        <div id="home">
+            <div class="container">
+                <div class="omb_login">
+                    <br />
+                    @using (Html.BeginForm("DiscountEdit", "Administration", null, FormMethod.Post, new { role = "form", @class = "center3" }))
+                    {
+                        <h4 style="color: orangered;">Información del Tiquete Descuento</h4>
+                        @Html.ValidationSummary("", new { @class = "ErrorMessage" }) @*Validation Cheked*@
+                        @Html.TextBoxFor(item => item.PkCode, new { @type = "hidden", @readonly = "readonly" })
+                        <br />
+                        <label for="Code">Código:</label>
+                        <br />
+                        @Html.TextBoxFor(item => item.Code, new { id = "fname", placeholder = "Codigo", maxlength = 6, @readonly = "readonly" })
+                        <br>
+                        <label for="Description">Descripción:</label>
+                        @Html.TextBoxFor(item => item.Description, new { id = "fname", placeholder = "Descripcion", maxlength = 50 })
+                        <br>
+                        <label for="Available">Disponibles:</label>
+                        @Html.TextBoxFor(item => item.Available, new { id = "fname", placeholder = "Disponibles", maxlength = 6 })
+                        <br>
+                        <label for="Percentage">Descuento:</label>
+                        @Html.TextBoxFor(item => item.Percentage, new { id = "fname", placeholder = "Descuento", maxlength = 3, @readonly = "readonly" })
+                        <input type="submit" class="primary-btn" value="Guardar" />
+                        @Html.ActionLink("Volver", "DiscountList")
+                    }
+                </div>
+            </div>
+        </div>
+
+
+    }
+    else
+    {
+        <div id="home">
+            <div class="container">
+                <h4 style="color: orangered;">NO TIENES PERMISOS</h4>
+            </div>
+        </div>
+    }
+}

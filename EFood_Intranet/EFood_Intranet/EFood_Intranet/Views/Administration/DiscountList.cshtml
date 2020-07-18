@@ -1,52 +1,76 @@
 @model IEnumerable<EFoodBLL.IntranetModels.DiscountList>
-
+@using EFood_Intranet.Controllers
 @{
-    ViewBag.Title = "Listado de Descuentos";
+    ViewBag.Title = "Lista Descuentos";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-<div id="home">
-    <div class="container">
-        <div class="omb_login">
-            <h4 class="omb_authTitle" style="color: orangered;overflow-x:auto;">Lista Descuentos:</h4>
-            @Html.ActionLink("Crear Descuento", "DiscountCreate", null, new { @class = "primary-btn" })
-            <br />
-            <br />
-            @Html.ValidationSummary("", new { @class = "ErrorMessage" })@*Validation Cheked*@
-            <table class="table table-hover">
-                <tr>
-                    <th>
-                        <label>@Html.DisplayNameFor(model => model.Code)</label>
-</th>
-                    <th>
-                        <label>@Html.DisplayNameFor(model => model.Description)</label>
-                    </th>
-                    <th>
-                       <label>@Html.DisplayNameFor(model => model.Available)</label>
-                    </th>
-                    <th>Opciones</th>
-                </tr>
-                @foreach (var item in Model)
-                {
-                    <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Code)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Description)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Available)
-                        </td>
-                        <td>
-                            @Html.ActionLink("Editar", "DiscountEdit", new { id = item.PkCode }) |
-                        </td>
-                        <td>
-                            @Html.ActionLink("Eliminar", "DiscountDeleteConfirmed", new { id = item.PkCode })
-                        </td>
-                    </tr>
-                }
-            </table>
+@if (AppAccount.GetLogin() == null)
+{
+    <div id="home">
+        <div class="container">
+            <h4 style="color: orangered;">NO HAS INICIADO SESION</h4>
         </div>
     </div>
-</div>
+}
+else
+{
+
+    if (AppAccount.HasAdministrationRole() || AppAccount.HasMaintenanceRole())
+    {
+
+        <div id="home">
+            <div class="container">
+                <div class="omb_login">
+                    <h4 class="omb_authTitle" style="color: orangered;overflow-x:auto;">Lista Descuentos:</h4>
+                    @Html.ActionLink("Crear Descuento", "DiscountCreate", null, new { @class = "primary-btn" })
+                    <br />
+                    <br />
+                    @Html.ValidationSummary("", new { @class = "ErrorMessage" })@*Validation Cheked*@
+                    <table class="table table-hover">
+                        <tr>
+                            <th>
+                                <label>@Html.DisplayNameFor(model => model.Code)</label>
+                            </th>
+                            <th>
+                                <label>@Html.DisplayNameFor(model => model.Description)</label>
+                            </th>
+                            <th>
+                                <label>@Html.DisplayNameFor(model => model.Available)</label>
+                            </th>
+                            <th>Opciones</th>
+                        </tr>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Code)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Description)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Available)
+                                </td>
+                                <td>
+                                    @Html.ActionLink("Editar", "DiscountEdit", new { id = item.PkCode }) |
+                                </td>
+                                <td>
+                                    @Html.ActionLink("Eliminar", "DiscountDeleteConfirmed", new { id = item.PkCode })
+                                </td>
+                            </tr>
+                        }
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    }
+    else
+    {
+        <div id="home">
+            <div class="container">
+                <h4 style="color: orangered;">NO TIENES PERMISOS</h4>
+            </div>
+        </div>
+    }
+}

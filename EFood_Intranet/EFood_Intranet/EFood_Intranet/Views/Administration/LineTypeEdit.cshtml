@@ -1,31 +1,56 @@
 
 @using EFoodBLL.IntranetModels
 @model EFoodBLL.IntranetModels.ReturnLineType
+@using EFood_Intranet.Controllers
 
 @{
-    ViewBag.Title = "Editar Tipo de Comida";
+    ViewBag.Title = "Edita Tipo Comida";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-<div id="home">
-    <div class="container">
-        <div class="omb_login">
-            <br />
-            @using (Html.BeginForm("LineTypeEdit", "Administration", null, FormMethod.Post, new { role = "form", @class = "center3" }))
-            {
-                <h4 style="color: orangered;">Informacion de Tipo de Comida</h4>
-                @Html.ValidationSummary("", new { @class = "ErrorMessage" })@*Validation Cheked*@
-                @Html.TextBoxFor(item => item.PkCode, new { @type = "hidden", @readonly = "readonly" })
-                <br />
-                <label for="Code">Type:</label>
-                @Html.TextBoxFor(item => item.Type, new { id = "fname", placeholder = "Type" })
-                <br />
-                <input type="submit" class="primary-btn" value="Guardar" />
-                @Html.ActionLink("Volver", "LineTypeList")
-            }
+@if (AppAccount.GetLogin() == null)
+{
+    <div id="home">
+        <div class="container">
+            <h4 style="color: orangered;">NO HAS INICIADO SESION</h4>
         </div>
     </div>
-</div>
+}
+else
+{
+
+    if (AppAccount.HasAdministrationRole() || AppAccount.HasMaintenanceRole())
+    {
+
+        <div id="home">
+            <div class="container">
+                <div class="omb_login">
+                    <br />
+                    @using (Html.BeginForm("LineTypeEdit", "Administration", null, FormMethod.Post, new { role = "form", @class = "center3" }))
+                    {
+                        <h4 style="color: orangered;">Informacion de Tipo de Comida</h4>
+                        @Html.ValidationSummary("", new { @class = "ErrorMessage" })@*Validation Cheked*@
+                        @Html.TextBoxFor(item => item.PkCode, new { @type = "hidden", @readonly = "readonly" })
+                        <br />
+                        <label for="Code">Type:</label>
+                        @Html.TextBoxFor(item => item.Type, new { id = "fname", placeholder = "Type" })
+                        <br />
+                        <input type="submit" class="primary-btn" value="Guardar" />
+                        @Html.ActionLink("Volver", "LineTypeList")
+                    }
+                </div>
+            </div>
+        </div>
+
+    }
+    else
+    {
+        <div id="home">
+            <div class="container">
+                <h4 style="color: orangered;">NO TIENES PERMISOS</h4>
+            </div>
+        </div>
+    }
+}
 
 @*
     <div id="home">

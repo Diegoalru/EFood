@@ -1,34 +1,58 @@
 @model EFoodBLL.IntranetModels.Discount
-
+@using EFood_Intranet.Controllers
 @{
-    ViewBag.Title = "Creacion del descuento";
+    ViewBag.Title = "Crear descuento";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-<div id="home">
-    <div class="container">
-        <div class="omb_login">
-            <br/>
-            @using (Html.BeginForm("DiscountCreate", "Administration",new {ResponseUrl = ViewBag.ReturnUrl}, FormMethod.Post, new {role = "form", @class="center3"}))
-            {
-                <h4 style="color: orangered;" >Creación del Tiquete Descuento</h4>
-                @Html.ValidationSummary("", new { @class = "ErrorMessage"}) @*Validation Cheked*@
-                <br/>
-                <label for="fname">Código:</label>
-                <br/>
-                @Html.TextBoxFor(item => item.Code, new {id="fname", placeholder = "Codigo", maxlength = 6})
-                <br>
-                <label for="PrefijoInt">Descripcion:</label>
-                @Html.TextBoxFor(item => item.Description, new {id="fname", placeholder = "Descripcion", maxlength = 50})
-                <br>
-                <label for="PrefijoInt">Disponibles:</label>
-                @Html.TextBoxFor(item => item.Available, new {id="fname", placeholder = "Disponibles", maxlength = 6})
-                <br>
-                <label for="PrefijoInt">Descuento:</label>
-                @Html.TextBoxFor(item => item.Percentage, new {id="fname", placeholder = "Descuento", maxlength = 3})
-                <input type="submit" class="primary-btn" value="Guardar"/>
-                @Html.ActionLink("Volver", "DiscountList")    
-            }
+@if (AppAccount.GetLogin() == null)
+{
+    <div id="home">
+        <div class="container">
+            <h4 style="color: orangered;">NO HAS INICIADO SESION</h4>
         </div>
     </div>
-</div>
+}
+else
+{
+
+    if (AppAccount.HasAdministrationRole() || AppAccount.HasMaintenanceRole())
+    {
+
+        <div id="home">
+            <div class="container">
+                <div class="omb_login">
+                    <br />
+                    @using (Html.BeginForm("DiscountCreate", "Administration", new { ResponseUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { role = "form", @class = "center3" }))
+                    {
+                        <h4 style="color: orangered;">Creación del Tiquete Descuento</h4>
+                        @Html.ValidationSummary("", new { @class = "ErrorMessage" }) @*Validation Cheked*@
+                        <br />
+                        <label for="fname">Código:</label>
+                        <br />
+                        @Html.TextBoxFor(item => item.Code, new { id = "fname", placeholder = "Codigo", maxlength = 6 })
+                        <br>
+                        <label for="PrefijoInt">Descripcion:</label>
+                        @Html.TextBoxFor(item => item.Description, new { id = "fname", placeholder = "Descripcion", maxlength = 50 })
+                        <br>
+                        <label for="PrefijoInt">Disponibles:</label>
+                        @Html.TextBoxFor(item => item.Available, new { id = "fname", placeholder = "Disponibles", maxlength = 6 })
+                        <br>
+                        <label for="PrefijoInt">Descuento:</label>
+                        @Html.TextBoxFor(item => item.Percentage, new { id = "fname", placeholder = "Descuento", maxlength = 3 })
+                        <input type="submit" class="primary-btn" value="Guardar" />
+                        @Html.ActionLink("Volver", "DiscountList")
+                    }
+                </div>
+            </div>
+        </div>
+
+    }
+    else
+    {
+        <div id="home">
+            <div class="container">
+                <h4 style="color: orangered;">NO TIENES PERMISOS</h4>
+            </div>
+        </div>
+    }
+}

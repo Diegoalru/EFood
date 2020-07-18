@@ -1,68 +1,93 @@
 @model EFoodBLL.IntranetModels.ReturnPrice
+@using EFood_Intranet.Controllers
 
 @{
-    ViewBag.Title = "Creacion de Precios por Productos";
+    ViewBag.Title = "Crea Precio Productos";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div id="home">
-    <div class="container">
-        <div class="omb_login">
-            <br />
-            @using (Html.BeginForm("PriceProductCreate", "Administration", new { ResponseUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { role = "form", @class = "center3" }))
-            {
-                <h4 style="color: orangered;">Creacion de Precios por Productos</h4>
-                @Html.ValidationSummary("", new { @class = "ErrorMessage" })@*Validation Cheked*@
-                <br /><br />
-                <label for="fname">Producto:</label>
-                @Html.TextBoxFor(item => item.Product, new { id = "fname", placeholder = "Producto", maxlength = 12 })
-                <br /><br />
-                <label for="PrefijoInt">Tipo:</label>
-                @Html.TextBoxFor(item => item.Type, new { id = "fname", placeholder = "Tipo", maxlength = 12 })
-                <br /><br />
-                <label for="PrefijoInt">Monto:</label>
-                @Html.TextBoxFor(item => item.Amount, new { id = "fname", placeholder = "Monto", maxlength = 12 })
-                <br />
-                <input type="submit" class="primary-btn" value="Guardar" />
-                @Html.ActionLink("Volver", "PriceProductList")
-            }
+@if (AppAccount.GetLogin() == null)
+{
+    <div id="home">
+        <div class="container">
+            <h4 style="color: orangered;">NO HAS INICIADO SESION</h4>
         </div>
     </div>
-</div>
+}
+else
+{
 
+    if (AppAccount.HasAdministrationRole() || AppAccount.HasMaintenanceRole())
+    {
+
+        <div id="home">
+            <div class="container">
+                <div class="omb_login">
+                    <br />
+                    @using (Html.BeginForm("PriceProductCreate", "Administration", new { ResponseUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { role = "form", @class = "center3" }))
+                    {
+                        <h4 style="color: orangered;">Creacion de Precios por Productos</h4>
+                        @Html.ValidationSummary("", new { @class = "ErrorMessage" })@*Validation Cheked*@
+                        <br /><br />
+                        <label for="fname">Producto:</label>
+                        @Html.TextBoxFor(item => item.Product, new { id = "fname", placeholder = "Producto", maxlength = 12 })
+                        <br /><br />
+                        <label for="PrefijoInt">Tipo:</label>
+                        @Html.TextBoxFor(item => item.Type, new { id = "fname", placeholder = "Tipo", maxlength = 12 })
+                        <br /><br />
+                        <label for="PrefijoInt">Monto:</label>
+                        @Html.TextBoxFor(item => item.Amount, new { id = "fname", placeholder = "Monto", maxlength = 12 })
+                        <br />
+                        <input type="submit" class="primary-btn" value="Guardar" />
+                        @Html.ActionLink("Volver", "PriceProductList")
+                    }
+                </div>
+            </div>
+        </div>
+
+    }
+    else
+    {
+        <div id="home">
+            <div class="container">
+                <h4 style="color: orangered;">NO TIENES PERMISOS</h4>
+            </div>
+        </div>
+    }
+}
 
 @*
-<div id="home">
-    <!-- container VERSION CREATE -->
+    <div id="home">
+        <!-- container VERSION CREATE -->
 
 
-    <div class="container">
+        <div class="container">
 
 
-        </br>
-        <form class="centerInfoPP">
-            <div class="row omb_row-sm-offset-3 omb_socialButtons">
-            </div>
-            <h4 style="color: orangered;">Edici?n precios del Producto</h4>
+            </br>
+            <form class="centerInfoPP">
+                <div class="row omb_row-sm-offset-3 omb_socialButtons">
+                </div>
+                <h4 style="color: orangered;">Edici?n precios del Producto</h4>
 
-            <form>
+                <form>
 
-                <br>
-                <label for="fname">Indique Precio Anterior:</label>
-                <input type="text" id="fname" name="fname"><br>
-                <br>
-                <label for="fname"> Indique Precio Nuevo:</label>
-                <input type="text" id="fname" name="fname"><br>
-                <br>
-                <input type="submit" value="Guardar"> </input>
-                <input type="submit" value="cancelar"> </input>
-                <br>
-                <br>
-                <a style="color: orangered;" href="PrecioDelProducto.html">Volver a Productos</a>
+                    <br>
+                    <label for="fname">Indique Precio Anterior:</label>
+                    <input type="text" id="fname" name="fname"><br>
+                    <br>
+                    <label for="fname"> Indique Precio Nuevo:</label>
+                    <input type="text" id="fname" name="fname"><br>
+                    <br>
+                    <input type="submit" value="Guardar"> </input>
+                    <input type="submit" value="cancelar"> </input>
+                    <br>
+                    <br>
+                    <a style="color: orangered;" href="PrecioDelProducto.html">Volver a Productos</a>
 
-            </form>
+                </form>
 
 
-            <!-- /container -->
+                <!-- /container -->
 
-            *@
+*@

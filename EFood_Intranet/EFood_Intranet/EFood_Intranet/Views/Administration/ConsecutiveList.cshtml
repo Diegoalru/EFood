@@ -1,51 +1,74 @@
 @model IEnumerable<EFoodBLL.IntranetModels.ConsecutiveList>
-
+@using EFood_Intranet.Controllers
 @{
-    ViewBag.Title = "Listado de Consecutivos";
+    ViewBag.Title = "Lista Consecutivos";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-<div id="home">
-    <div class="container">
-        <div class="omb_login">
-            <h4 class="omb_authTitle" style="color: orangered;overflow-x:auto;">Lista Consecutivos:</h4>
-            @Html.ActionLink("Crear Consecutivo", "ConsecutiveCreate", "Administration", null, new { @class = "primary-btn" })
-            <br />
-            <br />
-            @Html.ValidationSummary("", new { @class = "ErrorMessage" })@*Validation Cheked*@
-            <table class="table table-hover">
-                <tr>
-                    <th>
-                        <label>@Html.DisplayNameFor(item => item.Type)</label><br />
-                    </th>
-                    <br />
-                    <br />
-                    <th>
-                        <label>@Html.DisplayNameFor(item => item.ConsecutiveId)</label><br />
-                    </th>
-                    <th></th>
-                </tr>
-
-                @foreach (var item in Model)
-                {
-                    <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Type)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.ConsecutiveId)
-                        </td>
-                        <td>
-                            @Html.ActionLink("Editar", "ConsecutiveEdit", "Administration", new { id = item.PkCode }, null)
-                            @*|@Html.ActionLink("Delete", "DiscountDeleteConfirmed", new { id = item.PkCode })*@
-                        </td>
-                    </tr>
-                }
-            </table>
+@if (AppAccount.GetLogin() == null)
+{
+    <div id="home">
+        <div class="container">
+            <h4 style="color: orangered;">NO HAS INICIADO SESION</h4>
         </div>
     </div>
-</div>
+}
+else
+{
 
+    if (AppAccount.HasAdministrationRole() || AppAccount.HasMaintenanceRole())
+    {
+        <div id="home">
+            <div class="container">
+                <div class="omb_login">
+                    <h4 class="omb_authTitle" style="color: orangered;overflow-x:auto;">Lista Consecutivos:</h4>
+                    @Html.ActionLink("Crear Consecutivo", "ConsecutiveCreate", "Administration", null, new { @class = "primary-btn" })
+                    <br />
+                    <br />
+                    @Html.ValidationSummary("", new { @class = "ErrorMessage" })@*Validation Cheked*@
+                    <table class="table table-hover">
+                        <tr>
+                            <th>
+                                <label>@Html.DisplayNameFor(item => item.Type)</label><br />
+                            </th>
+                            <br />
+                            <br />
+                            <th>
+                                <label>@Html.DisplayNameFor(item => item.ConsecutiveId)</label><br />
+                            </th>
+                            <th></th>
+                        </tr>
+
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Type)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ConsecutiveId)
+                                </td>
+                                <td>
+                                    @Html.ActionLink("Editar", "ConsecutiveEdit", "Administration", new { id = item.PkCode }, null)
+                                    @*|@Html.ActionLink("Delete", "DiscountDeleteConfirmed", new { id = item.PkCode })*@
+                                </td>
+                            </tr>
+                        }
+                    </table>
+                </div>
+            </div>
+        </div>
+
+
+    }
+    else
+    {
+        <div id="home">
+            <div class="container">
+                <h4 style="color: orangered;">NO TIENES PERMISOS</h4>
+            </div>
+        </div>
+    }
+}
 @*<div class="container">
 
         <div class="omb_login">

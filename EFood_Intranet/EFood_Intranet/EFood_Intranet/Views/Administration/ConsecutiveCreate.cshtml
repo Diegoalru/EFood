@@ -1,81 +1,58 @@
 @model EFoodBLL.IntranetModels.Consecutive
-
+@using EFood_Intranet.Controllers
 @{
-    ViewBag.Title = "Crea el consecutivo en la aplicacion";
+    ViewBag.Title = "Crear Consecutivo";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div id="home">
-    <div class="container">
-        <div class="omb_login">
-            <br />
-            @using (Html.BeginForm("ConsecutiveCreate", "Administration", new { ResponseUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { role = "form", @class = "center3" }))
-            {
-                <h4 style="color: orangered;">Informacion de consecutivo</h4>
-                @Html.ValidationSummary("", new { @class = "ErrorMessage" })@*Validation Cheked*@
-                <br />
-                <label>@Html.DisplayNameFor(item => item.TypeConsecutive)</label><br />
-                @Html.TextBoxFor(item => item.TypeConsecutive, new { id = "fname", placeholder = "Tipo Consecutivo", maxlength = 12 })
-                <br><br />
-                <label>@Html.DisplayNameFor(item => item.IdConsecutive)</label><br />
-                @Html.TextBoxFor(item => item.IdConsecutive, new { id = "fname", placeholder = "Id Consecutivo", maxlength = 12 })
-                <br /><br />
-                <label>@Html.DisplayNameFor(item => item.HasPrefix)</label><br />
-                @Html.CheckBoxFor(item => item.HasPrefix)
-                <br /><br />
-                <label>@Html.DisplayNameFor(item => item.Prefix)</label><br />
-                @Html.TextBoxFor(item => item.Prefix, new { id = "fname", placeholder = "Introduzca Prefijo", maxlength = 12 })
-                <br /><br />
-                <input type="submit" class="primary-btn" value="Guardar" />
-                @Html.ActionLink("Volver", "ConsecutiveList")
-            }
-        </div>
-    </div>
-</div>
-
-@*
+@if (AppAccount.GetLogin() == null)
+{
     <div id="home">
-
         <div class="container">
-
-            <form class="center3">
-
-                <div class="row omb_row-sm-offset-3 omb_socialButtons">
-                </div>
-                <h4 style="color: orangered;">Informacion de consecutivo</h4>
-                </br>
-                </br>
-
-                <form>
-                    <label for="Descripcion">Descripcion:</label>
-                    <select name="Descripcion" id="Descripcion">
-                        <optgroup label="Tipo">
-                            <option value="Activo">Linea de comidas</option>
-                            <option value="Inactivo">Linea de bebidas</option>
-                            <option value="Inactivo">Linea de combos</option>
-                        </optgroup>
-                    </select>
-
-                    <br>
-                    <label for="fname">Consecutivo:</label>
-                    <input type="text" id="fname" name="fname"><br>
-
-                    <div>
-                        <div class="col-xs-12 col-sm-12">
-                            <label class="checkbox">
-                                <input type="checkbox" value="remember-me">Posee prefiijo
-                            </label>
-                        </div>
-                    </div>
-
-                    <br><br><br>
-                    <label for="PrefijoInt">Introduzca Prefijo:</label>
-                    <input type="text" id="fname" name="fname"><br>
-                    <br>
-                    <input type="button" onclick="location.href='Consecutivos.html';" value="Aceptar" />
-                    <input type="submit" value="cancelar" />
-
-                </form>
+            <h4 style="color: orangered;">NO HAS INICIADO SESION</h4>
         </div>
     </div>
-*@
+}
+else
+{
+
+    if (AppAccount.HasAdministrationRole() || AppAccount.HasMaintenanceRole())
+    {
+        <div id="home">
+            <div class="container">
+                <div class="omb_login">
+                    <br />
+                    @using (Html.BeginForm("ConsecutiveCreate", "Administration", new { ResponseUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { role = "form", @class = "center3" }))
+                    {
+                        <h4 style="color: orangered;">Informacion de consecutivo</h4>
+                        @Html.ValidationSummary("", new { @class = "ErrorMessage" })@*Validation Cheked*@
+                        <br />
+                        <label>@Html.DisplayNameFor(item => item.TypeConsecutive)</label><br />
+                        @Html.TextBoxFor(item => item.TypeConsecutive, new { id = "fname", placeholder = "Tipo Consecutivo", maxlength = 12 })
+                        <br><br />
+                        <label>@Html.DisplayNameFor(item => item.IdConsecutive)</label><br />
+                        @Html.TextBoxFor(item => item.IdConsecutive, new { id = "fname", placeholder = "Id Consecutivo", maxlength = 12 })
+                        <br /><br />
+                        <label>@Html.DisplayNameFor(item => item.HasPrefix)</label><br />
+                        @Html.CheckBoxFor(item => item.HasPrefix)
+                        <br /><br />
+                        <label>@Html.DisplayNameFor(item => item.Prefix)</label><br />
+                        @Html.TextBoxFor(item => item.Prefix, new { id = "fname", placeholder = "Introduzca Prefijo", maxlength = 12 })
+                        <br /><br />
+                        <input type="submit" class="primary-btn" value="Guardar" />
+                        @Html.ActionLink("Volver", "ConsecutiveList")
+                    }
+                </div>
+            </div>
+        </div>
+
+    }
+    else
+    {
+        <div id="home">
+            <div class="container">
+                <h4 style="color: orangered;">NO TIENES PERMISOS</h4>
+            </div>
+        </div>
+    }
+}

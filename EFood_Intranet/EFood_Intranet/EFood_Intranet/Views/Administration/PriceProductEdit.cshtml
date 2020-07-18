@@ -1,41 +1,70 @@
-
+@using EFood_Intranet.Controllers
 
 @{
-    ViewBag.Title = "Edición de Precio por Productos";
-    Layout = "_Layout";
+    ViewBag.Title = "Edita Precio Productos";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div id="home">
-    <!-- container -->
+
+@if (AppAccount.GetLogin() == null)
+{
+    <div id="home">
+        <div class="container">
+            <h4 style="color: orangered;">NO HAS INICIADO SESION</h4>
+        </div>
+    </div>
+}
+else
+{
+
+    if (AppAccount.HasAdministrationRole() || AppAccount.HasMaintenanceRole())
+    {
+
+        <div id="home">
+            <!-- container -->
 
 
-    <div class="container">
+            <div class="container">
 
 
-        </br>
-        <form class="centerInfoPP">
-            <div class="row omb_row-sm-offset-3 omb_socialButtons">
+                </br>
+                <form class="centerInfoPP">
+                    <div class="row omb_row-sm-offset-3 omb_socialButtons">
+                    </div>
+                    <h4 style="color: orangered;">Edición precios del Producto</h4>
+                    @Html.ValidationSummary("", new { @class = "ErrorMessage" })@*Validation Cheked*@
+
+                    <form>
+
+                        <br>
+                        <label for="fname">Indique Precio Anterior:</label>
+                        <input type="text" id="fname" name="fname"><br>
+                        <br>
+                        <label for="fname"> Indique Precio Nuevo:</label>
+                        <input type="text" id="fname" name="fname"><br>
+                        <br>
+                        <input type="submit" value="Guardar"> </input>
+                        <input type="submit" value="cancelar"> </input>
+                        <br>
+                        <br>
+                        <a style="color: orangered;" href="PrecioDelProducto.html">Volver a Productos</a>
+
+                    </form>
+                </form>
+
+
+
+                <!-- /container -->
             </div>
-            <h4 style="color: orangered;">Edición precios del Producto</h4>
-            @Html.ValidationSummary("", new { @class = "ErrorMessage" })@*Validation Cheked*@
+        </div>
 
-            <form>
-
-                <br>
-                <label for="fname">Indique Precio Anterior:</label>
-                <input type="text" id="fname" name="fname"><br>
-                <br>
-                <label for="fname"> Indique Precio Nuevo:</label>
-                <input type="text" id="fname" name="fname"><br>
-                <br>
-                <input type="submit" value="Guardar"> </input>
-                <input type="submit" value="cancelar"> </input>
-                <br>
-                <br>
-                <a style="color: orangered;" href="PrecioDelProducto.html">Volver a Productos</a>
-
-            </form>
-
-
-            <!-- /container -->
-</div>
+    }
+    else
+    {
+        <div id="home">
+            <div class="container">
+                <h4 style="color: orangered;">NO TIENES PERMISOS</h4>
+            </div>
+        </div>
+    }
+}

@@ -1,37 +1,63 @@
 @model EFoodBLL.IntranetModels.Product
+@using EFood_Intranet.Controllers
 
 @{
-    ViewBag.Title = "Creacion de Producto";
+    ViewBag.Title = "Crea Producto";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div id="home">
-    <div class="container">
-        @using (Html.BeginForm("ProductCreate", "Administration", null, FormMethod.Post, new { role = "form", @class = "centerInfoPP" }))
-        {
-            <div class="row omb_row-sm-offset-3 omb_socialButtons">
-            </div>
-            <h4 style="color: orangered;">Creación del Precio del Producto</h4>
-            <br />
-            @Html.ValidationSummary("", new { @class = "ErrorMessage" }) @*Validation Cheked*@
-            <br />
-            @Html.DisplayNameFor(item => item.Description)
-            <br />
-            @Html.TextBoxFor(item => item.Description, new { id = "fname", placeholder = "Descripcion", maxlength = 30 })
-            <br />
-            <br />
-            @Html.DisplayNameFor(item => item.LineType)
-            <br />
-            @Html.DropDownListFor(model => model.LineType, new SelectList(ViewBag.VBTypeLineList, "PkCode", "Type"), new { @class = "" })
-            <br />
-            <br />
-            @Html.DisplayNameFor(item => item.Content)
-            <br />
-            @Html.TextBoxFor(item => item.Content, new { id = "fname", placeholder = "Contenido", maxlength = 200 })
-            <br />
-            <br />
-            <input type="submit" value="Crear" class="primary-btn" />
-            @Html.ActionLink(" Volver", "ProductList")
-        }
+@if (AppAccount.GetLogin() == null)
+{
+    <div id="home">
+        <div class="container">
+            <h4 style="color: orangered;">NO HAS INICIADO SESION</h4>
+        </div>
     </div>
-</div>
+}
+else
+{
+
+    if (AppAccount.HasAdministrationRole() || AppAccount.HasMaintenanceRole())
+    {
+
+        <div id="home">
+            <div class="container">
+                @using (Html.BeginForm("ProductCreate", "Administration", null, FormMethod.Post, new { role = "form", @class = "centerInfoPP" }))
+                {
+                    <div class="row omb_row-sm-offset-3 omb_socialButtons">
+                    </div>
+                    <h4 style="color: orangered;">Creación del Precio del Producto</h4>
+                    <br />
+                    @Html.ValidationSummary("", new { @class = "ErrorMessage" }) @*Validation Cheked*@
+                    <br />
+                    @Html.DisplayNameFor(item => item.Description)
+                    <br />
+                    @Html.TextBoxFor(item => item.Description, new { id = "fname", placeholder = "Descripcion", maxlength = 30 })
+                    <br />
+                    <br />
+                    @Html.DisplayNameFor(item => item.LineType)
+                    <br />
+                    @Html.DropDownListFor(model => model.LineType, new SelectList(ViewBag.VBTypeLineList, "PkCode", "Type"), new { @class = "" })
+                    <br />
+                    <br />
+                    @Html.DisplayNameFor(item => item.Content)
+                    <br />
+                    @Html.TextBoxFor(item => item.Content, new { id = "fname", placeholder = "Contenido", maxlength = 200 })
+                    <br />
+                    <br />
+                    <input type="submit" value="Crear" class="primary-btn" />
+                    @Html.ActionLink(" Volver", "ProductList")
+                }
+            </div>
+        </div>
+
+    }
+    else
+    {
+        <div id="home">
+            <div class="container">
+                <h4 style="color: orangered;">NO TIENES PERMISOS</h4>
+            </div>
+        </div>
+    }
+}
