@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Dynamic;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using EFoodBLL.IntranetModels;
@@ -15,10 +16,51 @@ namespace EFood_Intranet.Controllers
         private readonly IReturnMethods _returnMethods = new ReturnMethods();
         private readonly IExistsMethods _existsMethods = new ExistsMethods();
         private readonly IInsertMethods _insertMethods = new InsertMethods();
+        private readonly IUtilsMethods _utilsMethods = new AdministrationUtils();
         
-        public ActionResult ChangePassword()
+        [HttpGet]
+        public async Task<ActionResult> ChangePasswordUsers()
         {
-            return View();
+            var usersList = ConvertDStoList_TotalUsers(await _queryMethods.TotalUsers());
+            return View(usersList);
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> ChangePasswordEdit(string username)
+        {
+            PasswordChange passwordChange = new PasswordChange() { Username = username };
+            return View(passwordChange);
+        }
+        
+        [HttpPost]
+        public async Task<ActionResult> ChangePasswordEdit(PasswordChange data)
+        {
+            PasswordChange passwordChange = new PasswordChange() { Username = data.Username };
+
+            if (!data.NewPassword.Equals(data.NewPasswordConfirmation, StringComparison.Ordinal))
+            {
+                ModelState.AddModelError(key: "", errorMessage: "Las contraseñas no coinciden.\n");
+                return await Task.FromResult<ActionResult>(View(passwordChange));
+            }
+            
+            var result = await _utilsMethods.ComparePassword(data.Username, data.ActualPassword);
+            
+            switch (result)
+            {
+                case true:
+                    var resultUpdate = _utilsMethods.UpdatePassword(data.Username, data.NewPassword);
+                    if (resultUpdate) return RedirectToAction("ChangePasswordUsers");
+                    ModelState.AddModelError(key: "", errorMessage: "Ha ocurrido un error al cambiar la contraseña.\n");
+                    return await Task.FromResult<ActionResult>(View(passwordChange));
+                
+                case false:
+                    ModelState.AddModelError(key: "", errorMessage: "La contraseña con coincide con la del sistema.\n");
+                    return await Task.FromResult<ActionResult>(View(passwordChange));
+                
+                default:
+                    ModelState.AddModelError(key: "", errorMessage: "Ha ocurrido un error.\n");
+                    return await Task.FromResult<ActionResult>(View(passwordChange));
+            }
         }
 
         [HttpGet]
