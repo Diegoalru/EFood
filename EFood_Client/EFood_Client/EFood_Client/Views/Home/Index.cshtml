@@ -1,5 +1,6 @@
 ﻿@{
     ViewBag.Title = "Home Page";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <div class="jumbotron">
@@ -7,5 +8,6 @@
 </div>
 <div>
     <h3>Bienvenido a EFood</h3>
-    <li>@Html.ActionLink("Comprar", "LineProducts", "Shoping")</li>
+    @Html.ValidationSummary("", new { @class = "ErrorMessage" })
+    <li>@Html.ActionLink("Iniciar Compra", "ProductList", "Shoping")</li>
 </div>

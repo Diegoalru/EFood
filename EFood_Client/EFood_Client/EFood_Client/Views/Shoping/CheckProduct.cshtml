@@ -1,0 +1,22 @@
+@model EFoodBLL.ClientModels.ShoppingCart
+
+@{
+    ViewBag.Title = "Detalle Producto";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using (Html.BeginForm("CheckProduct", "Shoping", null, FormMethod.Post, new {role = "form"}))
+{
+    <label>Producto: <strong>@ViewBag.VBProduct.Description</strong></label>
+    <br/>
+    <label>Contenido: @ViewBag.VBProduct.Content</label>
+    <br/>
+    <label>Precios:</label>
+    @Html.DropDownListFor(item => item.ProductPrice, new SelectList(ViewBag.VBPrices, "PkCode", "Type"), new {@class = ""})
+    <br/>
+    <label>Cantidad: </label>
+    @Html.TextBoxFor(item => item.Quantity, new {id = "fname", placeholder = "Cantidad", maxlength = 30})
+    <br/>
+    <input type="submit" value="Comprar" class="primary-btn"/>
+    @Html.ActionLink(" Volver", "ProductList")
+}

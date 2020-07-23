@@ -3,7 +3,7 @@
 }
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -29,16 +29,23 @@
         </div>
     </div>
 </div>
-<div class="container body-content" style="margin-top: 0px">
+<div class="container body-content" style="margin-top: 50px">
+    <br/>
     @RenderBody()
     <hr/>
     <footer>
         <p>&copy; @DateTime.Now.Year - @ViewBag.AppName</p>
+        <div class="container">
+            <div class="pull-right">
+                @Html.Partial("_TranslatorPartial")
+            </div>
+        </div>
     </footer>
 </div>
 
 @Scripts.Render("~/bundles/jquery")
 @Scripts.Render("~/bundles/bootstrap")
+@Scripts.Render("~/bundles/efood")
 @RenderSection("scripts", required: false)
 </body>
 </html>

@@ -1,0 +1,41 @@
+@model IEnumerable<EFoodBLL.ClientModels.Product>
+
+@{
+    ViewBag.Title = "Selecciona el Producto";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div>
+    @using (Html.BeginForm("ProductList", "Shoping", null, FormMethod.Post, new { role = "form" }))
+    {
+        @Html.ValidationSummary("", new { @class = "ErrorMessage" }) @*Validation Cheked*@
+        @Html.Label("Buscar:")<br/>
+        @Html.DropDownList("VBTypeLineList", ViewBag.VBTypeLineList as SelectList,  new { @id = "ddl" })
+        @Html.Hidden("Type", "PkCode", new { @id = "hf" })
+        <input type="submit" value=" Filtrar">
+    }
+    <br />
+    @Html.ActionLink("Continuar", "ClientRegister", null, new { @class = "primary-btn" })
+    <br />
+    <table class="table table-hover">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Description)
+        </th>
+        <th>
+            Seleccionar
+        </th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.ActionLink("Ver", "CheckProduct", new { id = item.PkCode })
+            </td>
+        </tr>
+    }
+</table>
+</div>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>

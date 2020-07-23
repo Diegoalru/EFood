@@ -1,0 +1,14 @@
+@model EFoodBLL.ClientModels.Client
+
+@{
+    ViewBag.Title = "title";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Informaci&oacute;n Cliente </h2>
+
+@using (Html.BeginForm("ClientRegister", "Shoping", null, FormMethod.Post, new {role = "form"}))
+{
+    //Todo Crear formulario.
+    <h1>Form ClientRegister Funciona.</h1>
+}
