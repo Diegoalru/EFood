@@ -15,12 +15,9 @@
 }
 else
 {
+    if (AppAccount.HasAdministrationRole() || AppAccount.HasAuditRole())
     {
-        if (AppAccount.HasAdministrationRole() || AppAccount.HasAuditRole())
-        {
-
-
-    <div id="home">
+        <div id="home">
         <div class="container">
             <div class="omb_login">
                 <h4 class="omb_authTitle" style="color: orangered;">Consulta Pedidos:</h4>
@@ -30,15 +27,13 @@ else
             </div>
         </div>
     </div>
-
-
-        }
-        else
-        {
-<div id="home">
-    <div class="container">
-        <h4 style="color: orangered;">NO TIENES PERMISOS</h4>
-    </div>
-</div>
+    }
+    else
+    {
+        <div id="home">
+            <div class="container">
+                <h4 style="color: orangered;">NO TIENES PERMISOS</h4>
+            </div>
+        </div>
     }
 }

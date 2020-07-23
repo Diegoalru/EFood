@@ -14,23 +14,45 @@
 }
 else
 {
-
     if (AppAccount.HasAdministrationRole() || AppAccount.HasAuditRole())
     {
-
-
         <div id="home">
-            <div class="container">
-                <div class="omb_login">
-                    <h4 class="omb_authTitle" style="color: orangered;">Consulta Bitacoras:</h4>
-                    <div class="row omb_row-sm-offset-3 omb_socialButtons">
+                    <div class="container">
+                        <div class="omb_login">
+                            <h4 class="omb_authTitle" style="color: orangered;overflow-x:auto;">Lista Errores:</h4>
+                            <br />
+                            <br />
+                            <table class="table table-hover">
+                                <tr>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.Code)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.Message)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.DateTime)
+                                    </th>
+                                </tr>
+        
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Code)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Message)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.DateTime)
+                                        </td>
+                                    </tr>
+                                }
+                            </table>
+                        </div>
                     </div>
-                    <br><br><br>
                 </div>
-            </div>
-        </div>
-
-
     }
     else
     {

@@ -66,8 +66,9 @@ namespace EFoodDB.EFood_Intranet
                 }
                 return result;
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                Console.WriteLine(e);
                 return Task.FromResult(-4);
             }
         }

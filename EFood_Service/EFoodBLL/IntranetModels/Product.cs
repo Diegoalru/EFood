@@ -36,7 +36,7 @@ namespace EFoodBLL.IntranetModels
         
         [DisplayName("Codigo")]
         public string Code { get; set; }
-        
+
         [DisplayName("Descripcion")]
         [Required(ErrorMessage = "Introduce una descripción")]
         public string Description { get; set; }

@@ -11,12 +11,14 @@ namespace EFood_Intranet.Controllers
     {
         private readonly IQueryMethods _queryMethods = new QueryMethods();
         
+        [HttpGet]
         public ActionResult Errors()
         {
             var list = ConvertDSToList_Errors(_queryMethods.Errors().Result);
             return View(list);
         }
 
+        [HttpGet]
         public ActionResult Logs()
         {
             var list = ConvertDSToList_Logs(_queryMethods.Logs().Result);
@@ -59,12 +61,12 @@ namespace EFood_Intranet.Controllers
             List<LogList> list = new List<LogList>();
             foreach (DataRow dr in ds.Tables[0].Rows)
             {
-                list.Add(new LogList { 
-                    PkCode = (int) dr["CODE"]
-                    ,Code = (string) dr["CODIGO"]
-                    ,Message = (string) dr["MENSAJE"]
-                    ,User = (string) dr["USUARIO"]
-                    ,DateTime = (DateTime) dr["FECHA"]
+                list.Add(item: new LogList { 
+                    PkCode = (int) dr[0]
+                    ,DateTime = (DateTime) dr[1]
+                    ,Code = (string) dr[2]
+                    ,Message = (string) dr[3]
+                    ,User = (string) dr[4]
                 });
             }
             return list;

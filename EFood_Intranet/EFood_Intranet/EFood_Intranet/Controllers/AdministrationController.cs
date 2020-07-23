@@ -572,7 +572,7 @@ namespace EFood_Intranet.Controllers
                     return await Task.FromResult<ActionResult>(View(data));
 
                 case true:
-                    ModelState.AddModelError("", "¡El consecutivo ya existe!\n");
+                    ModelState.AddModelError("", "¡El precio ya existe!\n");
                     return await Task.FromResult<ActionResult>(View());
 
                 default:
@@ -736,7 +736,7 @@ namespace EFood_Intranet.Controllers
                     if (resultInsertProduct)
                         return RedirectToAction("ProductList");
 
-                    ModelState.AddModelError(key: "", errorMessage: "Ha ocurrido un error.\n");
+                        
                     return await Task.FromResult<ActionResult>(View(product));
 
                 case true:

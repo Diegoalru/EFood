@@ -4,7 +4,12 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Threading.Tasks;
 using EFoodBLL.ClientModels;
+using EFoodBLL.IntranetModels;
 using EFoodDB.DBSettings;
+using LineType = EFoodBLL.ClientModels.LineType;
+using Price = EFoodBLL.ClientModels.Price;
+using Product = EFoodBLL.ClientModels.Product;
+using ShoppingCart = EFoodBLL.ClientModels.ShoppingCart;
 
 namespace EFoodDB.EFood_Client
 {
@@ -16,6 +21,8 @@ namespace EFoodDB.EFood_Client
          *         Productos, precios, y tipos de linea.
          *         Medios de pagos.
          *         Tipos de tarjetas.
+         *     Retorna:
+         *         Producto.
          *     Validaciones:
          *         Descuentos.
          *     Inserts:
@@ -31,6 +38,7 @@ namespace EFoodDB.EFood_Client
         Task<bool?> ExistsDiscount(string discount);
         Task<bool> InsertOrder(Order order);
         Task<bool> InsertShoppingCart(ShoppingCart cart);
+        Task<decimal> ProductPrice(int pkPrice);
     }
 
     public class AdministrationMethods : IAdministrationMethods
@@ -117,6 +125,34 @@ namespace EFoodDB.EFood_Client
                 return null;
             }
         }
+        
+        public async Task<decimal> ProductPrice(int pkPrice)
+        {
+            decimal value = 0;
+            try
+            {
+                using (var conn = _settings.GetConnection())
+                {
+                    if (conn.State == ConnectionState.Closed) conn.Open();
+
+                    string query = $@"SELECT * FROM RETORNA_PRECIO_PRODUCTO_CLIENTE({pkPrice});";
+                    using (var cmd = new SqlCommand(query, conn))
+                    {
+                        cmd.CommandType = CommandType.Text;
+                        var dr = await cmd.ExecuteReaderAsync();
+                        while (dr.Read())
+                        {
+                            value = dr.GetDecimal(0);
+                        }
+                    }
+                }
+                return value;
+            }
+            catch (Exception)
+            {
+                return -2;
+            }
+        }
 
         public Task<List<PayMethods>>PayMethods()
         {
@@ -170,6 +206,37 @@ namespace EFoodDB.EFood_Client
             }
         }
 
+        public Task<Product> ReturnProduct(int pkProduct)
+        {
+            try
+            {
+                Product product = new Product();
+                using (var conn = _settings.GetConnection())
+                {
+                    if (conn.State == ConnectionState.Closed) conn.Open();
+
+                    string query = $"SELECT * FROM RETORNA_PRODUCTO({pkProduct});";
+                    using (var cmd = new SqlCommand(query, conn))
+                    {
+                        cmd.CommandType = CommandType.Text;
+                        var dr = cmd.ExecuteReader();
+                        while (dr.Read())
+                        {
+                            product.PkCode = dr.GetInt32(0);
+                            product.Description = dr.GetString(2);
+                            product.Content = dr.GetString(4);
+                        }
+                    }
+                }
+                return Task.FromResult(product);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return null;
+            }
+        }
+        
         public Task<bool?> ExistsDiscount(string discount)
         {
             try

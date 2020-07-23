@@ -152,8 +152,9 @@ namespace EFoodDB.EFood_Intranet
                 }
                 return Task.FromResult(ds);
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                Console.WriteLine(e);
                 return null;
             }
         }
