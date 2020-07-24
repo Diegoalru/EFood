@@ -1,7 +1,7 @@
 @model EFoodBLL.ClientModels.Client
 
 @{
-    ViewBag.Title = "title";
+    ViewBag.Title = "Registro Cliente";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -9,6 +9,30 @@
 
 @using (Html.BeginForm("ClientRegister", "Shoping", null, FormMethod.Post, new {role = "form"}))
 {
-    //Todo Crear formulario.
-    <h1>Form ClientRegister Funciona.</h1>
+    @Html.ValidationSummary("", new { @class = "ErrorMessage" })
+    <div class="input-group">
+        <span class="input-group-addon">@Html.DisplayNameFor(item => item.Name)<i class="fa fa-lock"></i></span>
+        @Html.TextBoxFor(item => item.Name, new {@classs = "form-control", @placeholder = "Nombre"})
+    </div>
+
+    <div class="input-group">
+        <span class="input-group-addon">@Html.DisplayNameFor(item => item.Surname)<i class="fa fa-lock"></i></span>
+        @Html.TextBoxFor(item => item.Surname, new {@classs = "form-control", @placeholder = "Apellidos"})
+    </div>
+    <div class="input-group">
+        <span class="input-group-addon">@Html.DisplayNameFor(item => item.Phone)<i class="fa fa-lock"></i></span>
+        @Html.TextBoxFor(item => item.Phone, new {@classs = "form-control", @placeholder = "Telefono"})
+    </div>
+    <div class="input-group">
+        <span class="input-group-addon">@Html.DisplayNameFor(item => item.Direction)<i class="fa fa-lock"></i></span>
+        @Html.TextBoxFor(item => item.Direction, new {@classs = "form-control", @placeholder = "Dirección"})
+    </div>
+    <div class="input-group">
+        <span class="input-group-addon">@Html.DisplayNameFor(item => item.Discount)<i class="fa fa-lock"></i></span>
+        @Html.TextBoxFor(item => item.Discount, new {@classs = "form-control", @placeholder = "Descuento"})
+    </div>
+    <label>Al continuar no podrá devolverse y el cup&oacute;n ser&aacute; marcado como usuado.</label>
+    <button class="btn btn-lg btn-primary btn-block" type="submit">Siguiente</button>
+    @Html.ActionLink("Volver", "ProductList", "Shoping")
+        
 }

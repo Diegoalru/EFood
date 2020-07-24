@@ -24,7 +24,7 @@ namespace EFoodBLL.ClientModels
         public string Direction { get; set; }
         
         [MaxLength(length:8)]
-        [DisplayName("Telefono")]
+        [DisplayName("Teléfono")]
         [Required]
         public string Phone { get; set; }
         

@@ -120,6 +120,7 @@
         <Compile Include="Controllers\ShopingController.cs" />
         <Compile Include="Controllers\Shopping.cs" />
         <Compile Include="Controllers\Transaction.cs" />
+        <Compile Include="Controllers\Utils.cs" />
         <Compile Include="Global.asax.cs">
             <DependentUpon>Global.asax</DependentUpon>
         </Compile>
@@ -151,6 +152,9 @@
         <Content Include="Views\Shared\_TranslatorPartial.cshtml" />
         <Content Include="Views\Shoping\CheckProduct.cshtml" />
         <Content Include="Views\Shoping\ClientRegister.cshtml" />
+        <Content Include="Views\Shoping\MethodCash.cshtml" />
+        <Content Include="Views\Shoping\PayMethod.cshtml" />
+        <Content Include="Views\Shoping\PayPage.cshtml" />
         <Content Include="Views\Shoping\ProductList.cshtml" />
         <Content Include="Web.config" />
         <Content Include="Web.Debug.config">

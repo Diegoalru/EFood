@@ -28,5 +28,10 @@ namespace EFood_Client.Controllers
                 }
             }
         }
+
+        public static void DeleteTransaction()
+        {
+            TransactionId = string.Empty;   
+        }
     }
 }

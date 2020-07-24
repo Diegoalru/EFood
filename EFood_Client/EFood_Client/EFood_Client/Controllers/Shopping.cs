@@ -20,6 +20,10 @@ namespace EFood_Client.Controllers
         /// </summary>
         private static List<ShoppingCart> listShopping = new List<ShoppingCart>();
 
+        /// <summary>
+        /// Variable que contiene la cantidad de dinero a pagar.
+        /// Necesita ejecutar <code>AmountShoping</code> para actualizar el monto.
+        /// </summary>
         private static decimal Amount;
 
         /// <summary>
@@ -50,6 +54,15 @@ namespace EFood_Client.Controllers
             if (index < 0 || listShopping.Count <= index) return false;
             listShopping.RemoveAt(index);
             return true;
+        }
+
+        /// <summary>
+        /// Elimina todas las ordenes guardadas hasta el momento.
+        /// </summary>
+        public static void DeleteOrders()
+        {
+            listShopping = null;
+            Amount = 0;
         }
 
         /// <summary>

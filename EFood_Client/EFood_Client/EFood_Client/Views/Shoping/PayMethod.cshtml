@@ -1,0 +1,10 @@
+@{
+    ViewBag.Title = "title";
+    Layout = "_Layout";
+}
+
+<h2>Selecciona el Medio de Pago</h2>
+@Html.ActionLink("EFECTIVO","MethodCash", null, new { @class = "primary-btn" })
+@Html.ActionLink("TARJETA CREDITO/DEBITO", "MethodCard", null, new { @class = "primary-btn" })
+@Html.ActionLink("CHEQUE", "MethodCheck", null, new { @class = "primary-btn" })
+@Html.ActionLink("Volver", "ProductList", null, new { @class = "primary-btn" })
