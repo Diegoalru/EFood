@@ -4,10 +4,9 @@
 }
 
 <div class="jumbotron">
-    <h1>Inicio de Sesion</h1>
+    <h1>Bienvenido a EFood</h1>
 </div>
 <div>
-    <h3>Bienvenido a EFood</h3>
     @Html.ValidationSummary("", new { @class = "ErrorMessage" })
-    <li>@Html.ActionLink("Iniciar Compra", "ProductList", "Shoping")</li>
+    @Html.ActionLink("Iniciar Compra", "Initialize", "Home")
 </div>

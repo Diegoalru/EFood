@@ -61,7 +61,7 @@ namespace EFood_Client.Controllers
         /// </summary>
         public static void DeleteOrders()
         {
-            listShopping = null;
+            listShopping.Clear();
             Amount = 0;
         }
 

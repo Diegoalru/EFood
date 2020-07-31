@@ -117,6 +117,7 @@
         <Compile Include="App_Start\FilterConfig.cs" />
         <Compile Include="App_Start\RouteConfig.cs" />
         <Compile Include="Controllers\HomeController.cs" />
+        <Compile Include="Controllers\PayMethod.cs" />
         <Compile Include="Controllers\ShopingController.cs" />
         <Compile Include="Controllers\Shopping.cs" />
         <Compile Include="Controllers\Transaction.cs" />
@@ -150,12 +151,14 @@
         <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
         <Content Include="Scripts\modernizr-2.8.3.js" />
         <Content Include="Views\Shared\_TranslatorPartial.cshtml" />
-        <Content Include="Views\Shoping\CheckProduct.cshtml" />
+        <Content Include="Views\Shoping\Product.cshtml" />
         <Content Include="Views\Shoping\ClientRegister.cshtml" />
+        <Content Include="Views\Shoping\MethodCard.cshtml" />
         <Content Include="Views\Shoping\MethodCash.cshtml" />
         <Content Include="Views\Shoping\PayMethod.cshtml" />
         <Content Include="Views\Shoping\PayPage.cshtml" />
         <Content Include="Views\Shoping\ProductList.cshtml" />
+        <Content Include="Views\Shoping\ShoppingList.cshtml" />
         <Content Include="Web.config" />
         <Content Include="Web.Debug.config">
             <DependentUpon>Web.config</DependentUpon>

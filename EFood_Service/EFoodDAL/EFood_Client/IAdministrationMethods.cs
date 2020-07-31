@@ -39,6 +39,7 @@ namespace EFoodDB.EFood_Client
         Task<bool> InsertOrder(Order order);
         Task<bool> InsertShoppingCart(ShoppingCart cart);
         Task<decimal> ProductPrice(int pkPrice);
+        Task<int> ReturnDiscountValue(string code);
     }
 
     public class AdministrationMethods : IAdministrationMethods
@@ -151,6 +152,35 @@ namespace EFoodDB.EFood_Client
             catch (Exception)
             {
                 return -2;
+            }
+        }
+
+        public Task<int> ReturnDiscountValue(string code)
+        {
+            try
+            {
+                int result = -1;
+                using (var conn = _settings.GetConnection())
+                {
+                    if (conn.State == ConnectionState.Closed) conn.Open();
+
+                    string query = $"SELECT * FROM RETORNA_VALOR_DESCUENTO_CLIENTE(N'{code})';";
+                    using (var cmd = new SqlCommand(query, conn))
+                    {
+                        cmd.CommandType = CommandType.Text;
+                        var dr = cmd.ExecuteReader();
+                        while (dr.Read())
+                        {
+                            result = dr.GetInt32(0);
+                        }
+                    }
+                }
+                return Task.FromResult(result);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return null;
             }
         }
 

@@ -29,10 +29,8 @@
     </div>
     <div class="input-group">
         <span class="input-group-addon">@Html.DisplayNameFor(item => item.Discount)<i class="fa fa-lock"></i></span>
-        @Html.TextBoxFor(item => item.Discount, new {@classs = "form-control", @placeholder = "Descuento"})
+        @Html.TextBoxFor(item => item.Discount, new {@classs = "form-control"})
     </div>
-    <label>Al continuar no podrá devolverse y el cup&oacute;n ser&aacute; marcado como usuado.</label>
     <button class="btn btn-lg btn-primary btn-block" type="submit">Siguiente</button>
     @Html.ActionLink("Volver", "ProductList", "Shoping")
-        
 }

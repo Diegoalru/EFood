@@ -1,0 +1,41 @@
+@using EFood_Client.Controllers
+@model IEnumerable<EFoodBLL.ClientModels.ShoppingCart>
+
+@{
+    ViewBag.Title = "title";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var index = 0;
+}
+
+<h2>Carrito</h2>
+<table class="table table-hover">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.ProductPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Quantity)
+        </th>
+        <th>
+            Eliminar
+        </th>
+    </tr>
+    @foreach (var item in Shopping.ShowPurchases())
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProductPrice)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Quantity)
+            </td>
+            <td>
+                @Html.ActionLink("Eliminar", "DeleteProductShopping", index)
+            </td>
+        </tr>
+        index++;
+    }
+</table>
+
+
+

@@ -16,14 +16,16 @@ namespace EFood_Client.Controllers
         [HttpGet]
         public async Task<ActionResult> Initialize()
         {
-            await Transaction.InitalizeTransaction();
-            var result = await _clientMethods.CreateTransaction(Transaction.GetTransaction());
-            
-            if (result)
+            var resultTransaction = await Transaction.InitalizeTransaction();
+            if (resultTransaction == 1)
+            {
+                await _clientMethods.CreateTransaction(Transaction.GetTransaction());
                 return RedirectToAction("ProductList", "Shoping");
+            }
 
-            ModelState.AddModelError(key: "", errorMessage: "Ha ocurrido un error al conectar con la base de datos.\n");
+            ModelState.AddModelError(key: "", errorMessage: "Ha ocurrido un error. ¡Reintente de nuevo!\n");
             return RedirectToAction("Index", "Home");
+
         }
     }
 }

@@ -1,15 +1,29 @@
+@using EFood_Client.Controllers
 @{
-    ViewBag.Title = "title";
+    ViewBag.Title = "Opcion Pago Efectivo";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <!--
-    En esta pantalla no se retorna nada al backend, las unicas acciones son aceptar o volver. 
+    En esta pantalla no se retorna nada al backend, las unicas acciones son aceptar o cancelar. 
  -->
 
 <h2>Opci&oacute;n de pago: Efectivo</h2>
-<label for="Subtotal">Subtotal: @ViewBag.Subtotal</label>
-<label for="Discount">Descuento: @ViewBag.Descuento</label>
-<label for="Total">Total: @ViewBag.Total</label>
-@Html.ActionLink("CHEQUE", "PayPage", null, new { @class = "primary-btn" })
-@Html.ActionLink("Volver", "ProductList", null, new { @class = "primary-btn" })
+<br/>
+@if (Utils.GetDiscount() != -1)
+{
+    <label for="Subtotal">Subtotal: @ViewBag.Subtotal</label>
+    <br/>
+    <label for="Discount">Descuento: @ViewBag.Discount</label>
+    <br/>
+    <label for="Total">Total: @ViewBag.Total</label>
+    <br/>    
+}
+else
+{
+    <label for="Total">Total: @ViewBag.Subtotal</label>
+    <br/>
+}
+@Html.ActionLink("Continuar", "PayPage", null, new { @class = "primary-btn" })
+<br/>
+@Html.ActionLink("Volver", "PayMethod", null, new { @class = "primary-btn" })

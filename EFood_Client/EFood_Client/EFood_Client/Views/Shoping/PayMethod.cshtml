@@ -1,10 +1,14 @@
 @{
     ViewBag.Title = "title";
-    Layout = "_Layout";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <h2>Selecciona el Medio de Pago</h2>
+<br/>
 @Html.ActionLink("EFECTIVO","MethodCash", null, new { @class = "primary-btn" })
+<br/>
 @Html.ActionLink("TARJETA CREDITO/DEBITO", "MethodCard", null, new { @class = "primary-btn" })
+<br/>
 @Html.ActionLink("CHEQUE", "MethodCheck", null, new { @class = "primary-btn" })
+<br/>
 @Html.ActionLink("Volver", "ProductList", null, new { @class = "primary-btn" })

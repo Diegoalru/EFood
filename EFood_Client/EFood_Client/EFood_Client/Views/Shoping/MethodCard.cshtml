@@ -1,0 +1,47 @@
+@using EFood_Client.Controllers
+@model EFoodBLL.ClientModels.Card_Client
+
+@{
+    ViewBag.Title = "Tarjeta de Crédito o Débito";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Tarjeta de Crédito o Débito</h2>
+@using (Html.BeginForm("MethodCard", "Shoping", null, FormMethod.Post, new {role = "form"}))
+{
+    /* No modificar */
+    Model.Transaction = Transaction.GetTransaction();
+    Model.Amount = @ViewBag.Total;
+    /* No modificar */
+
+    @Html.ValidationSummary("", new { @class = "ErrorMessage" })
+    <label>Subtotal: @ViewBag.Subtotal</label>
+    <label>Descuento: @ViewBag.Discount</label>
+    <label>Total: @ViewBag.Total</label>
+    
+    <div class="input-group">
+        <span class="input-group-addon">@Html.DisplayNameFor(item => item.CardOwner)<i class="fa fa-lock"></i></span>
+        @Html.TextBoxFor(item => item.CardOwner, new {@classs = "form-control", @placeholder = "Nombre"})
+    </div>
+
+    <div class="input-group">
+        <span class="input-group-addon">@Html.DisplayNameFor(item => item.CardNumber)<i class="fa fa-lock"></i></span>
+        @Html.TextBoxFor(item => item.CardNumber, new {@classs = "form-control", @placeholder = "Apellidos"})
+    </div>
+    <div class="input-group">
+        <span class="input-group-addon">@Html.DisplayNameFor(item => item.Month)<i class="fa fa-lock"></i></span>
+        @Html.TextBoxFor(item => item.Year, new {@classs = "form-control", @placeholder = "Telefono"})
+    </div>
+    <div class="input-group">
+        <span class="input-group-addon">@Html.DisplayNameFor(item => item.CVV)<i class="fa fa-lock"></i></span>
+        @Html.TextBoxFor(item => item.CVV, new {@classs = "form-control", @placeholder = "Dirección"})
+    </div>
+    <div>
+        <span class="input-group-addon">@Html.DisplayNameFor(item => item.Type)<i class="fa fa-lock"></i></span>
+        @Html.DropDownListFor(item => item.Type, new SelectList(ViewBag.VBCardTypeList, "PkCode", "Type"), new {@class = ""})
+    </div>
+    <button class="btn btn-lg btn-primary btn-block" type="submit">Siguiente</button>
+    @Html.ActionLink("Volver", "PayMethod", "Shoping")
+        
+}
+

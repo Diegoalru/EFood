@@ -1,3 +1,4 @@
+@using EFood_Client.Controllers
 @model IEnumerable<EFoodBLL.ClientModels.Product>
 
 @{
@@ -7,15 +8,21 @@
 <div>
     @using (Html.BeginForm("ProductList", "Shoping", null, FormMethod.Post, new { role = "form" }))
     {
-        @Html.ValidationSummary("", new { @class = "ErrorMessage" }) @*Validation Cheked*@
-        @Html.Label("Buscar:")<br/>
+        @Html.ValidationSummary("", new { @class = "ErrorMessage" })
+        @Html.Label("Buscar:")
+        <br/>
         @Html.DropDownList("VBTypeLineList", ViewBag.VBTypeLineList as SelectList,  new { @id = "ddl" })
         @Html.Hidden("Type", "PkCode", new { @id = "hf" })
         <input type="submit" value=" Filtrar">
     }
     <br />
-    @Html.ActionLink("Continuar", "ClientRegister", null, new { @class = "primary-btn" })
-    @Html.ActionLink("Cancelar Orden", "CancelOrder", null, new { @class = "primary-btn" })
+    <div class="pull-right">
+          @if (Shopping.GetNumOfPurchases() != 0)
+          {
+              @Html.ActionLink("Continuar", "ClientRegister", null, new { @class = "primary-btn right"})
+          }
+          @Html.ActionLink("Cancelar Orden", "CancelOrder", null, new { @class = "primary-btn right" })
+    </div>
     <br />
     <table class="table table-hover">
     <tr>
@@ -33,7 +40,7 @@
                 @Html.DisplayFor(modelItem => item.Description)
             </td>
             <td>
-                @Html.ActionLink("Ver", "CheckProduct", new { id = item.PkCode })
+                @Html.ActionLink("Ver", "Product", new { id = item.PkCode })
             </td>
         </tr>
     }

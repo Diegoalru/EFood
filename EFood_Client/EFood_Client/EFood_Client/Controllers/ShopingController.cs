@@ -1,10 +1,10 @@
-using System.ComponentModel.DataAnnotations;
-using System.Dynamic;
+using System;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using EFoodBLL.ClientModels;
 using EFoodBLL.IntranetModels;
 using EFoodDB.EFood_Client;
+using ShoppingCart = EFoodBLL.ClientModels.ShoppingCart;
 
 namespace EFood_Client.Controllers
 {
@@ -15,7 +15,7 @@ namespace EFood_Client.Controllers
 
         /*
          * FIXME:
-         *     1- Investigar la razon por la que al volver al index 0 de los tipos de linea,
+         *     1- Investigar la razon por la que al volver al index 0 de los tipos de linea, (Pantalla: ProductList)
          *     deja de funcionar. No cambia los datos que se muestran en la pantalla
          *     solo se muestra cuando carga.
          */
@@ -84,7 +84,7 @@ namespace EFood_Client.Controllers
         /// <param name="id">Codigo interno del producto.</param>
         /// <returns>Vista que contiene la informacion del producto.</returns>
         [HttpGet]
-        public async Task<ActionResult> CheckProduct(int id)
+        public async Task<ActionResult> Product(int id)
         {
             var product = await _administrationMethods.ReturnProduct(id);
             
@@ -103,11 +103,28 @@ namespace EFood_Client.Controllers
         /// <param name="data">Información de la orden.</param>
         /// <returns>Retorna a vista que contiene los distintos productos.</returns>
         [HttpPost]
-        public ActionResult CheckProduct(EFoodBLL.ClientModels.ShoppingCart data)
+        public ActionResult Product(int type, int amount)
         {
-            data.Transaction = Transaction.GetTransaction(); 
-            Shopping.InsertPurchase(data);
-            return RedirectToAction("ProductList", "Shoping");
+            ShoppingCart data = new ShoppingCart()
+            {
+                ProductPrice = type, Quantity = amount, Transaction = Transaction.GetTransaction()
+            };
+                
+            if (!ModelState.IsValid)
+            {
+                ModelState.AddModelError("", "¡Error!");
+                return View(data);
+            }
+
+            if (0 > data.Quantity && data.Quantity <= 50)
+            {
+                data.Transaction = Transaction.GetTransaction(); 
+                Shopping.InsertPurchase(data);
+                return RedirectToAction("ProductList", "Shoping");
+            }
+
+            ModelState.AddModelError("", "¡Error! Cantidad no permitida.");
+            return View(data);
         }
 
         /// <summary>
@@ -117,11 +134,12 @@ namespace EFood_Client.Controllers
         [HttpGet]
         public ActionResult ClientRegister()
         {
-            return View();
+            var data = Utils.GetClient();
+            return data != null ? View(data) : View(new Client(){Discount = string.Empty});
         }
         
         /// <summary>
-        /// Metodo que realiza la 
+        /// Metodo que realiza el regtsiro del cliente.
         /// </summary>
         /// <param name="data"></param>
         /// <returns></returns>
@@ -129,38 +147,47 @@ namespace EFood_Client.Controllers
         public async Task<ActionResult> ClientRegister(Client data)
         {
             if (!ModelState.IsValid)
-                return await Task.FromResult<ActionResult>(View(data));
-
-            var existsDiscount = await _administrationMethods.ExistsDiscount(data.Discount);
-            
-            /*
-             * Todo: Problemas con el cupon, ya que a la hora de aceptar y continuar, no 
-             */ 
-            switch (existsDiscount)
             {
-                case true:
-                    var result = await _clientMethods.InsertClient(data);
-                    if (result)
-                    {
-                        Utils.SetDiscount(data.Discount);   
-                        return RedirectToAction("PayMethod", "Shoping");
-                    }
-                    ModelState.AddModelError("", "¡Error! Ha ocurrido un error.\n");
-                    return await Task.FromResult<ActionResult>(View());
-                
-                case false:
-                    ModelState.AddModelError("", "¡El tiquete de descuento no es valido!.\n");
-                    break;
-                
-                default:
-                    ModelState.AddModelError("", "¡Error! Ha ocurrido un error.\n");
-                    break;
+                return await Task.FromResult<ActionResult>(View(data));
             }
-            return await Task.FromResult<ActionResult>(View());
+
+            try
+            {
+                if (!data.Discount.Equals(" "))
+                {
+                    var existsDiscount = await _administrationMethods.ExistsDiscount(data.Discount);
+                    switch (existsDiscount)
+                    {
+                        case true:
+                            Utils.SetDiscountCode(data.Discount);
+                            break;
+
+                        case false:
+                            ModelState.AddModelError("", "¡El tiquete de descuento no es valido!.\n");
+                            return await Task.FromResult<ActionResult>(View());
+
+                        default:
+                            ModelState.AddModelError("", "¡Error! Ha ocurrido un error.\n");
+                            return await Task.FromResult<ActionResult>(View());
+                    }
+                }
+                else
+                {
+                    Utils.SetDiscountCode(String.Empty);
+                    data.Discount = string.Empty;    
+                }
+            }
+            catch (Exception)
+            {
+                data.Discount = string.Empty;
+                Utils.SetDiscountCode(string.Empty);
+            }
+            Utils.SetClient(data);
+            return RedirectToAction("PayMethod", "Shoping");
         }
 
         /// <summary>
-        /// Este metodo se encarga de cancelar todas las ordenes hechoas por el usuario.
+        /// Este metodo se encarga de cancelar todas las ordenes hechos por el usuario.
         /// </summary>
         /// <returns></returns>
         [HttpGet]
@@ -169,35 +196,77 @@ namespace EFood_Client.Controllers
             await _clientMethods.UpdateTransactionStatus(Transaction.GetTransaction(), 2);
             Transaction.DeleteTransaction();
             Shopping.DeleteOrders();
+            Utils.DeleteData();
             return RedirectToAction("Index", "Home");
         }
 
-        public ActionResult PayMethod()
-        {
-            return View();
-        }
-
-        public ActionResult MethodCash()
+        public async Task<ActionResult> PayMethod()
         {
             Shopping.AmountShoping();
-            ViewBag.Subtotal = Shopping.GetAmount();
+            //decimal discountValue = subtotalValue - (decimal) (discount / 100.0);
             
+            Utils.SetSubTotal(Shopping.GetAmount());    
+            if (Utils.GetDiscount() != -1)
+            {
+                Utils.SetDiscount(await _administrationMethods.ReturnDiscountValue(Utils.GetDiscountCode()));
+            } 
+            return View();
+        }
+        
+        public ActionResult MethodCash()
+        {
+            ViewBag.Subtotal = Utils.GetSubTotal();
+            if (Utils.GetDiscount() != -1)
+            {
+                ViewBag.Discount = Utils.GetDiscount();
+                ViewBag.Total = Utils.GetSubTotal() - ( (decimal) Utils.GetDiscount() / 100);    
+            }
             return View();
         }
 
-        public ActionResult PayPage()
+        public async Task<ActionResult> MethodCard()
         {
+            var cardTypeList = await _administrationMethods.CardTypes();
+            ViewBag.VBCardTypeList = new SelectList(cardTypeList, "PkCode", "Type");
+            ViewBag.Subtotal = Utils.GetSubTotal();
+            ViewBag.Discount = Utils.GetDiscount();
+            ViewBag.Total = Utils.GetSubTotal() - ( (decimal) Utils.GetDiscount() / 100);
             return View();
         }
-
-        public ActionResult MethodCard()
+        
+        public async Task<ActionResult> MethodCard(Card_Client data)
         {
-            throw new System.NotImplementedException();
+            if (!ModelState.IsValid)
+            {
+                ModelState.AddModelError("", "Datos incompletos:\n");
+                return View(data);
+            }
+
+            var result = await _clientMethods.InsertCard(data);
+            if (result) return RedirectToAction("PayPage", "Shoping");
+            ModelState.AddModelError("", "Ha ocurrido un error al realizar la transaccion.\n");
+            return View(data);
         }
 
         public ActionResult MethodCheck()
         {
             throw new System.NotImplementedException();
+        }
+        
+        public ActionResult PayPage()
+        {
+            return View();
+        }
+
+        public ActionResult ShoppingList()
+        {
+            return View();
+        }
+        
+        public ActionResult DeleteProductShopping(int id)
+        {
+            Shopping.DeletePurchase(id);
+            return RedirectToAction("ShoppingList");
         }
     }
 }
