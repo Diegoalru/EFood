@@ -2,21 +2,22 @@
     ViewBag.Title = "Detalle Producto";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-@using (Html.BeginForm("Product", "Shoping", null, FormMethod.Post, new {role = "form"}))
-{
+<div>
     @Html.ValidationSummary("", new { @class = "ErrorMessage" })
     <br/>
     <label>Producto: <strong>@ViewBag.VBProduct.Description</strong></label>
     <br/>
     <label>Contenido: @ViewBag.VBProduct.Content</label>
     <br/>
-    <label>Precios:</label>
-    @Html.DropDownList("type", new SelectList(ViewBag.VBPrices, "PkCode", "Type"), new {@class = ""})
-    <br/>
-    <label>Cantidad: </label>
-    <input type="number" required="required" placeholder="Cantidad" max="50" min="1" name="amount"/>
-    <br/>
-    <input type="submit" value="Comprar" class="primary-btn"/>
+    @using (Html.BeginForm("Product", "Shoping", null, FormMethod.Post))
+    {
+        <label>Precios:</label>
+        @Html.DropDownList("type", new SelectList(ViewBag.VBPrices, "PkCode", "Type"))
+        <br/>
+        <label>Cantidad: </label>
+        <input type="number" required="required" placeholder="Cantidad" max="50" min="1" name="amount"/>
+        <br/>
+        <input type="submit" value="Comprar" class="primary-btn"/>
+    }
     @Html.ActionLink(" Volver", "ProductList")
-}
+</div>

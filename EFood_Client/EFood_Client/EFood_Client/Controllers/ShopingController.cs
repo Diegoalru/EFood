@@ -77,7 +77,7 @@ namespace EFood_Client.Controllers
             //Se envia los datos obtenidos, en otras palabras aquí se retornan dos listas (tipos de linea y productos)
             return View(productList);
         }
-
+        
         /// <summary>
         /// Vista que muestra la informacion del producto.
         /// </summary>
@@ -100,31 +100,17 @@ namespace EFood_Client.Controllers
         /// <summary>
         /// Guarda la compra realizada en el sistema.
         /// </summary>
-        /// <param name="data">Información de la orden.</param>
-        /// <returns>Retorna a vista que contiene los distintos productos.</returns>
         [HttpPost]
         public ActionResult Product(int type, int amount)
         {
-            ShoppingCart data = new ShoppingCart()
+            var data = new ShoppingCart
             {
                 ProductPrice = type, Quantity = amount, Transaction = Transaction.GetTransaction()
             };
-                
-            if (!ModelState.IsValid)
-            {
-                ModelState.AddModelError("", "¡Error!");
-                return View(data);
-            }
 
-            if (0 > data.Quantity && data.Quantity <= 50)
-            {
-                data.Transaction = Transaction.GetTransaction(); 
-                Shopping.InsertPurchase(data);
-                return RedirectToAction("ProductList", "Shoping");
-            }
-
-            ModelState.AddModelError("", "¡Error! Cantidad no permitida.");
-            return View(data);
+            data.Transaction = Transaction.GetTransaction(); 
+            Shopping.InsertPurchase(data);
+            return RedirectToAction("ProductList", "Shoping");
         }
 
         /// <summary>
