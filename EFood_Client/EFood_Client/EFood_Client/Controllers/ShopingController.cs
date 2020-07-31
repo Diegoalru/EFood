@@ -189,7 +189,6 @@ namespace EFood_Client.Controllers
         public async Task<ActionResult> PayMethod()
         {
             Shopping.AmountShoping();
-            //decimal discountValue = subtotalValue - (decimal) (discount / 100.0);
             
             Utils.SetSubTotal(Shopping.GetAmount());    
             if (Utils.GetDiscount() != -1)

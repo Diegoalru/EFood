@@ -2,9 +2,9 @@
 @model IEnumerable<EFoodBLL.ClientModels.ShoppingCart>
 
 @{
-    ViewBag.Title = "title";
+    ViewBag.Title = "Carrito";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    var index = 0;
+    var id = 0;
 }
 
 <h2>Carrito</h2>
@@ -30,10 +30,10 @@
                 @Html.DisplayFor(modelItem => item.Quantity)
             </td>
             <td>
-                @Html.ActionLink("Eliminar", "DeleteProductShopping", index)
+                @Html.ActionLink("Eliminar", "DeleteProductShopping", new {id = id})
             </td>
         </tr>
-        index++;
+        id++;
     }
 </table>
 
