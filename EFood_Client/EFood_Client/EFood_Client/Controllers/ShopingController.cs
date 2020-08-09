@@ -16,8 +16,7 @@ namespace EFood_Client.Controllers
         /*
          * FIXME:
          *     1- Investigar la razon por la que al volver al index 0 de los tipos de linea, (Pantalla: ProductList)
-         *     deja de funcionar. No cambia los datos que se muestran en la pantalla
-         *     solo se muestra cuando carga.
+         *     deja de funcionar. No cambia los datos que se muestran en la pantalla solo se muestra cuando carga.
          */
         
         
