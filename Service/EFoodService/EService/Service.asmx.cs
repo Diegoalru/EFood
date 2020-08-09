@@ -3,7 +3,9 @@ using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Threading.Tasks;
+using System.Web.Management;
 using System.Web.Services;
+using System.Xml.XPath;
 
 namespace EService
 {
@@ -52,28 +54,29 @@ namespace EService
         
         #if  DEBUG
         [WebMethod]
-        public bool? TestExisteCuenta(int cuenta) => ExisteCuenta(cuenta).Result;
+        public int TestExisteCuenta(int cuenta) => ExisteCuenta(cuenta);
 
         [WebMethod]
-        public bool? TestExisteCheque(int cuenta, string numero) => ExisteCheque(cuenta, numero).Result;
+        public int TestExisteCheque(int cuenta, string numero) => ExisteCheque(cuenta, numero);
         
         [WebMethod]
-        public bool? TestRealizaRebajoCheque(int cuenta, decimal monto) => RealizaRebajoCheque(cuenta, monto).Result;
+        public int TestRealizaRebajoCheque(int cuenta, decimal monto) => RealizaRebajoCheque(cuenta, monto);
         
         [WebMethod]
-        public bool TestActualizaSaldoCheque(int cuenta, decimal monto) => ActualizaSaldoCheque(cuenta, monto).Result;
+        public int TestActualizaSaldoCheque(int cuenta, decimal monto) => ActualizaSaldoCheque(cuenta, monto);
 
         [WebMethod]
-        public bool TestInsertaCuenta(int cuenta, decimal saldo) => InsertaCuenta(cuenta, saldo).Result;
+        public int TestInsertaCuenta(int cuenta, decimal saldo) => InsertaCuenta(cuenta, saldo);
         
         [WebMethod]
-        public bool TestInsertaCheque(int cuenta, string numero) => InsertaCheque(cuenta, numero).Result;
+        public int TestInsertaCheque(int cuenta, string numero) => InsertaCheque(cuenta, numero);
         
         #endif
         
         [WebMethod]
-        public Task<bool?> ExisteCuenta(int cuenta)
+        public int ExisteCuenta(int cuenta)
         {
+            int result;
             try
             {
                 using var conn = GetConnection();
@@ -82,19 +85,20 @@ namespace EService
 
                 var query = $"SELECT dbo.EXISTE_CUENTA({cuenta});";
                 using var cmd = new SqlCommand(query, conn);
-                var result = Task.FromResult((bool?) cmd.ExecuteScalar());
-
-                return result;
+                var response = Task.FromResult((bool) cmd.ExecuteScalar());
+                result = response.Result ? 0 : 1;
             }
             catch (Exception)
             {
-                return null;
+                result = -1;
             }
+            return result;
         }
         
         [WebMethod]
-        public Task<bool?> ExisteCheque(int cuenta, string numero)
+        public int ExisteCheque(int cuenta, string numero)
         {
+            int result;
             try
             {
                 using var conn = GetConnection();
@@ -103,19 +107,21 @@ namespace EService
 
                 var query = $"Select dbo.EXISTE_NUMERO_CHEQUE({cuenta}, '{numero}');";
                 using var cmd = new SqlCommand(query, conn);
-                var result = Task.FromResult((bool?) cmd.ExecuteScalar());
+                var response = Task.FromResult((bool) cmd.ExecuteScalar());
 
-                return result;
+                result = response.Result ? 0 : 1;
             }
             catch (Exception)
             {
-                return null;
+                result = -1;
             }
+            return result;
         }
         
         [WebMethod]
-        public Task<bool?> RealizaRebajoCheque(int cuenta, decimal monto)
+        public int RealizaRebajoCheque(int cuenta, decimal monto)
         {
+            int result;
             try
             {
                 using var conn = GetConnection();
@@ -124,18 +130,20 @@ namespace EService
 
                 var query = $"SELECT dbo.VALIDA_REBAJO_CUENTA({cuenta}, {monto});";
                 using var cmd = new SqlCommand(query, conn);
-                var result = Task.FromResult((bool?) cmd.ExecuteScalar());
-                
-                return result;
+                var response = Task.FromResult((bool) cmd.ExecuteScalar());
+
+                result = response.Result ? 0 : 1;
             }
             catch (Exception)
             {
-                return null;
+                result = -1;
             }
+
+            return result;
         }
 
         [WebMethod]
-        public Task<bool> ActualizaSaldoCheque(int cuenta, decimal monto)
+        public int ActualizaSaldoCheque(int cuenta, decimal monto)
         {
             try
             {
@@ -152,43 +160,40 @@ namespace EService
                 cmd.ExecuteNonQuery();
                 conn.Close();
 
-                return Task.FromResult(true);
+                return 0;
             }
-            catch (Exception e)
+            catch (Exception )
             {
-                Console.WriteLine(e);
-                return Task.FromResult(false);
+                return 1;
             }
         }
 
         [WebMethod]
-        public Task<bool> InsertaCuenta(int cuenta, decimal saldo)
+        public int InsertaCuenta(int cuenta, decimal saldo)
         {
             try
             {
-                using (var conn = GetConnection())
-                {
-                    if (conn.State == ConnectionState.Closed) conn.Open();
+                using var conn = GetConnection();
+                if (conn.State == ConnectionState.Closed) conn.Open();
 
-                    using var cmd = new SqlCommand("INSERTA_CUENTA_CHEQUE", conn)
-                    {
-                        CommandType = CommandType.StoredProcedure
-                    };
-                    cmd.Parameters.Add("@CUENTA", SqlDbType.Int).Value = cuenta;
-                    cmd.Parameters.Add("@SALDO", SqlDbType.Decimal).Value = saldo;
-                    cmd.ExecuteNonQuery();
-                    conn.Close();
-                }
-                return Task.FromResult(true);
+                using var cmd = new SqlCommand("INSERTA_CUENTA_CHEQUE", conn)
+                {
+                    CommandType = CommandType.StoredProcedure
+                };
+                cmd.Parameters.Add("@CUENTA", SqlDbType.Int).Value = cuenta;
+                cmd.Parameters.Add("@SALDO", SqlDbType.Decimal).Value = saldo;
+                cmd.ExecuteNonQuery();
+                conn.Close();
+                return 0;
             }
             catch (Exception)
             {
-                return Task.FromResult(false);
+                return 1;
             }
         }
 
         [WebMethod]
-        public Task<bool> InsertaCheque(int cuenta, string numero)
+        public int InsertaCheque(int cuenta, string numero)
         {
             try
             {
@@ -205,11 +210,11 @@ namespace EService
                     cmd.ExecuteNonQuery();
                     conn.Close();
                 }
-                return Task.FromResult(true);
+                return 0;
             }
             catch (Exception)
             {
-                return Task.FromResult(false);
+                return 1;
             }
         }
         #endregion
@@ -217,28 +222,29 @@ namespace EService
         #region Tarjeta
         #if DEBUG
         [WebMethod]
-        public bool? TestExisteTarjeta(string tarjeta) => ExisteTarjeta(tarjeta).Result;
+        public int TestExisteTarjeta(string tarjeta) => ExisteTarjeta(tarjeta);
 
         [WebMethod]
-        public bool TestActualizaSaldoTarjeta(string tarjeta, decimal monto) => 
-            ActualizaSaldoTarjeta(tarjeta, monto).Result;
+        public int TestActualizaSaldoTarjeta(string tarjeta, decimal monto) => 
+            ActualizaSaldoTarjeta(tarjeta, monto);
 
         [WebMethod]
-        public bool? TestRealizaRebajoTarjeta(string tarjeta, decimal monto) =>
-            RealizaRebajoTarjeta(tarjeta, monto).Result;
+        public int TestRealizaRebajoTarjeta(string tarjeta, decimal monto) =>
+            RealizaRebajoTarjeta(tarjeta, monto);
 
         [WebMethod]
-        public int? TestValidaTarjeta(string tarjeta, string mes, string year, string cvv) =>
-            ValidaTarjeta(tarjeta, mes, year, cvv).Result;
+        public int TestValidaTarjeta(string tarjeta, string mes, string year, string cvv) =>
+            ValidaTarjeta(tarjeta, mes, year, cvv);
         
         [WebMethod]
-        public bool TestInsertaTarjeta(string nombreAsociado, string tarjeta, string mes, string year, string cvv, int tipo, decimal saldo) =>
-            InsertaTarjeta(nombreAsociado, tarjeta, mes, year, cvv, tipo, saldo).Result;
+        public int TestInsertaTarjeta(string nombreAsociado, string tarjeta, string mes, string year, string cvv, int tipo, decimal saldo) =>
+            InsertaTarjeta(nombreAsociado, tarjeta, mes, year, cvv, tipo, saldo);
         #endif
         
         [WebMethod]
-        public Task<bool?> ExisteTarjeta(string tarjeta)
+        public int ExisteTarjeta(string tarjeta)
         {
+            int result;
             try
             {
                 using var conn = GetConnection();
@@ -247,18 +253,20 @@ namespace EService
 
                 var query = $"SELECT dbo.EXISTE_TARJETA('{tarjeta}');";
                 using var cmd = new SqlCommand(query, conn);
-                var result = Task.FromResult((bool?) cmd.ExecuteScalar());
+                var response = Task.FromResult((bool) cmd.ExecuteScalar());
 
-                return result;
+                result = response.Result ? 0 : 1;
             }
             catch (Exception)
             {
-                return null;
+                result = -1;
             }
+
+            return result;
         }
         
         [WebMethod]
-        public Task<bool> ActualizaSaldoTarjeta(string tarjeta, decimal monto)
+        public int ActualizaSaldoTarjeta(string tarjeta, decimal monto)
         {
             try
             {
@@ -275,18 +283,18 @@ namespace EService
                 cmd.ExecuteNonQuery();
                 conn.Close();
 
-                return Task.FromResult(true);
+                return 0;
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                Console.WriteLine(e);
-                return Task.FromResult(false);
+                return  1;
             }
         }
         
         [WebMethod]
-        public Task<bool?> RealizaRebajoTarjeta(string tarjeta, decimal monto)
+        public int RealizaRebajoTarjeta(string tarjeta, decimal monto)
         {
+            int result;
             try
             {
                 using var conn = GetConnection();
@@ -295,18 +303,20 @@ namespace EService
 
                 var query = $"SELECT dbo.VALIDA_REBAJO_TARJETA('{tarjeta}', {monto});";
                 using var cmd = new SqlCommand(query, conn);
-                var result = Task.FromResult((bool?) cmd.ExecuteScalar());
-                
-                return result;
+                var response = Task.FromResult((bool) cmd.ExecuteScalar());
+
+                result = response.Result ? 0 : 1;
             }
             catch (Exception)
             {
-                return null;
+                result = -1;
             }
+
+            return result;
         }
 
         [WebMethod]
-        public Task<int?> ValidaTarjeta(string tarjeta, string mes, string year, string cvv)
+        public int ValidaTarjeta(string tarjeta, string mes, string year, string cvv)
         {
             try
             {
@@ -316,18 +326,18 @@ namespace EService
 
                 var query = $"SELECT dbo.VALIDA_TARJETA('{tarjeta}', '{mes}', '{year}', '{cvv}');";
                 using var cmd = new SqlCommand(query, conn);
-                var result = Task.FromResult((int?) cmd.ExecuteScalar());
+                var result = Task.FromResult((int) cmd.ExecuteScalar());
 
-                return result;
+                return result.Result;
             }
             catch (Exception)
             {
-                return null;
+                return -6;
             }
         }
         
         [WebMethod]
-        public Task<bool> InsertaTarjeta(string nombreAsociado, string tarjeta, string mes, string year, string cvv, int tipo, decimal saldo)
+        public int InsertaTarjeta(string nombreAsociado, string tarjeta, string mes, string year, string cvv, int tipo, decimal saldo)
         {
             try
             {
@@ -349,11 +359,11 @@ namespace EService
                     cmd.ExecuteNonQuery();
                     conn.Close();
                 }
-                return Task.FromResult(true);
+                return 0;
             }
             catch (Exception)
             {
-                return Task.FromResult(false);
+                return 1;
             }
         }
         #endregion
