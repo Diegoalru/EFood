@@ -72,16 +72,32 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Cheque.aspx" />
+    <Content Include="Index.aspx" />
+    <Content Include="TarjetaView.aspx" />
     <Content Include="Web.config" />
     <Content Include="Global.asax" />
     <Content Include="Service.asmx" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Cheque.aspx.cs">
+      <SubType>ASPXCodeBehind</SubType>
+      <DependentUpon>Cheque.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Index.aspx.cs">
+      <SubType>ASPXCodeBehind</SubType>
+      <DependentUpon>Index.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Models.cs" />
     <Compile Include="Service.asmx.cs">
       <DependentUpon>Service.asmx</DependentUpon>
+    </Compile>
+    <Compile Include="TarjetaView.aspx.cs">
+      <SubType>ASPXCodeBehind</SubType>
+      <DependentUpon>TarjetaView.aspx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>

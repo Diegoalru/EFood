@@ -197,19 +197,17 @@ namespace EService
         {
             try
             {
-                using (var conn = GetConnection())
-                {
-                    if (conn.State == ConnectionState.Closed) conn.Open();
+                using var conn = GetConnection();
+                if (conn.State == ConnectionState.Closed) conn.Open();
 
-                    using var cmd = new SqlCommand("INSERTA_CHEQUE", conn)
-                    {
-                        CommandType = CommandType.StoredProcedure
-                    };
-                    cmd.Parameters.Add("@CUENTA", SqlDbType.Int).Value = cuenta;
-                    cmd.Parameters.Add("@NUMERO", SqlDbType.VarChar).Value = numero;
-                    cmd.ExecuteNonQuery();
-                    conn.Close();
-                }
+                using var cmd = new SqlCommand("INSERTA_CHEQUE", conn)
+                {
+                    CommandType = CommandType.StoredProcedure
+                };
+                cmd.Parameters.Add("@CUENTA", SqlDbType.Int).Value = cuenta;
+                cmd.Parameters.Add("@NUMERO", SqlDbType.VarChar).Value = numero;
+                cmd.ExecuteNonQuery();
+                conn.Close();
                 return 0;
             }
             catch (Exception)
@@ -365,6 +363,27 @@ namespace EService
             {
                 return 1;
             }
+        }
+
+        [WebMethod]
+        public decimal ObtieneSaldoTarjeta(string tarjeta)
+        {
+            try
+            {
+                using var conn = GetConnection();
+                if (conn.State == ConnectionState.Closed)
+                    conn.Open();
+
+                var query = $"SELECT dbo.RETORNA_SALDO_TARJETA('{tarjeta}');";
+                using var cmd = new SqlCommand(query, conn);
+                var result = Task.FromResult((decimal) cmd.ExecuteScalar());
+                
+                return result.Result;
+            }
+            catch (Exception)
+            {
+                return -2;
+            }   
         }
         #endregion
     }
