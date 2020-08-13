@@ -7,7 +7,7 @@ using EFoodDB.DBSettings;
 
 namespace EFoodDB.EFood_Client
 {
-    using static DateTime;
+    
     public interface IClientMethods
     {
         #region Exists
@@ -63,13 +63,6 @@ namespace EFoodDB.EFood_Client
         Task<bool> UpdateTransactionStatus(string transactionId, int status);
         #endregion
         
-        #region Utils
-        /// <summary>
-        /// Metodo que genera un codigo para la transaccion.
-        /// </summary>
-        /// <returns>Retorna el codigo de una transaccion.</returns>
-        Task<string> CreateTransaction();
-        #endregion
     }
 
     public class ClientMethods : IClientMethods
@@ -260,12 +253,6 @@ namespace EFoodDB.EFood_Client
                 Console.WriteLine(e);
                 return Task.FromResult(false);
             }
-        }
-
-        public Task<string> CreateTransaction()
-        {
-            var dt = Now;
-            return Task.FromResult(dt.ToString("yyyyMMddHHmmssffff"));
         }
     }
 }
