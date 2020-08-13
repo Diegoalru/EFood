@@ -1,0 +1,1046 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:tns="http://tempuri.org/" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Web Service. ULACIT IIC0 2020</wsdl:documentation>
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://tempuri.org/">
+      <s:element name="Valida_Conexion">
+        <s:complexType />
+      </s:element>
+      <s:element name="Valida_ConexionResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="Valida_ConexionResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ExisteCuenta">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="cuenta" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ExisteCuentaResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="ExisteCuentaResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ExisteCheque">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="cuenta" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="numero" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ExisteChequeResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="ExisteChequeResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="RealizaRebajoCheque">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="cuenta" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="monto" type="s:decimal" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="RealizaRebajoChequeResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="RealizaRebajoChequeResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ActualizaSaldoCheque">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="cuenta" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="monto" type="s:decimal" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ActualizaSaldoChequeResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="ActualizaSaldoChequeResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="InsertaCuenta">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="cuenta" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="saldo" type="s:decimal" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="InsertaCuentaResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="InsertaCuentaResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="InsertaCheque">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="cuenta" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="numero" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="InsertaChequeResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="InsertaChequeResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ExisteTarjeta">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="tarjeta" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ExisteTarjetaResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="ExisteTarjetaResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ActualizaSaldoTarjeta">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="tarjeta" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="monto" type="s:decimal" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ActualizaSaldoTarjetaResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="ActualizaSaldoTarjetaResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="RealizaRebajoTarjeta">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="tarjeta" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="monto" type="s:decimal" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="RealizaRebajoTarjetaResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="RealizaRebajoTarjetaResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ValidaTarjeta">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="tarjeta" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="mes" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="year" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="cvv" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ValidaTarjetaResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="ValidaTarjetaResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="InsertaTarjeta">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="nombreAsociado" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="tarjeta" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="mes" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="year" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="cvv" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="tipo" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="saldo" type="s:decimal" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="InsertaTarjetaResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="InsertaTarjetaResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="boolean" type="s:boolean" />
+      <s:element name="int" type="s:int" />
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="Valida_ConexionSoapIn">
+    <wsdl:part name="parameters" element="tns:Valida_Conexion" />
+  </wsdl:message>
+  <wsdl:message name="Valida_ConexionSoapOut">
+    <wsdl:part name="parameters" element="tns:Valida_ConexionResponse" />
+  </wsdl:message>
+  <wsdl:message name="ExisteCuentaSoapIn">
+    <wsdl:part name="parameters" element="tns:ExisteCuenta" />
+  </wsdl:message>
+  <wsdl:message name="ExisteCuentaSoapOut">
+    <wsdl:part name="parameters" element="tns:ExisteCuentaResponse" />
+  </wsdl:message>
+  <wsdl:message name="ExisteChequeSoapIn">
+    <wsdl:part name="parameters" element="tns:ExisteCheque" />
+  </wsdl:message>
+  <wsdl:message name="ExisteChequeSoapOut">
+    <wsdl:part name="parameters" element="tns:ExisteChequeResponse" />
+  </wsdl:message>
+  <wsdl:message name="RealizaRebajoChequeSoapIn">
+    <wsdl:part name="parameters" element="tns:RealizaRebajoCheque" />
+  </wsdl:message>
+  <wsdl:message name="RealizaRebajoChequeSoapOut">
+    <wsdl:part name="parameters" element="tns:RealizaRebajoChequeResponse" />
+  </wsdl:message>
+  <wsdl:message name="ActualizaSaldoChequeSoapIn">
+    <wsdl:part name="parameters" element="tns:ActualizaSaldoCheque" />
+  </wsdl:message>
+  <wsdl:message name="ActualizaSaldoChequeSoapOut">
+    <wsdl:part name="parameters" element="tns:ActualizaSaldoChequeResponse" />
+  </wsdl:message>
+  <wsdl:message name="InsertaCuentaSoapIn">
+    <wsdl:part name="parameters" element="tns:InsertaCuenta" />
+  </wsdl:message>
+  <wsdl:message name="InsertaCuentaSoapOut">
+    <wsdl:part name="parameters" element="tns:InsertaCuentaResponse" />
+  </wsdl:message>
+  <wsdl:message name="InsertaChequeSoapIn">
+    <wsdl:part name="parameters" element="tns:InsertaCheque" />
+  </wsdl:message>
+  <wsdl:message name="InsertaChequeSoapOut">
+    <wsdl:part name="parameters" element="tns:InsertaChequeResponse" />
+  </wsdl:message>
+  <wsdl:message name="ExisteTarjetaSoapIn">
+    <wsdl:part name="parameters" element="tns:ExisteTarjeta" />
+  </wsdl:message>
+  <wsdl:message name="ExisteTarjetaSoapOut">
+    <wsdl:part name="parameters" element="tns:ExisteTarjetaResponse" />
+  </wsdl:message>
+  <wsdl:message name="ActualizaSaldoTarjetaSoapIn">
+    <wsdl:part name="parameters" element="tns:ActualizaSaldoTarjeta" />
+  </wsdl:message>
+  <wsdl:message name="ActualizaSaldoTarjetaSoapOut">
+    <wsdl:part name="parameters" element="tns:ActualizaSaldoTarjetaResponse" />
+  </wsdl:message>
+  <wsdl:message name="RealizaRebajoTarjetaSoapIn">
+    <wsdl:part name="parameters" element="tns:RealizaRebajoTarjeta" />
+  </wsdl:message>
+  <wsdl:message name="RealizaRebajoTarjetaSoapOut">
+    <wsdl:part name="parameters" element="tns:RealizaRebajoTarjetaResponse" />
+  </wsdl:message>
+  <wsdl:message name="ValidaTarjetaSoapIn">
+    <wsdl:part name="parameters" element="tns:ValidaTarjeta" />
+  </wsdl:message>
+  <wsdl:message name="ValidaTarjetaSoapOut">
+    <wsdl:part name="parameters" element="tns:ValidaTarjetaResponse" />
+  </wsdl:message>
+  <wsdl:message name="InsertaTarjetaSoapIn">
+    <wsdl:part name="parameters" element="tns:InsertaTarjeta" />
+  </wsdl:message>
+  <wsdl:message name="InsertaTarjetaSoapOut">
+    <wsdl:part name="parameters" element="tns:InsertaTarjetaResponse" />
+  </wsdl:message>
+  <wsdl:message name="Valida_ConexionHttpGetIn" />
+  <wsdl:message name="Valida_ConexionHttpGetOut">
+    <wsdl:part name="Body" element="tns:boolean" />
+  </wsdl:message>
+  <wsdl:message name="ExisteCuentaHttpGetIn">
+    <wsdl:part name="cuenta" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="ExisteCuentaHttpGetOut">
+    <wsdl:part name="Body" element="tns:int" />
+  </wsdl:message>
+  <wsdl:message name="ExisteChequeHttpGetIn">
+    <wsdl:part name="cuenta" type="s:string" />
+    <wsdl:part name="numero" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="ExisteChequeHttpGetOut">
+    <wsdl:part name="Body" element="tns:int" />
+  </wsdl:message>
+  <wsdl:message name="RealizaRebajoChequeHttpGetIn">
+    <wsdl:part name="cuenta" type="s:string" />
+    <wsdl:part name="monto" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="RealizaRebajoChequeHttpGetOut">
+    <wsdl:part name="Body" element="tns:int" />
+  </wsdl:message>
+  <wsdl:message name="ActualizaSaldoChequeHttpGetIn">
+    <wsdl:part name="cuenta" type="s:string" />
+    <wsdl:part name="monto" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="ActualizaSaldoChequeHttpGetOut">
+    <wsdl:part name="Body" element="tns:int" />
+  </wsdl:message>
+  <wsdl:message name="InsertaCuentaHttpGetIn">
+    <wsdl:part name="cuenta" type="s:string" />
+    <wsdl:part name="saldo" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="InsertaCuentaHttpGetOut">
+    <wsdl:part name="Body" element="tns:int" />
+  </wsdl:message>
+  <wsdl:message name="InsertaChequeHttpGetIn">
+    <wsdl:part name="cuenta" type="s:string" />
+    <wsdl:part name="numero" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="InsertaChequeHttpGetOut">
+    <wsdl:part name="Body" element="tns:int" />
+  </wsdl:message>
+  <wsdl:message name="ExisteTarjetaHttpGetIn">
+    <wsdl:part name="tarjeta" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="ExisteTarjetaHttpGetOut">
+    <wsdl:part name="Body" element="tns:int" />
+  </wsdl:message>
+  <wsdl:message name="ActualizaSaldoTarjetaHttpGetIn">
+    <wsdl:part name="tarjeta" type="s:string" />
+    <wsdl:part name="monto" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="ActualizaSaldoTarjetaHttpGetOut">
+    <wsdl:part name="Body" element="tns:int" />
+  </wsdl:message>
+  <wsdl:message name="RealizaRebajoTarjetaHttpGetIn">
+    <wsdl:part name="tarjeta" type="s:string" />
+    <wsdl:part name="monto" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="RealizaRebajoTarjetaHttpGetOut">
+    <wsdl:part name="Body" element="tns:int" />
+  </wsdl:message>
+  <wsdl:message name="ValidaTarjetaHttpGetIn">
+    <wsdl:part name="tarjeta" type="s:string" />
+    <wsdl:part name="mes" type="s:string" />
+    <wsdl:part name="year" type="s:string" />
+    <wsdl:part name="cvv" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="ValidaTarjetaHttpGetOut">
+    <wsdl:part name="Body" element="tns:int" />
+  </wsdl:message>
+  <wsdl:message name="InsertaTarjetaHttpGetIn">
+    <wsdl:part name="nombreAsociado" type="s:string" />
+    <wsdl:part name="tarjeta" type="s:string" />
+    <wsdl:part name="mes" type="s:string" />
+    <wsdl:part name="year" type="s:string" />
+    <wsdl:part name="cvv" type="s:string" />
+    <wsdl:part name="tipo" type="s:string" />
+    <wsdl:part name="saldo" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="InsertaTarjetaHttpGetOut">
+    <wsdl:part name="Body" element="tns:int" />
+  </wsdl:message>
+  <wsdl:message name="Valida_ConexionHttpPostIn" />
+  <wsdl:message name="Valida_ConexionHttpPostOut">
+    <wsdl:part name="Body" element="tns:boolean" />
+  </wsdl:message>
+  <wsdl:message name="ExisteCuentaHttpPostIn">
+    <wsdl:part name="cuenta" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="ExisteCuentaHttpPostOut">
+    <wsdl:part name="Body" element="tns:int" />
+  </wsdl:message>
+  <wsdl:message name="ExisteChequeHttpPostIn">
+    <wsdl:part name="cuenta" type="s:string" />
+    <wsdl:part name="numero" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="ExisteChequeHttpPostOut">
+    <wsdl:part name="Body" element="tns:int" />
+  </wsdl:message>
+  <wsdl:message name="RealizaRebajoChequeHttpPostIn">
+    <wsdl:part name="cuenta" type="s:string" />
+    <wsdl:part name="monto" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="RealizaRebajoChequeHttpPostOut">
+    <wsdl:part name="Body" element="tns:int" />
+  </wsdl:message>
+  <wsdl:message name="ActualizaSaldoChequeHttpPostIn">
+    <wsdl:part name="cuenta" type="s:string" />
+    <wsdl:part name="monto" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="ActualizaSaldoChequeHttpPostOut">
+    <wsdl:part name="Body" element="tns:int" />
+  </wsdl:message>
+  <wsdl:message name="InsertaCuentaHttpPostIn">
+    <wsdl:part name="cuenta" type="s:string" />
+    <wsdl:part name="saldo" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="InsertaCuentaHttpPostOut">
+    <wsdl:part name="Body" element="tns:int" />
+  </wsdl:message>
+  <wsdl:message name="InsertaChequeHttpPostIn">
+    <wsdl:part name="cuenta" type="s:string" />
+    <wsdl:part name="numero" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="InsertaChequeHttpPostOut">
+    <wsdl:part name="Body" element="tns:int" />
+  </wsdl:message>
+  <wsdl:message name="ExisteTarjetaHttpPostIn">
+    <wsdl:part name="tarjeta" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="ExisteTarjetaHttpPostOut">
+    <wsdl:part name="Body" element="tns:int" />
+  </wsdl:message>
+  <wsdl:message name="ActualizaSaldoTarjetaHttpPostIn">
+    <wsdl:part name="tarjeta" type="s:string" />
+    <wsdl:part name="monto" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="ActualizaSaldoTarjetaHttpPostOut">
+    <wsdl:part name="Body" element="tns:int" />
+  </wsdl:message>
+  <wsdl:message name="RealizaRebajoTarjetaHttpPostIn">
+    <wsdl:part name="tarjeta" type="s:string" />
+    <wsdl:part name="monto" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="RealizaRebajoTarjetaHttpPostOut">
+    <wsdl:part name="Body" element="tns:int" />
+  </wsdl:message>
+  <wsdl:message name="ValidaTarjetaHttpPostIn">
+    <wsdl:part name="tarjeta" type="s:string" />
+    <wsdl:part name="mes" type="s:string" />
+    <wsdl:part name="year" type="s:string" />
+    <wsdl:part name="cvv" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="ValidaTarjetaHttpPostOut">
+    <wsdl:part name="Body" element="tns:int" />
+  </wsdl:message>
+  <wsdl:message name="InsertaTarjetaHttpPostIn">
+    <wsdl:part name="nombreAsociado" type="s:string" />
+    <wsdl:part name="tarjeta" type="s:string" />
+    <wsdl:part name="mes" type="s:string" />
+    <wsdl:part name="year" type="s:string" />
+    <wsdl:part name="cvv" type="s:string" />
+    <wsdl:part name="tipo" type="s:string" />
+    <wsdl:part name="saldo" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="InsertaTarjetaHttpPostOut">
+    <wsdl:part name="Body" element="tns:int" />
+  </wsdl:message>
+  <wsdl:portType name="EFoodServiceSoap">
+    <wsdl:operation name="ValidateConnection">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Confirma el estado de la conexion con la base de datos.</wsdl:documentation>
+      <wsdl:input name="Valida_Conexion" message="tns:Valida_ConexionSoapIn" />
+      <wsdl:output name="Valida_Conexion" message="tns:Valida_ConexionSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ExisteCuenta">
+      <wsdl:input message="tns:ExisteCuentaSoapIn" />
+      <wsdl:output message="tns:ExisteCuentaSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ExisteCheque">
+      <wsdl:input message="tns:ExisteChequeSoapIn" />
+      <wsdl:output message="tns:ExisteChequeSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="RealizaRebajoCheque">
+      <wsdl:input message="tns:RealizaRebajoChequeSoapIn" />
+      <wsdl:output message="tns:RealizaRebajoChequeSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ActualizaSaldoCheque">
+      <wsdl:input message="tns:ActualizaSaldoChequeSoapIn" />
+      <wsdl:output message="tns:ActualizaSaldoChequeSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="InsertaCuenta">
+      <wsdl:input message="tns:InsertaCuentaSoapIn" />
+      <wsdl:output message="tns:InsertaCuentaSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="InsertaCheque">
+      <wsdl:input message="tns:InsertaChequeSoapIn" />
+      <wsdl:output message="tns:InsertaChequeSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ExisteTarjeta">
+      <wsdl:input message="tns:ExisteTarjetaSoapIn" />
+      <wsdl:output message="tns:ExisteTarjetaSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ActualizaSaldoTarjeta">
+      <wsdl:input message="tns:ActualizaSaldoTarjetaSoapIn" />
+      <wsdl:output message="tns:ActualizaSaldoTarjetaSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="RealizaRebajoTarjeta">
+      <wsdl:input message="tns:RealizaRebajoTarjetaSoapIn" />
+      <wsdl:output message="tns:RealizaRebajoTarjetaSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ValidaTarjeta">
+      <wsdl:input message="tns:ValidaTarjetaSoapIn" />
+      <wsdl:output message="tns:ValidaTarjetaSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="InsertaTarjeta">
+      <wsdl:input message="tns:InsertaTarjetaSoapIn" />
+      <wsdl:output message="tns:InsertaTarjetaSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:portType name="EFoodServiceHttpGet">
+    <wsdl:operation name="ValidateConnection">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Confirma el estado de la conexion con la base de datos.</wsdl:documentation>
+      <wsdl:input name="Valida_Conexion" message="tns:Valida_ConexionHttpGetIn" />
+      <wsdl:output name="Valida_Conexion" message="tns:Valida_ConexionHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ExisteCuenta">
+      <wsdl:input message="tns:ExisteCuentaHttpGetIn" />
+      <wsdl:output message="tns:ExisteCuentaHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ExisteCheque">
+      <wsdl:input message="tns:ExisteChequeHttpGetIn" />
+      <wsdl:output message="tns:ExisteChequeHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="RealizaRebajoCheque">
+      <wsdl:input message="tns:RealizaRebajoChequeHttpGetIn" />
+      <wsdl:output message="tns:RealizaRebajoChequeHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ActualizaSaldoCheque">
+      <wsdl:input message="tns:ActualizaSaldoChequeHttpGetIn" />
+      <wsdl:output message="tns:ActualizaSaldoChequeHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="InsertaCuenta">
+      <wsdl:input message="tns:InsertaCuentaHttpGetIn" />
+      <wsdl:output message="tns:InsertaCuentaHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="InsertaCheque">
+      <wsdl:input message="tns:InsertaChequeHttpGetIn" />
+      <wsdl:output message="tns:InsertaChequeHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ExisteTarjeta">
+      <wsdl:input message="tns:ExisteTarjetaHttpGetIn" />
+      <wsdl:output message="tns:ExisteTarjetaHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ActualizaSaldoTarjeta">
+      <wsdl:input message="tns:ActualizaSaldoTarjetaHttpGetIn" />
+      <wsdl:output message="tns:ActualizaSaldoTarjetaHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="RealizaRebajoTarjeta">
+      <wsdl:input message="tns:RealizaRebajoTarjetaHttpGetIn" />
+      <wsdl:output message="tns:RealizaRebajoTarjetaHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ValidaTarjeta">
+      <wsdl:input message="tns:ValidaTarjetaHttpGetIn" />
+      <wsdl:output message="tns:ValidaTarjetaHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="InsertaTarjeta">
+      <wsdl:input message="tns:InsertaTarjetaHttpGetIn" />
+      <wsdl:output message="tns:InsertaTarjetaHttpGetOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:portType name="EFoodServiceHttpPost">
+    <wsdl:operation name="ValidateConnection">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Confirma el estado de la conexion con la base de datos.</wsdl:documentation>
+      <wsdl:input name="Valida_Conexion" message="tns:Valida_ConexionHttpPostIn" />
+      <wsdl:output name="Valida_Conexion" message="tns:Valida_ConexionHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ExisteCuenta">
+      <wsdl:input message="tns:ExisteCuentaHttpPostIn" />
+      <wsdl:output message="tns:ExisteCuentaHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ExisteCheque">
+      <wsdl:input message="tns:ExisteChequeHttpPostIn" />
+      <wsdl:output message="tns:ExisteChequeHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="RealizaRebajoCheque">
+      <wsdl:input message="tns:RealizaRebajoChequeHttpPostIn" />
+      <wsdl:output message="tns:RealizaRebajoChequeHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ActualizaSaldoCheque">
+      <wsdl:input message="tns:ActualizaSaldoChequeHttpPostIn" />
+      <wsdl:output message="tns:ActualizaSaldoChequeHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="InsertaCuenta">
+      <wsdl:input message="tns:InsertaCuentaHttpPostIn" />
+      <wsdl:output message="tns:InsertaCuentaHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="InsertaCheque">
+      <wsdl:input message="tns:InsertaChequeHttpPostIn" />
+      <wsdl:output message="tns:InsertaChequeHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ExisteTarjeta">
+      <wsdl:input message="tns:ExisteTarjetaHttpPostIn" />
+      <wsdl:output message="tns:ExisteTarjetaHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ActualizaSaldoTarjeta">
+      <wsdl:input message="tns:ActualizaSaldoTarjetaHttpPostIn" />
+      <wsdl:output message="tns:ActualizaSaldoTarjetaHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="RealizaRebajoTarjeta">
+      <wsdl:input message="tns:RealizaRebajoTarjetaHttpPostIn" />
+      <wsdl:output message="tns:RealizaRebajoTarjetaHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ValidaTarjeta">
+      <wsdl:input message="tns:ValidaTarjetaHttpPostIn" />
+      <wsdl:output message="tns:ValidaTarjetaHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="InsertaTarjeta">
+      <wsdl:input message="tns:InsertaTarjetaHttpPostIn" />
+      <wsdl:output message="tns:InsertaTarjetaHttpPostOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="EFoodServiceSoap" type="tns:EFoodServiceSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="ValidateConnection">
+      <soap:operation soapAction="http://tempuri.org/Valida_Conexion" style="document" />
+      <wsdl:input name="Valida_Conexion">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="Valida_Conexion">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ExisteCuenta">
+      <soap:operation soapAction="http://tempuri.org/ExisteCuenta" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ExisteCheque">
+      <soap:operation soapAction="http://tempuri.org/ExisteCheque" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RealizaRebajoCheque">
+      <soap:operation soapAction="http://tempuri.org/RealizaRebajoCheque" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ActualizaSaldoCheque">
+      <soap:operation soapAction="http://tempuri.org/ActualizaSaldoCheque" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="InsertaCuenta">
+      <soap:operation soapAction="http://tempuri.org/InsertaCuenta" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="InsertaCheque">
+      <soap:operation soapAction="http://tempuri.org/InsertaCheque" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ExisteTarjeta">
+      <soap:operation soapAction="http://tempuri.org/ExisteTarjeta" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ActualizaSaldoTarjeta">
+      <soap:operation soapAction="http://tempuri.org/ActualizaSaldoTarjeta" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RealizaRebajoTarjeta">
+      <soap:operation soapAction="http://tempuri.org/RealizaRebajoTarjeta" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ValidaTarjeta">
+      <soap:operation soapAction="http://tempuri.org/ValidaTarjeta" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="InsertaTarjeta">
+      <soap:operation soapAction="http://tempuri.org/InsertaTarjeta" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="EFoodServiceSoap12" type="tns:EFoodServiceSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="ValidateConnection">
+      <soap12:operation soapAction="http://tempuri.org/Valida_Conexion" style="document" />
+      <wsdl:input name="Valida_Conexion">
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="Valida_Conexion">
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ExisteCuenta">
+      <soap12:operation soapAction="http://tempuri.org/ExisteCuenta" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ExisteCheque">
+      <soap12:operation soapAction="http://tempuri.org/ExisteCheque" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RealizaRebajoCheque">
+      <soap12:operation soapAction="http://tempuri.org/RealizaRebajoCheque" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ActualizaSaldoCheque">
+      <soap12:operation soapAction="http://tempuri.org/ActualizaSaldoCheque" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="InsertaCuenta">
+      <soap12:operation soapAction="http://tempuri.org/InsertaCuenta" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="InsertaCheque">
+      <soap12:operation soapAction="http://tempuri.org/InsertaCheque" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ExisteTarjeta">
+      <soap12:operation soapAction="http://tempuri.org/ExisteTarjeta" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ActualizaSaldoTarjeta">
+      <soap12:operation soapAction="http://tempuri.org/ActualizaSaldoTarjeta" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RealizaRebajoTarjeta">
+      <soap12:operation soapAction="http://tempuri.org/RealizaRebajoTarjeta" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ValidaTarjeta">
+      <soap12:operation soapAction="http://tempuri.org/ValidaTarjeta" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="InsertaTarjeta">
+      <soap12:operation soapAction="http://tempuri.org/InsertaTarjeta" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="EFoodServiceHttpGet" type="tns:EFoodServiceHttpGet">
+    <http:binding verb="GET" />
+    <wsdl:operation name="ValidateConnection">
+      <http:operation location="/Valida_Conexion" />
+      <wsdl:input name="Valida_Conexion">
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output name="Valida_Conexion">
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ExisteCuenta">
+      <http:operation location="/ExisteCuenta" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ExisteCheque">
+      <http:operation location="/ExisteCheque" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RealizaRebajoCheque">
+      <http:operation location="/RealizaRebajoCheque" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ActualizaSaldoCheque">
+      <http:operation location="/ActualizaSaldoCheque" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="InsertaCuenta">
+      <http:operation location="/InsertaCuenta" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="InsertaCheque">
+      <http:operation location="/InsertaCheque" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ExisteTarjeta">
+      <http:operation location="/ExisteTarjeta" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ActualizaSaldoTarjeta">
+      <http:operation location="/ActualizaSaldoTarjeta" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RealizaRebajoTarjeta">
+      <http:operation location="/RealizaRebajoTarjeta" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ValidaTarjeta">
+      <http:operation location="/ValidaTarjeta" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="InsertaTarjeta">
+      <http:operation location="/InsertaTarjeta" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="EFoodServiceHttpPost" type="tns:EFoodServiceHttpPost">
+    <http:binding verb="POST" />
+    <wsdl:operation name="ValidateConnection">
+      <http:operation location="/Valida_Conexion" />
+      <wsdl:input name="Valida_Conexion">
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output name="Valida_Conexion">
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ExisteCuenta">
+      <http:operation location="/ExisteCuenta" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ExisteCheque">
+      <http:operation location="/ExisteCheque" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RealizaRebajoCheque">
+      <http:operation location="/RealizaRebajoCheque" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ActualizaSaldoCheque">
+      <http:operation location="/ActualizaSaldoCheque" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="InsertaCuenta">
+      <http:operation location="/InsertaCuenta" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="InsertaCheque">
+      <http:operation location="/InsertaCheque" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ExisteTarjeta">
+      <http:operation location="/ExisteTarjeta" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ActualizaSaldoTarjeta">
+      <http:operation location="/ActualizaSaldoTarjeta" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RealizaRebajoTarjeta">
+      <http:operation location="/RealizaRebajoTarjeta" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ValidaTarjeta">
+      <http:operation location="/ValidaTarjeta" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="InsertaTarjeta">
+      <http:operation location="/InsertaTarjeta" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="EFoodService">
+    <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Web Service. ULACIT IIC0 2020</wsdl:documentation>
+    <wsdl:port name="EFoodServiceSoap" binding="tns:EFoodServiceSoap">
+      <soap:address location="http://127.0.0.1:50002/Service.asmx" />
+    </wsdl:port>
+    <wsdl:port name="EFoodServiceSoap12" binding="tns:EFoodServiceSoap12">
+      <soap12:address location="http://127.0.0.1:50002/Service.asmx" />
+    </wsdl:port>
+    <wsdl:port name="EFoodServiceHttpGet" binding="tns:EFoodServiceHttpGet">
+      <http:address location="http://127.0.0.1:50002/Service.asmx" />
+    </wsdl:port>
+    <wsdl:port name="EFoodServiceHttpPost" binding="tns:EFoodServiceHttpPost">
+      <http:address location="http://127.0.0.1:50002/Service.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
