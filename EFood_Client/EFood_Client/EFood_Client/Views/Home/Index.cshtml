@@ -7,6 +7,12 @@
     <h1>Bienvenido a EFood</h1>
 </div>
 <div>
-    @Html.ValidationSummary("", new { @class = "ErrorMessage" })
-    @Html.ActionLink("Iniciar Compra", "Initialize", "Home")
+    @if (ViewBag.Connection == true)
+    {
+        @Html.ActionLink("Iniciar Compra", "Initialize", "Home");
+    }
+    else
+    {
+        <h1 class="ErrorMessage">Ha ocurrido un error con la conexi&oacute;n.</h1>
+    }
 </div>

@@ -1,6 +1,8 @@
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using EFood_Client.Utils;
 using EFoodBLL.ClientModels;
 using EFoodBLL.IntranetModels;
 using EFoodDB.EFood_Client;
@@ -58,10 +60,9 @@ namespace EFood_Client.Controllers
             int lineTypeCode = 0;
 
             //Se recorre la lista hasta encontrar el dato obtenido de la pagina.
-            foreach (var item in lineTypelist)
+            foreach (var item in lineTypelist.Where(item => item.Type.Equals(typeList.Type)))
             {
-                if (item.Type.Equals(typeList.Type))
-                    lineTypeCode = item.PkCode;
+                lineTypeCode = item.PkCode;
             }
 
             //Se crear la lista con los productos segun el tipo de linea.

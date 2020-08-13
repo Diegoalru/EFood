@@ -1,7 +1,9 @@
-﻿using System.Threading.Tasks;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
+using EFood_Client.Utils;
+using EFoodDB.DBSettings;
 using EFoodDB.EFood_Client;
-
+using static System.DateTime;
+    
 namespace EFood_Client.Controllers
 {
     public class HomeController : Controller
@@ -10,22 +12,19 @@ namespace EFood_Client.Controllers
         
         public ActionResult Index()
         {
+            IDbSettings dbSettings = new EFoodAdministration();
+            ViewBag.Connection = false;
             return View();
         }
         
         [HttpGet]
-        public async Task<ActionResult> Initialize()
+        public ActionResult Initialize()
         {
-            var resultTransaction = await Transaction.InitalizeTransaction();
-            if (resultTransaction == 1)
-            {
-                await _clientMethods.CreateTransaction(Transaction.GetTransaction());
-                return RedirectToAction("ProductList", "Shoping");
-            }
-
-            ModelState.AddModelError(key: "", errorMessage: "Ha ocurrido un error. ¡Reintente de nuevo!\n");
-            return RedirectToAction("Index", "Home");
-
+            Transaction.SetTransaction(CreateTransaction());
+            return RedirectToAction("ProductList", "Shoping");
         }
+        
+        private static string CreateTransaction() => Now.ToString("yyyyMMddHHmmssffff");
+        
     }
 }
