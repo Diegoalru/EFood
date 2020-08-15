@@ -1,4 +1,4 @@
-@using EFood_Client.Controllers
+@using EFood_Client.UtilsMethdos
 @model IEnumerable<EFoodBLL.ClientModels.ShoppingCart>
 
 @{
@@ -11,7 +11,7 @@
 <table class="table table-hover">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.ProductPrice)
+            @Html.DisplayNameFor(model => model.Name)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Quantity)
@@ -24,7 +24,7 @@
     {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.ProductPrice)
+                @Html.DisplayFor(modelItem => item.Name)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Quantity)

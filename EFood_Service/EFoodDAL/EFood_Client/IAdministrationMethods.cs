@@ -40,6 +40,8 @@ namespace EFoodDB.EFood_Client
         Task<bool> InsertShoppingCart(ShoppingCart cart);
         Task<decimal> ProductPrice(int pkPrice);
         Task<int> ReturnDiscountValue(string code);
+        Task<ReturnCardType> ReturnCardType(int pkCardType);
+        Task<bool> InsertClient(Client client);
     }
 
     public class AdministrationMethods : IAdministrationMethods
@@ -57,7 +59,7 @@ namespace EFoodDB.EFood_Client
                 {
                     if (conn.State == ConnectionState.Closed) conn.Open();
                     
-                    string query = $@"SELECT * FROM V_TIPO_LINEA_CLIENTE;";
+                    string query = "SELECT * FROM V_TIPO_LINEA_CLIENTE;";
                     using (var cmd = new SqlCommand(query, conn))
                     {
                         using (SqlDataAdapter adapter = new SqlDataAdapter(cmd))
@@ -104,15 +106,15 @@ namespace EFoodDB.EFood_Client
         {
             try
             {
-                DataSet ds = new DataSet();
+                var ds = new DataSet();
                 using (var conn = _settings.GetConnection())
                 {
                     if (conn.State == ConnectionState.Closed) conn.Open();
 
-                    string query = $@"SELECT * FROM V_PRECIOS_PRODUCTO_CLIENTE({product});";
+                    var query = $@"SELECT * FROM V_PRECIOS_PRODUCTO_CLIENTE({product});";
                     using (var cmd = new SqlCommand(query, conn))
                     {
-                        using (SqlDataAdapter adapter = new SqlDataAdapter(cmd))
+                        using (var adapter = new SqlDataAdapter(cmd))
                         {
                             adapter.Fill(ds);
                         }
@@ -136,7 +138,7 @@ namespace EFoodDB.EFood_Client
                 {
                     if (conn.State == ConnectionState.Closed) conn.Open();
 
-                    string query = $@"SELECT * FROM RETORNA_PRECIO_PRODUCTO_CLIENTE({pkPrice});";
+                    string query = $@"SELECT dbo.RETORNA_PRECIO_PRODUCTO_CLIENTE({pkPrice});";
                     using (var cmd = new SqlCommand(query, conn))
                     {
                         cmd.CommandType = CommandType.Text;
@@ -149,8 +151,9 @@ namespace EFoodDB.EFood_Client
                 }
                 return value;
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                Console.WriteLine(e);
                 return -2;
             }
         }
@@ -159,15 +162,14 @@ namespace EFoodDB.EFood_Client
         {
             try
             {
-                int result = -1;
+                var result = -1;
                 using (var conn = _settings.GetConnection())
                 {
                     if (conn.State == ConnectionState.Closed) conn.Open();
 
-                    string query = $"SELECT * FROM RETORNA_VALOR_DESCUENTO_CLIENTE(N'{code})';";
+                    string query = $"SELECT dbo.RETORNA_VALOR_DESCUENTO_CLIENTE(N'{code}');";
                     using (var cmd = new SqlCommand(query, conn))
                     {
-                        cmd.CommandType = CommandType.Text;
                         var dr = cmd.ExecuteReader();
                         while (dr.Read())
                         {
@@ -300,21 +302,23 @@ namespace EFoodDB.EFood_Client
                     if (conn.State == ConnectionState.Closed)
                         conn.Open();
                     
-                    using (var cmd = new SqlCommand("REGISTRO", conn))
+                    using (var cmd = new SqlCommand("INSERTA_PEDIDO", conn))
                     {
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.Add("@TRANSACCION", SqlDbType.NVarChar).Value = order.Transaction;
                         cmd.Parameters.Add("@DESCUENTO", SqlDbType.NVarChar).Value = order.Discount;
                         cmd.Parameters.Add("@PROCESADOR", SqlDbType.Int).Value = order.Processor;
                         cmd.Parameters.Add("@TIPO_TARJETA", SqlDbType.Int).Value = order.CardType;
+                        cmd.Parameters.Add("@ESTADO", SqlDbType.Int).Value = order.Status;
                         cmd.ExecuteNonQuery();
                         conn.Close();
                     }
                 }
                 return Task.FromResult(true);
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                Console.WriteLine(e);
                 return Task.FromResult(false);
             }
         }
@@ -340,12 +344,75 @@ namespace EFoodDB.EFood_Client
                 }
                 return Task.FromResult(true);
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                Console.WriteLine(e);
                 return Task.FromResult(false);
             }
         }
+        
+        public Task<ReturnCardType> ReturnCardType(int pkCardType)
+        {
+            try
+            {
+                ReturnCardType cardType = new ReturnCardType();
+                using (var conn = _settings.GetConnection())
+                {
+                    if (conn.State == ConnectionState.Closed) conn.Open();
 
+                    string query = $"SELECT * FROM RETORNA_TIPO_TARJETA({pkCardType});";
+                    using (var cmd = new SqlCommand(query, conn))
+                    {
+                        cmd.CommandType = CommandType.Text;
+                        var dr = cmd.ExecuteReader();
+                        while (dr.Read())
+                        {
+                            cardType.PkCode = dr.GetInt32(0);
+                            cardType.Type = dr.GetString(1);
+                        }
+                    }
+                }
+
+                return Task.FromResult(cardType);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return null;
+            }
+        }
+
+        public Task<bool> InsertClient(Client client)
+        {
+            try
+            {
+                using (var conn = _settings.GetConnection())
+                {
+                    if (conn.State == ConnectionState.Closed)
+                        conn.Open();
+                    
+                    using (var cmd = new SqlCommand("INSERTA_CLIENTE", conn))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@NOMBRE", SqlDbType.NVarChar).Value = client.Name;
+                        cmd.Parameters.Add("@APELLIDOS", SqlDbType.NVarChar).Value = client.Surname;
+                        cmd.Parameters.Add("@DIRECCION", SqlDbType.NVarChar).Value = client.Direction;
+                        cmd.Parameters.Add("@TELEFONO", SqlDbType.VarChar).Value = client.Phone;
+                        cmd.Parameters.Add("@DESCUENTO", SqlDbType.Int).Value = client.Discount;
+                        cmd.Parameters.Add("@TRANSACCION", SqlDbType.NVarChar).Value = client.Transaction;
+                        cmd.ExecuteNonQuery();
+                        conn.Close();
+                    }
+                }
+                return Task.FromResult(true);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return Task.FromResult(false);
+            }   
+        }
+        
         #endregion
 
         #region ConvertDataSetToList
@@ -384,14 +451,14 @@ namespace EFoodDB.EFood_Client
         private static List<Price> ConvertToList_Price(DataSet dataSet)
         {
             var ds = dataSet;
-            List<Price> list = new List<Price>();
+            var list = new List<Price>();
             foreach (DataRow dr in ds.Tables[0].Rows)
             {
                 list.Add(new Price()
                 {
                     PkCode = (int) (dr["CODE"])
-                    ,Type = Convert.ToString(dr["TIPO"])
-                    ,Amount = (decimal) (dr["MONTO"])
+                    ,Data = Convert.ToString(dr["DATOS"])
+                    ,PriceObject = (decimal) (dr["MONTO"])
                 });
             }
             return list;

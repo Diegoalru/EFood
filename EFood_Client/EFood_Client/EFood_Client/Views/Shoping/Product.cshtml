@@ -9,10 +9,11 @@
     <br/>
     <label>Contenido: @ViewBag.VBProduct.Content</label>
     <br/>
-    @using (Html.BeginForm("Product", "Shoping", null, FormMethod.Post))
+    @using (Html.BeginForm("Product", "Shoping", 
+        new {name = @ViewBag.VBProduct.Description}, FormMethod.Post))
     {
         <label>Precios:</label>
-        @Html.DropDownList("type", new SelectList(ViewBag.VBPrices, "PkCode", "Type"))
+        @Html.DropDownList("type", new SelectList(ViewBag.VBPrices, "PkCode", "Data"))
         <br/>
         <label>Cantidad: </label>
         <input type="number" required="required" placeholder="Cantidad" max="50" min="1" name="amount"/>

@@ -1,4 +1,4 @@
-@using EFood_Client.Controllers
+@using EFood_Client.UtilsMethdos
 @model IEnumerable<EFoodBLL.ClientModels.Product>
 
 @{
@@ -17,11 +17,10 @@
     }
     <br />
     <div class="pull-right">
-          @if (Shopping.GetNumOfPurchases() != 0)
-          {
-              @Html.ActionLink("Continuar", "ClientRegister", null, new { @class = "primary-btn right"})
-          }
-          @Html.ActionLink("Cancelar Orden", "CancelOrder", null, new { @class = "primary-btn right" })
+        @if (Shopping.GetNumOfPurchases() != 0)
+        {
+            @Html.ActionLink("Continuar", "ClientRegister","Client",null, new {@class = "primary-btn right"})
+        }
     </div>
     <br />
     <table class="table table-hover">

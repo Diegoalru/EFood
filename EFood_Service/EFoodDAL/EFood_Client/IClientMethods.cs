@@ -45,12 +45,7 @@ namespace EFoodDB.EFood_Client
         /// <returns>Retorna un <code>boolean</code> con el resultado.</returns>
         Task<bool> InsertCard(Card_Client card);
         
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="check">Contiene todos los datos del cheque.</param>
-        /// <returns>Retorna un <code>boolean</code> con el resultado.</returns>
-        Task<bool> InsertCheck(Check check);
+        
         #endregion
 
         #region Updates
@@ -201,32 +196,6 @@ namespace EFoodDB.EFood_Client
             }
         }
 
-        public Task<bool> InsertCheck(Check check)
-        {
-            try
-            {
-                using (var conn = _settings.GetConnection())
-                {
-                    if (conn.State == ConnectionState.Closed) conn.Open();
-
-                    using (var cmd = new SqlCommand("INSERTA_CHEQUE", conn))
-                    {
-                        cmd.CommandType = CommandType.StoredProcedure;
-                        cmd.Parameters.Add("@NUMERO", SqlDbType.NVarChar).Value = check.Number;
-                        cmd.Parameters.Add("@CUENTA", SqlDbType.NVarChar).Value = check.Account;
-                        cmd.Parameters.Add("@MONTO", SqlDbType.Decimal).Value = check.Amount;
-                        cmd.Parameters.Add("@TRANSACCION", SqlDbType.NVarChar).Value = check.Transaction;
-                        cmd.ExecuteNonQuery();
-                        conn.Close();
-                    }
-                }
-                return Task.FromResult(true);
-            }
-            catch (Exception)
-            {
-                return Task.FromResult(false);
-            }
-        }
 
         public Task<bool> UpdateTransactionStatus(string transactionId, int status)
         {

@@ -48,9 +48,11 @@ namespace EFood_Client.WebServiceEFood {
         
         private System.Threading.SendOrPostCallback InsertaTarjetaOperationCompleted;
         
+        private System.Threading.SendOrPostCallback ObtieneSaldoTarjetaOperationCompleted;
+        
         /// <remarks/>
         public EFoodService() {
-            this.Url = "http://127.0.0.1:50002/Service.asmx";
+            this.Url = "http://127.0.0.1:5002/Service.asmx";
         }
         
         public EFoodService(string url) {
@@ -92,6 +94,9 @@ namespace EFood_Client.WebServiceEFood {
         
         /// <remarks/>
         public event InsertaTarjetaCompletedEventHandler InsertaTarjetaCompleted;
+        
+        /// <remarks/>
+        public event ObtieneSaldoTarjetaCompletedEventHandler ObtieneSaldoTarjetaCompleted;
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/Valida_Conexion", RequestElementName="Valida_Conexion", RequestNamespace="http://tempuri.org/", ResponseElementName="Valida_ConexionResponse", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
@@ -473,6 +478,35 @@ namespace EFood_Client.WebServiceEFood {
         }
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/ObtieneSaldoTarjeta", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public decimal ObtieneSaldoTarjeta(string tarjeta) {
+            object[] results = this.Invoke("ObtieneSaldoTarjeta", new object[] {
+                        tarjeta});
+            return ((decimal)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void ObtieneSaldoTarjetaAsync(string tarjeta) {
+            this.ObtieneSaldoTarjetaAsync(tarjeta, null);
+        }
+        
+        /// <remarks/>
+        public void ObtieneSaldoTarjetaAsync(string tarjeta, object userState) {
+            if ((this.ObtieneSaldoTarjetaOperationCompleted == null)) {
+                this.ObtieneSaldoTarjetaOperationCompleted = new System.Threading.SendOrPostCallback(this.OnObtieneSaldoTarjetaOperationCompleted);
+            }
+            this.InvokeAsync("ObtieneSaldoTarjeta", new object[] {
+                        tarjeta}, this.ObtieneSaldoTarjetaOperationCompleted, userState);
+        }
+        
+        private void OnObtieneSaldoTarjetaOperationCompleted(object arg) {
+            if ((this.ObtieneSaldoTarjetaCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.ObtieneSaldoTarjetaCompleted(this, new ObtieneSaldoTarjetaCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
         public new void CancelAsync(object userState) {
             base.CancelAsync(userState);
         }
@@ -786,6 +820,32 @@ namespace EFood_Client.WebServiceEFood {
             get {
                 this.RaiseExceptionIfNecessary();
                 return ((int)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("MonoDevelop", "2.6.0.0")]
+    public delegate void ObtieneSaldoTarjetaCompletedEventHandler(object sender, ObtieneSaldoTarjetaCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("MonoDevelop", "2.6.0.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class ObtieneSaldoTarjetaCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal ObtieneSaldoTarjetaCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public decimal Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((decimal)(this.results[0]));
             }
         }
     }

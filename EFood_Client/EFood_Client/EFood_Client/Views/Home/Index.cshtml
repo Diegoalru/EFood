@@ -7,7 +7,7 @@
     <h1>Bienvenido a EFood</h1>
 </div>
 <div>
-    @if (ViewBag.Connection == true)
+    @if (ViewBag.Connection)
     {
         @Html.ActionLink("Iniciar Compra", "Initialize", "Home");
     }

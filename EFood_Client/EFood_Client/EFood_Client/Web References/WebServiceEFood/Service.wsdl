@@ -183,8 +183,23 @@
           </s:sequence>
         </s:complexType>
       </s:element>
+      <s:element name="ObtieneSaldoTarjeta">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="tarjeta" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ObtieneSaldoTarjetaResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="ObtieneSaldoTarjetaResult" type="s:decimal" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
       <s:element name="boolean" type="s:boolean" />
       <s:element name="int" type="s:int" />
+      <s:element name="decimal" type="s:decimal" />
     </s:schema>
   </wsdl:types>
   <wsdl:message name="Valida_ConexionSoapIn">
@@ -258,6 +273,12 @@
   </wsdl:message>
   <wsdl:message name="InsertaTarjetaSoapOut">
     <wsdl:part name="parameters" element="tns:InsertaTarjetaResponse" />
+  </wsdl:message>
+  <wsdl:message name="ObtieneSaldoTarjetaSoapIn">
+    <wsdl:part name="parameters" element="tns:ObtieneSaldoTarjeta" />
+  </wsdl:message>
+  <wsdl:message name="ObtieneSaldoTarjetaSoapOut">
+    <wsdl:part name="parameters" element="tns:ObtieneSaldoTarjetaResponse" />
   </wsdl:message>
   <wsdl:message name="Valida_ConexionHttpGetIn" />
   <wsdl:message name="Valida_ConexionHttpGetOut">
@@ -345,6 +366,12 @@
   <wsdl:message name="InsertaTarjetaHttpGetOut">
     <wsdl:part name="Body" element="tns:int" />
   </wsdl:message>
+  <wsdl:message name="ObtieneSaldoTarjetaHttpGetIn">
+    <wsdl:part name="tarjeta" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="ObtieneSaldoTarjetaHttpGetOut">
+    <wsdl:part name="Body" element="tns:decimal" />
+  </wsdl:message>
   <wsdl:message name="Valida_ConexionHttpPostIn" />
   <wsdl:message name="Valida_ConexionHttpPostOut">
     <wsdl:part name="Body" element="tns:boolean" />
@@ -431,6 +458,12 @@
   <wsdl:message name="InsertaTarjetaHttpPostOut">
     <wsdl:part name="Body" element="tns:int" />
   </wsdl:message>
+  <wsdl:message name="ObtieneSaldoTarjetaHttpPostIn">
+    <wsdl:part name="tarjeta" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="ObtieneSaldoTarjetaHttpPostOut">
+    <wsdl:part name="Body" element="tns:decimal" />
+  </wsdl:message>
   <wsdl:portType name="EFoodServiceSoap">
     <wsdl:operation name="ValidateConnection">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Confirma el estado de la conexion con la base de datos.</wsdl:documentation>
@@ -480,6 +513,10 @@
     <wsdl:operation name="InsertaTarjeta">
       <wsdl:input message="tns:InsertaTarjetaSoapIn" />
       <wsdl:output message="tns:InsertaTarjetaSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ObtieneSaldoTarjeta">
+      <wsdl:input message="tns:ObtieneSaldoTarjetaSoapIn" />
+      <wsdl:output message="tns:ObtieneSaldoTarjetaSoapOut" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:portType name="EFoodServiceHttpGet">
@@ -532,6 +569,10 @@
       <wsdl:input message="tns:InsertaTarjetaHttpGetIn" />
       <wsdl:output message="tns:InsertaTarjetaHttpGetOut" />
     </wsdl:operation>
+    <wsdl:operation name="ObtieneSaldoTarjeta">
+      <wsdl:input message="tns:ObtieneSaldoTarjetaHttpGetIn" />
+      <wsdl:output message="tns:ObtieneSaldoTarjetaHttpGetOut" />
+    </wsdl:operation>
   </wsdl:portType>
   <wsdl:portType name="EFoodServiceHttpPost">
     <wsdl:operation name="ValidateConnection">
@@ -582,6 +623,10 @@
     <wsdl:operation name="InsertaTarjeta">
       <wsdl:input message="tns:InsertaTarjetaHttpPostIn" />
       <wsdl:output message="tns:InsertaTarjetaHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ObtieneSaldoTarjeta">
+      <wsdl:input message="tns:ObtieneSaldoTarjetaHttpPostIn" />
+      <wsdl:output message="tns:ObtieneSaldoTarjetaHttpPostOut" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="EFoodServiceSoap" type="tns:EFoodServiceSoap">
@@ -687,6 +732,15 @@
     </wsdl:operation>
     <wsdl:operation name="InsertaTarjeta">
       <soap:operation soapAction="http://tempuri.org/InsertaTarjeta" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ObtieneSaldoTarjeta">
+      <soap:operation soapAction="http://tempuri.org/ObtieneSaldoTarjeta" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -805,6 +859,15 @@
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="ObtieneSaldoTarjeta">
+      <soap12:operation soapAction="http://tempuri.org/ObtieneSaldoTarjeta" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
   </wsdl:binding>
   <wsdl:binding name="EFoodServiceHttpGet" type="tns:EFoodServiceHttpGet">
     <http:binding verb="GET" />
@@ -909,6 +972,15 @@
     </wsdl:operation>
     <wsdl:operation name="InsertaTarjeta">
       <http:operation location="/InsertaTarjeta" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ObtieneSaldoTarjeta">
+      <http:operation location="/ObtieneSaldoTarjeta" />
       <wsdl:input>
         <http:urlEncoded />
       </wsdl:input>
@@ -1027,20 +1099,29 @@
         <mime:mimeXml part="Body" />
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="ObtieneSaldoTarjeta">
+      <http:operation location="/ObtieneSaldoTarjeta" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
   </wsdl:binding>
   <wsdl:service name="EFoodService">
     <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Web Service. ULACIT IIC0 2020</wsdl:documentation>
     <wsdl:port name="EFoodServiceSoap" binding="tns:EFoodServiceSoap">
-      <soap:address location="http://127.0.0.1:50002/Service.asmx" />
+      <soap:address location="http://127.0.0.1:5002/Service.asmx" />
     </wsdl:port>
     <wsdl:port name="EFoodServiceSoap12" binding="tns:EFoodServiceSoap12">
-      <soap12:address location="http://127.0.0.1:50002/Service.asmx" />
+      <soap12:address location="http://127.0.0.1:5002/Service.asmx" />
     </wsdl:port>
     <wsdl:port name="EFoodServiceHttpGet" binding="tns:EFoodServiceHttpGet">
-      <http:address location="http://127.0.0.1:50002/Service.asmx" />
+      <http:address location="http://127.0.0.1:5002/Service.asmx" />
     </wsdl:port>
     <wsdl:port name="EFoodServiceHttpPost" binding="tns:EFoodServiceHttpPost">
-      <http:address location="http://127.0.0.1:50002/Service.asmx" />
+      <http:address location="http://127.0.0.1:5002/Service.asmx" />
     </wsdl:port>
   </wsdl:service>
 </wsdl:definitions>

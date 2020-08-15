@@ -1,6 +1,24 @@
+@model EFood_Client.Models.PayData
+
 @{
-    ViewBag.Title = "title";
-    Layout = "_Layout";
+    ViewBag.Title = "Pago";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>title</h2>
+<h2>@ViewBag.Title</h2>
+<h3><strong>Confirmaci&oacute;n del Pedido</strong></h3>
+<h4>@Model.Client</h4>
+<h3>Informaci&oacute;n de Envio</h3>
+<h4><strong>Direcci&oacute;n: </strong>@Model.Direction</h4>
+<h4><strong>Tel&eacute;fono: </strong>@Model.Phone</h4>
+<h3>Forma de Pago</h3>
+<h4><strong>Medio: </strong>@Model.Type</h4>
+<h4><strong>Tipo: </strong>@Model.TypeCard</h4>
+<h4><strong>N&uacute;mero: </strong>@Model.CardNumber</h4>
+<h4><strong>Cheque N&uacute;mero: </strong>@Model.CheckNumber</h4>
+<h4><strong>Cheque Cuenta: </strong>@Model.CheckAccount</h4>
+<h2><strong>Total: </strong>@Model.Total</h2>
+<br>
+@Html.ActionLink("Guardar Pedido", "Pay", "Pay", null, new { @class = "primary-btn" })
+<br/>
+@Html.ActionLink("Cancelar", "CancelPay", "Pay",null, new { @class = "primary-btn" })

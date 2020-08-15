@@ -1,5 +1,5 @@
-﻿@using EFood_Client.Utils
-@using EFood_Client.Controllers
+﻿@using EFood_Client.UtilsMethdos
+
 @{
     ViewBag.AppName = "EFood";
 }
@@ -28,7 +28,7 @@
             @if (Transaction.GetTransaction() != string.Empty)
             {
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Cancelar Pedidos", "CancelOrder", "Shoping")</li>
+                    <li>@Html.ActionLink("Cancelar Compra", "CancelOrder", "Home")</li>
                 </ul>
             }
             @if (Shopping.GetNumOfPurchases() != 0)

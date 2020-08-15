@@ -4,5 +4,6 @@ namespace EFoodBLL.ClientModels
     {
         public int PkCode { get; set; }
         public string Type { get; set; }
+        public string Price { get; set; }
     }
 }

@@ -1,9 +1,6 @@
-using System;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
-using EFood_Client.Utils;
-using EFoodBLL.ClientModels;
+using EFood_Client.UtilsMethdos;
 using EFoodBLL.IntranetModels;
 using EFoodDB.EFood_Client;
 using ShoppingCart = EFoodBLL.ClientModels.ShoppingCart;
@@ -13,15 +10,9 @@ namespace EFood_Client.Controllers
     public class ShopingController : Controller
     {
         private readonly AdministrationMethods _administrationMethods = new AdministrationMethods();
-        private readonly ClientMethods _clientMethods = new ClientMethods();
 
-        /*
-         * FIXME:
-         *     1- Investigar la razon por la que al volver al index 0 de los tipos de linea, (Pantalla: ProductList)
-         *     deja de funcionar. No cambia los datos que se muestran en la pantalla solo se muestra cuando carga.
-         */
-        
-        
+        #region ProductList
+
         /// <summary>
         /// Carga la vista de los tipos de linea que existen y los productos asociados.
         /// </summary>
@@ -60,9 +51,10 @@ namespace EFood_Client.Controllers
             int lineTypeCode = 0;
 
             //Se recorre la lista hasta encontrar el dato obtenido de la pagina.
-            foreach (var item in lineTypelist.Where(item => item.Type.Equals(typeList.Type)))
+            foreach (var item in lineTypelist)
             {
-                lineTypeCode = item.PkCode;
+                if (item.Type.Equals(typeList.Type))
+                    lineTypeCode = item.PkCode;
             }
 
             //Se crear la lista con los productos segun el tipo de linea.
@@ -77,6 +69,11 @@ namespace EFood_Client.Controllers
             //Se envia los datos obtenidos, en otras palabras aquí se retornan dos listas (tipos de linea y productos)
             return View(productList);
         }
+
+        #endregion
+
+        
+        #region Product
         
         /// <summary>
         /// Vista que muestra la informacion del producto.
@@ -96,16 +93,18 @@ namespace EFood_Client.Controllers
             ViewBag.VBProduct = product;
             return View();
         }
-
+        
         /// <summary>
         /// Guarda la compra realizada en el sistema.
         /// </summary>
         [HttpPost]
-        public ActionResult Product(int type, int amount)
+        public async Task<ActionResult> Product(int type, int amount, string name)
         {
+            var price = await _administrationMethods.ProductPrice(type);
+            
             var data = new ShoppingCart
             {
-                ProductPrice = type, Quantity = amount, Transaction = Transaction.GetTransaction()
+                ProductPrice = type, Quantity = amount, Transaction = Transaction.GetTransaction(), Name = name, Price = price
             };
 
             data.Transaction = Transaction.GetTransaction(); 
@@ -113,135 +112,9 @@ namespace EFood_Client.Controllers
             return RedirectToAction("ProductList", "Shoping");
         }
 
-        /// <summary>
-        /// Retorna la vista del registro para el cliente.
-        /// </summary>
-        /// <returns></returns>
-        [HttpGet]
-        public ActionResult ClientRegister()
-        {
-            var data = Utils.GetClient();
-            return data != null ? View(data) : View(new Client(){Discount = string.Empty});
-        }
-        
-        /// <summary>
-        /// Metodo que realiza el regtsiro del cliente.
-        /// </summary>
-        /// <param name="data"></param>
-        /// <returns></returns>
-        [HttpPost]
-        public async Task<ActionResult> ClientRegister(Client data)
-        {
-            if (!ModelState.IsValid)
-            {
-                return await Task.FromResult<ActionResult>(View(data));
-            }
+        #endregion
 
-            try
-            {
-                if (!data.Discount.Equals(" "))
-                {
-                    var existsDiscount = await _administrationMethods.ExistsDiscount(data.Discount);
-                    switch (existsDiscount)
-                    {
-                        case true:
-                            Utils.SetDiscountCode(data.Discount);
-                            break;
-
-                        case false:
-                            ModelState.AddModelError("", "¡El tiquete de descuento no es valido!.\n");
-                            return await Task.FromResult<ActionResult>(View());
-
-                        default:
-                            ModelState.AddModelError("", "¡Error! Ha ocurrido un error.\n");
-                            return await Task.FromResult<ActionResult>(View());
-                    }
-                }
-                else
-                {
-                    Utils.SetDiscountCode(String.Empty);
-                    data.Discount = string.Empty;    
-                }
-            }
-            catch (Exception)
-            {
-                data.Discount = string.Empty;
-                Utils.SetDiscountCode(string.Empty);
-            }
-            Utils.SetClient(data);
-            return RedirectToAction("PayMethod", "Shoping");
-        }
-
-        /// <summary>
-        /// Este metodo se encarga de cancelar todas las ordenes hechos por el usuario.
-        /// </summary>
-        /// <returns></returns>
-        [HttpGet]
-        public async Task<ActionResult> CancelOrder()
-        {
-            await _clientMethods.UpdateTransactionStatus(Transaction.GetTransaction(), 2);
-            Transaction.DeleteTransaction();
-            Shopping.DeleteOrders();
-            Utils.DeleteData();
-            return RedirectToAction("Index", "Home");
-        }
-
-        public async Task<ActionResult> PayMethod()
-        {
-            Shopping.AmountShoping();
-            
-            Utils.SetSubTotal(Shopping.GetAmount());    
-            if (Utils.GetDiscount() != -1)
-            {
-                Utils.SetDiscount(await _administrationMethods.ReturnDiscountValue(Utils.GetDiscountCode()));
-            } 
-            return View();
-        }
-        
-        public ActionResult MethodCash()
-        {
-            ViewBag.Subtotal = Utils.GetSubTotal();
-            if (Utils.GetDiscount() != -1)
-            {
-                ViewBag.Discount = Utils.GetDiscount();
-                ViewBag.Total = Utils.GetSubTotal() - ( (decimal) Utils.GetDiscount() / 100);    
-            }
-            return View();
-        }
-
-        public async Task<ActionResult> MethodCard()
-        {
-            var cardTypeList = await _administrationMethods.CardTypes();
-            ViewBag.VBCardTypeList = new SelectList(cardTypeList, "PkCode", "Type");
-            ViewBag.Subtotal = Utils.GetSubTotal();
-            ViewBag.Discount = Utils.GetDiscount();
-            ViewBag.Total = Utils.GetSubTotal() - ( (decimal) Utils.GetDiscount() / 100);
-            return View();
-        }
-        
-        public async Task<ActionResult> MethodCard(Card_Client data)
-        {
-            if (!ModelState.IsValid)
-            {
-                ModelState.AddModelError("", "Datos incompletos:\n");
-                return View(data);
-            }
-
-            var result = await _clientMethods.InsertCard(data);
-            if (result) return RedirectToAction("PayPage", "Shoping");
-            ModelState.AddModelError("", "Ha ocurrido un error al realizar la transaccion.\n");
-            return View(data);
-        }
-
-        public ActionResult MethodCheck()
-        {
-            throw new System.NotImplementedException();
-        }
-        
-        public ActionResult PayPage()
-        {
-            return View();
-        }
+        #region ShoppingList
 
         public ActionResult ShoppingList()
         {
@@ -253,5 +126,7 @@ namespace EFood_Client.Controllers
             Shopping.DeletePurchase(id);
             return RedirectToAction("ShoppingList");
         }
+        
+        #endregion
     }
 }

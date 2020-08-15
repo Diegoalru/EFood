@@ -1,15 +1,20 @@
 using EFoodBLL.ClientModels;
 
-namespace EFood_Client.Controllers
+namespace EFood_Client.UtilsMethdos
 {
-    public static class PayMethod
+    public class PayMethod
     {
-        public static int _Type { get; set; }
-        public static Card_Client _CardClient;
-        public static Check _Check;
+        private static int Type { get; set; }
+        private static Card_Client _CardClient;
+        private static Check _Check;
 
+        public static int GetType() => Type;
         public static Card_Client GetCardClient() => _CardClient;
+        
         public static Check GetCheckClient() => _Check;
+
+        public static void SetType(int type) => Type = type;
+        
         public static void SetCardClient(Card_Client data)
         {
             _CardClient = data;
@@ -21,6 +26,5 @@ namespace EFood_Client.Controllers
             _CardClient = null;
             _Check = data;
         }
-
     }
 }

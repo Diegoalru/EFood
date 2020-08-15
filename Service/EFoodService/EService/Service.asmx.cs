@@ -128,14 +128,15 @@ namespace EService
                 if (conn.State == ConnectionState.Closed)
                     conn.Open();
 
-                var query = $"SELECT dbo.VALIDA_REBAJO_CUENTA({cuenta}, {monto});";
+                var query = $"SELECT dbo.VALIDA_NUMERO_CHEQUE({cuenta}, {monto});";
                 using var cmd = new SqlCommand(query, conn);
                 var response = Task.FromResult((bool) cmd.ExecuteScalar());
 
                 result = response.Result ? 0 : 1;
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                Console.WriteLine(e);
                 result = -1;
             }
 

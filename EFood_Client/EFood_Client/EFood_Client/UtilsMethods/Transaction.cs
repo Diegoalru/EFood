@@ -1,6 +1,6 @@
-namespace EFood_Client.Utils
+namespace EFood_Client.UtilsMethdos
 {
-    public class Transaction
+    public static class Transaction
     {
         private static string _transaction = string.Empty;
         public static string GetTransaction() => _transaction;
