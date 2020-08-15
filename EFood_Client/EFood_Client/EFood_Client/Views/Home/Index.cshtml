@@ -3,16 +3,14 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="jumbotron">
-    <h1>Bienvenido a EFood</h1>
-</div>
-<div>
-    @if (ViewBag.Connection)
-    {
-        @Html.ActionLink("Iniciar Compra", "Initialize", "Home");
-    }
-    else
-    {
-        <h1 class="ErrorMessage">Ha ocurrido un error con la conexi&oacute;n.</h1>
-    }
-</div>
+    <div class="jumbotron">
+        <h1>Bienvenido a EFood</h1>
+        @if (ViewBag.Connection)
+        {
+            @Html.ActionLink("Iniciar Compra", "Initialize", "Home", null, new { @class = "btn btn-warning btn-large" })
+        }
+        else
+        {
+            <h1 class="ErrorMessage">Ha ocurrido un error con la conexi&oacute;n.</h1>
+        }
+    </div>

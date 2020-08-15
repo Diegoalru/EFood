@@ -2,23 +2,33 @@
     ViewBag.Title = "Detalle Producto";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<div>
-    @Html.ValidationSummary("", new { @class = "ErrorMessage" })
-    <br/>
-    <label>Producto: <strong>@ViewBag.VBProduct.Description</strong></label>
-    <br/>
-    <label>Contenido: @ViewBag.VBProduct.Content</label>
-    <br/>
-    @using (Html.BeginForm("Product", "Shoping", 
-        new {name = @ViewBag.VBProduct.Description}, FormMethod.Post))
-    {
-        <label>Precios:</label>
-        @Html.DropDownList("type", new SelectList(ViewBag.VBPrices, "PkCode", "Data"))
-        <br/>
-        <label>Cantidad: </label>
-        <input type="number" required="required" placeholder="Cantidad" max="50" min="1" name="amount"/>
-        <br/>
-        <input type="submit" value="Comprar" class="primary-btn"/>
-    }
-    @Html.ActionLink(" Volver", "ProductList")
-</div>
+    <div>
+        @Html.ValidationSummary("", new { @class = "ErrorMessage" })
+
+
+
+        @using (Html.BeginForm("Product", "Shoping", new { name = @ViewBag.VBProduct.Description }, FormMethod.Post, new { @class = "form-horizontal mb-2" }))
+        {
+            <div class="form-group">
+                <label>Producto:</label>
+                @ViewBag.VBProduct.Description
+            </div>
+            <div class="form-group">
+                <label>Contenido:</label>
+                @ViewBag.VBProduct.Content
+            </div>
+            <div class="form-group">
+                <label>Precios:</label>
+                @Html.DropDownList("type", new SelectList(ViewBag.VBPrices, "PkCode", "Data"), new { @class = "form-control" })
+            </div>
+            <div class="form-group">
+                <label>Cantidad:</label>
+                <input type="number" class="form-control" required="required" placeholder="Cantidad" max="50" min="1" name="amount" />
+            </div>
+            <div class="form-group">
+                @Html.ActionLink("Volver", "ProductList", null, new { @class = "btn btn-link btn-large" })
+                <button type="submit" class="btn btn-default">Comprar</button>
+            </div>
+        }
+
+    </div>

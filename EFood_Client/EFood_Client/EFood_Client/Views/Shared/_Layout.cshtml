@@ -44,12 +44,12 @@
     <br/>
     @RenderBody()
     <hr/>
-    <footer>
-        <p>&copy; @DateTime.Now.Year - @ViewBag.AppName</p>
-        <div class="container">
-            <div class="pull-right">
-                @Html.Partial("_TranslatorPartial")
-            </div>
+    <footer class="row">
+        <div class="col-lg-6">
+            <p>&copy; @DateTime.Now.Year - @ViewBag.AppName</p>
+        </div>
+        <div class="col-lg-6 text-right">
+            @Html.Partial("_TranslatorPartial")
         </div>
     </footer>
 </div>

@@ -6,19 +6,98 @@
 }
 
 <h2>@ViewBag.Title</h2>
+
 <h3><strong>Confirmaci&oacute;n del Pedido</strong></h3>
-<h4>@Model.Client</h4>
+<div class="form-group">
+    <input type="text" class="form-control" readonly value="@Model.Client">
+</div>
+
 <h3>Informaci&oacute;n de Envio</h3>
-<h4><strong>Direcci&oacute;n: </strong>@Model.Direction</h4>
-<h4><strong>Tel&eacute;fono: </strong>@Model.Phone</h4>
+<div class="form-group">
+    <label>Direcci&oacute;n</label>
+    <input type="text" class="form-control" readonly value="@Model.Direction">
+    </div>
+<div class="form-group">
+    <label>Tel&eacute;fono</label>
+    <input type="text" class="form-control" readonly value="@Model.Phone">
+</div>
+
 <h3>Forma de Pago</h3>
-<h4><strong>Medio: </strong>@Model.Type</h4>
-<h4><strong>Tipo: </strong>@Model.TypeCard</h4>
-<h4><strong>N&uacute;mero: </strong>@Model.CardNumber</h4>
-<h4><strong>Cheque N&uacute;mero: </strong>@Model.CheckNumber</h4>
-<h4><strong>Cheque Cuenta: </strong>@Model.CheckAccount</h4>
-<h2><strong>Total: </strong>@Model.Total</h2>
-<br>
-@Html.ActionLink("Guardar Pedido", "Pay", "Pay", null, new { @class = "primary-btn" })
-<br/>
-@Html.ActionLink("Cancelar", "CancelPay", "Pay",null, new { @class = "primary-btn" })
+
+<div class="form-group">
+    <label>Medio</label>
+    @if (@Model.Type != null)
+    {
+        <input type="text" class="form-control" readonly value="@Model.Type">
+    }
+    else
+    {
+        <input type="text" class="form-control" readonly placeholder="No indica">
+    }
+</div>
+
+<div class="form-group">
+    <label>Tipo</label>
+    @if (@Model.TypeCard != null)
+    {
+        <input type="text" class="form-control" readonly value="@Model.TypeCard">
+    }
+    else
+    {
+        <input type="text" class="form-control" readonly placeholder="No indica">
+    }
+
+</div>
+
+<div class="form-group">
+    <label>N&uacute;mero:</label>
+    @if (@Model.CardNumber != null)
+    {
+        <input type="text" class="form-control" readonly value="@Model.CardNumber">
+    }
+    else
+    {
+        <input type="text" class="form-control" readonly placeholder="No indica">
+    }
+</div>
+
+<div class="form-group">
+    <label>Cheque N&uacute;mero</label>
+    @if (@Model.CheckNumber != null)
+    {
+        <input type="text" class="form-control" readonly value="@Model.CheckNumber">
+    }
+    else
+    {
+        <input type="text" class="form-control" readonly placeholder="No indica">
+    }
+</div>
+
+<div class="form-group">
+    <label>Cheque Cuenta</label>
+    @if (@Model.CheckAccount != null)
+    {
+        <input type="text" class="form-control" readonly value="@Model.CheckAccount">
+    }
+    else
+    {
+        <input type="text" class="form-control" readonly placeholder="No indica">
+    }
+</div>
+
+<div class="form-group">
+    <label>Total</label>
+    @if (@Model.Total != null)
+    {
+        <input type="text" class="form-control" readonly value="@Model.Total">
+    }
+    else
+    {
+        <input type="text" class="form-control" readonly placeholder="No indica">
+    }
+</div>
+
+<div class="form-group">
+    @Html.ActionLink("Cancelar", "CancelPay", "Pay", null, new { @class = "btn btn-link btn-large" })
+    @Html.ActionLink("Guardar Pedido", "Pay", "Pay", null, new { @class = "btn btn-default btn-large" })
+</div>

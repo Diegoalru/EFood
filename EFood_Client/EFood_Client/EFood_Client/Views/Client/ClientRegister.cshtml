@@ -7,30 +7,32 @@
 
 <h2>Informaci&oacute;n Cliente </h2>
 
-@using (Html.BeginForm("ClientRegister", "Client", null, FormMethod.Post, new {role = "form"}))
+@using (Html.BeginForm("ClientRegister", "Client", null, FormMethod.Post, new { @class = "form-horizontal mb-2", role = "form" }))
 {
     @Html.ValidationSummary("", new { @class = "ErrorMessage" })
-    <div class="input-group">
-        <span class="input-group-addon">@Html.DisplayNameFor(item => item.Name)<i class="fa fa-lock"></i></span>
-        @Html.TextBoxFor(item => item.Name, new {@classs = "form-control", @placeholder = "Nombre"})
+    <div class="form-group">
+        <label>@Html.DisplayNameFor(item => item.Name)<i class="fa fa-lock"></i></label>
+        @Html.TextBoxFor(item => item.Name, new { @class = "form-control", @placeholder = "Nombre" })
     </div>
 
-    <div class="input-group">
-        <span class="input-group-addon">@Html.DisplayNameFor(item => item.Surname)<i class="fa fa-lock"></i></span>
-        @Html.TextBoxFor(item => item.Surname, new {@classs = "form-control", @placeholder = "Apellidos"})
+    <div class="form-group">
+        <label>@Html.DisplayNameFor(item => item.Surname)<i class="fa fa-lock"></i></label>
+        @Html.TextBoxFor(item => item.Surname, new { @class = "form-control", @placeholder = "Apellidos" })
     </div>
-    <div class="input-group">
-        <span class="input-group-addon">@Html.DisplayNameFor(item => item.Phone)<i class="fa fa-lock"></i></span>
-        @Html.TextBoxFor(item => item.Phone, new {@classs = "form-control", @placeholder = "Telefono"})
+    <div class="form-group">
+        <label>@Html.DisplayNameFor(item => item.Phone)<i class="fa fa-lock"></i></label>
+        @Html.TextBoxFor(item => item.Phone, new { @class = "form-control", @placeholder = "Telefono" })
     </div>
-    <div class="input-group">
-        <span class="input-group-addon">@Html.DisplayNameFor(item => item.Direction)<i class="fa fa-lock"></i></span>
-        @Html.TextBoxFor(item => item.Direction, new {@classs = "form-control", @placeholder = "Dirección"})
+    <div class="form-group">
+        <label>@Html.DisplayNameFor(item => item.Direction)<i class="fa fa-lock"></i></label>
+        @Html.TextBoxFor(item => item.Direction, new { @class = "form-control", @placeholder = "Dirección" })
     </div>
-    <div class="input-group">
-        <span class="input-group-addon">@Html.DisplayNameFor(item => item.Discount)<i class="fa fa-lock"></i></span>
-        @Html.TextBoxFor(item => item.Discount, new {@classs = "form-control"})
+    <div class="form-group">
+        <label>@Html.DisplayNameFor(item => item.Discount)<i class="fa fa-lock"></i></label>
+        @Html.TextBoxFor(item => item.Discount, new { @class = "form-control", @placeholder = "Tiquete de Descuento" })
     </div>
-    <button class="btn btn-lg btn-primary btn-block" type="submit">Siguiente</button>
-    @Html.ActionLink("Volver", "ProductList", "Shoping")
+    <div class="form-group">
+        @Html.ActionLink("Volver", "ProductList", "Shoping", new { @class = "btn btn-link btn-large" })
+        <button type="submit" class="btn btn-default">Siguiente</button>
+    </div>
 }

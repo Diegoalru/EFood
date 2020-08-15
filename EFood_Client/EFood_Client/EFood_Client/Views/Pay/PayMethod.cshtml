@@ -4,11 +4,19 @@
 }
 
 <h2>Selecciona el Medio de Pago</h2>
-<br/>
-@Html.ActionLink("EFECTIVO","MethodCash", null, new { @class = "primary-btn" })
-<br/>
-@Html.ActionLink("TARJETA CREDITO/DEBITO", "MethodCard", null, new { @class = "primary-btn" })
-<br/>
-@Html.ActionLink("CHEQUE", "MethodCheck", null, new { @class = "primary-btn" })
-<br/>
-@Html.ActionLink("Volver", "ProductList", "Shoping", null, new { @class = "primary-btn" })
+
+@*
+    @Html.ActionLink("EFECTIVO", "MethodCash", null, new { @class = "primary-btn" })
+    <br />
+    @Html.ActionLink("TARJETA CREDITO/DEBITO", "MethodCard", null, new { @class = "primary-btn" })
+    <br />
+    @Html.ActionLink("CHEQUE", "MethodCheck", null, new { @class = "primary-btn" })
+    <br />
+    @Html.ActionLink("Volver", "ProductList", "Shoping", null, new { @class = "primary-btn" })
+*@
+
+
+@Html.ActionLink("Volver", "ProductList", "Shoping", new { @class = "btn btn-link btn-large" })
+@Html.ActionLink("Efectivo", "MethodCash", null, new { @class = "btn btn-warning btn-large" })
+@Html.ActionLink("Tarjeta Credito/Debito", "MethodCard", null, new { @class = "btn btn-warning btn-large" })
+@Html.ActionLink("Cheque", "MethodCheck", null, new { @class = "btn btn-warning btn-large" })

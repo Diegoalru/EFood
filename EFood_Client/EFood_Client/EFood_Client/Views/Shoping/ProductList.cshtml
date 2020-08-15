@@ -6,43 +6,50 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <div>
-    @using (Html.BeginForm("ProductList", "Shoping", null, FormMethod.Post, new { role = "form" }))
+    @using (Html.BeginForm("ProductList", "Shoping", null, FormMethod.Post, new { @class = "form-inline mb-2", role = "form" }))
     {
         @Html.ValidationSummary("", new { @class = "ErrorMessage" })
-        @Html.Label("Buscar:")
-        <br/>
-        @Html.DropDownList("VBTypeLineList", ViewBag.VBTypeLineList as SelectList,  new { @id = "ddl" })
+        <div class="form-group">
+            @Html.Label("Buscar")
+            @Html.DropDownList("VBTypeLineList", ViewBag.VBTypeLineList as SelectList, new { @id = "ddl", @class = "form-control" })
+        </div>
         @Html.Hidden("Type", "PkCode", new { @id = "hf" })
-        <input type="submit" value=" Filtrar">
+        <button type="submit" class="btn btn-default">Filtrar</button>
     }
-    <br />
-    <div class="pull-right">
-        @if (Shopping.GetNumOfPurchases() != 0)
-        {
-            @Html.ActionLink("Continuar", "ClientRegister","Client",null, new {@class = "primary-btn right"})
-        }
-    </div>
-    <br />
+
     <table class="table table-hover">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Description)
-        </th>
-        <th>
-            Seleccionar
-        </th>
-    </tr>
-    @foreach (var item in Model)
-    {
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.ActionLink("Ver", "Product", new { id = item.PkCode })
-            </td>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
+                Seleccionar
+            </th>
+            @if (Shopping.GetNumOfPurchases() != 0)
+            {
+                <th></th>
+            }
         </tr>
-    }
-</table>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.ActionLink("Ver", "Product", new { id = item.PkCode }, new { @class = "btn btn-warning btn-large" })
+                </td>
+                @if (Shopping.GetNumOfPurchases() != 0)
+                {
+                    <td>
+
+
+                        @Html.ActionLink("Continuar", "ClientRegister", "Client", null, new { @class = "btn btn-warning btn-large" })
+
+                    </td>
+                }
+            </tr>
+        }
+    </table>
 </div>
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>

@@ -27,9 +27,54 @@ body > .skiptranslate {
     display: none;
 }
 
-.ErrorMessage{
+.ErrorMessage {
     text-align: center;
     color: #ff2433;
     font-size: 15pt;
     margin: 5px;
 }
+
+    .ErrorMessage ul {
+        list-style-type: none;
+        text-align: left;
+        padding: 0;
+        margin: 0;
+        font-size: 16px;
+    }
+
+.mb-1 {
+    margin-bottom: 1em;
+}
+
+.mb-2 {
+    margin-bottom: 2em;
+}
+
+.mb-3 {
+    margin-bottom: 3em;
+}
+
+.mb-4 {
+    margin-bottom: 4em;
+}
+
+
+.jumbotron {
+    text-align: center !important;
+    height: 60vh;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient( rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.8) ), url('../Images/hero-bg.jpg');
+    background-position: center center;
+}
+
+    .jumbotron h1 {
+        color: #ffffff;
+        width: 100%;
+    }
+
+    .jumbotron .btn {
+        display: block;
+    }

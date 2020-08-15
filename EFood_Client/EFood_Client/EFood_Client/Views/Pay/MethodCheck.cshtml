@@ -7,33 +7,47 @@
 }
 
 <h2>Cheque Electronico</h2>
+
 @if (Utils.GetDiscount() != -1)
 {
-    <label for="Subtotal">Subtotal: @ViewBag.Subtotal</label>
-    <br/>
-    <label for="Discount">Descuento: @ViewBag.Discount&#37;</label>
-    <br/>
-    <label for="Total">Total: @ViewBag.Total</label>
-    <br/>    
+    <div class="form-group">
+        <label>Subtotal</label>
+        <input type="text" class="form-control" readonly value="@ViewBag.Subtotal">
+    </div>
+    <div class="form-group">
+        <label>Descuento</label>
+        <input type="text" class="form-control" readonly value="@ViewBag.Discount">
+    </div>
+    <div class="form-group">
+        <label>Total</label>
+        <input type="text" class="form-control" readonly value="@ViewBag.Total">
+    </div>
+
 }
 else
 {
-    <label for="Total">Total: @ViewBag.Subtotal</label>
-    <br/>
+    <div class="form-group">
+        <label>Total</label>
+        <input type="text" class="form-control" readonly value="@ViewBag.Subtotal">
+    </div>
 }
-@using (Html.BeginForm("MethodCheck", "Pay", null, FormMethod.Post, new {role = "form"}))
+
+@using (Html.BeginForm("MethodCheck", "Pay", null, FormMethod.Post, new { role = "form" }))
 {
     @Html.ValidationSummary("", new { @class = "ErrorMessage" })
-    
-    <div class="input-group">
-        <span class="input-group-addon">Numero Cheque <i class="fa fa-lock"></i></span>
-        @Html.TextBoxFor(item => item.Number, new {@classs = "form-control", @placeholder = "Numero Cheque"})
+
+    <div class="form-group">
+        <label>Numero Cheque <i class="fa fa-lock"></i></label>
+        @Html.TextBoxFor(item => item.Number, new { @class = "form-control", @placeholder = "Numero Cheque" })
     </div>
 
-    <div class="input-group">
-        <span class="input-group-addon">Cuenta <i class="fa fa-lock"></i></span>
-        @Html.TextBoxFor(item => item.Account, new {@classs = "form-control", @placeholder = "Cuenta"})
+    <div class="form-group">
+        <label>Cuenta <i class="fa fa-lock"></i></label>
+        @Html.TextBoxFor(item => item.Account, new { @class = "form-control", @placeholder = "Cuenta" })
     </div>
-    <button class="btn btn-lg btn-primary btn-block" type="submit">Siguiente</button>
-    @Html.ActionLink("Volver", "PayMethod", "Pay")
+
+    <div class="form-group">
+        @Html.ActionLink("Volver", "PayMethod", "Pay", new { @class = "btn btn-link btn-large" })
+        <button type="submit" class="btn btn-default">Siguiente</button>
+    </div>
 }

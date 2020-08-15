@@ -6,25 +6,34 @@
 }
 
 <!--
-    En esta pantalla no se retorna nada al backend, las unicas acciones son aceptar o cancelar. 
+    En esta pantalla no se retorna nada al backend, las unicas acciones son aceptar o cancelar.
  -->
 
 <h2>Opci&oacute;n de pago: Efectivo</h2>
-<br/>
+
 @if (Utils.GetDiscount() != -1)
 {
-    <label for="Subtotal">Subtotal: @ViewBag.Subtotal</label>
-    <br/>
-    <label for="Discount">Descuento: @ViewBag.Discount&#37;</label>
-    <br/>
-    <label for="Total">Total: @ViewBag.Total</label>
-    <br/>    
+    <div class="form-group">
+        <label>Subtotal</label>
+        <input type="text" class="form-control" readonly value="@ViewBag.Subtotal">
+    </div>
+    <div class="form-group">
+        <label>Descuento</label>
+        <input type="text" class="form-control" readonly value="@ViewBag.Discount">
+    </div>
+    <div class="form-group">
+        <label>Total</label>
+        <input type="text" class="form-control" readonly value="@ViewBag.Total">
+    </div>
+
 }
 else
 {
-    <label for="Total">Total: @ViewBag.Subtotal</label>
-    <br/>
+    <div class="form-group">
+        <label>Total</label>
+        <input type="text" class="form-control" readonly value="@ViewBag.Subtotal">
+    </div>
 }
-@Html.ActionLink("Continuar", "PayPage", null, new { @class = "primary-btn" })
-<br/>
-@Html.ActionLink("Volver", "PayMethod", null, new { @class = "primary-btn" })
+
+@Html.ActionLink("Volver", "PayMethod", null, new { @class = "btn btn-link btn-large" })
+@Html.ActionLink("Continuar", "PayPage", null, new { @class = "btn btn-warning btn-large" })
