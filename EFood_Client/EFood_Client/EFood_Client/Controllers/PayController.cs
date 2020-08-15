@@ -38,6 +38,7 @@ namespace EFood_Client.Controllers
             return View();
         }
 
+        [HttpGet]
         public async Task<ActionResult> MethodCard()
         {
             var cardTypeList = await _administrationMethods.CardTypes();
@@ -48,6 +49,7 @@ namespace EFood_Client.Controllers
             return View();
         }
         
+        [HttpPost]
         public async Task<ActionResult> MethodCard(Card_Client data)
         {
             if (!ModelState.IsValid)
@@ -56,8 +58,6 @@ namespace EFood_Client.Controllers
                 return View(data);
             }
 
-            
-            
             return View(data);
         }
 
