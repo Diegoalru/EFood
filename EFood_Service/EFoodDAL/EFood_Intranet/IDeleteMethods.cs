@@ -10,7 +10,7 @@ namespace EFoodDB.EFood_Intranet
     
     public interface IDeleteMethods
     {
-        Task<bool> DeleteProductPrice(int pkProduct, int pkType);
+        Task<bool> DeleteProductPrice(int priceId);
         Task<bool> DeleteConsecutive(int pkConsecutive);
         Task<bool> DeletePaymentProcessor(int pkCode);
         Task<bool> DeleteDiscount(int pkCode);
@@ -25,7 +25,7 @@ namespace EFoodDB.EFood_Intranet
     {
         private readonly IDbSettings _settings = new EFoodAdministration();
         
-        public Task<bool> DeleteProductPrice(int pkProduct, int pkType)
+        public Task<bool> DeleteProductPrice(int priceId)
         {
             try
             {
@@ -37,8 +37,7 @@ namespace EFoodDB.EFood_Intranet
                     using (var cmd = new SqlCommand("ELIMINA_PRECIO", conn))
                     {
                         cmd.CommandType = CommandType.StoredProcedure;
-                        cmd.Parameters.Add("@PRODUCTO", SqlDbType.Int).Value = pkProduct;
-                        cmd.Parameters.Add("@TIPO", SqlDbType.Int).Value = pkType;
+                        cmd.Parameters.Add("@PRECIO", SqlDbType.Int).Value = priceId;
                         cmd.ExecuteNonQuery();
                         conn.Close();
                     }

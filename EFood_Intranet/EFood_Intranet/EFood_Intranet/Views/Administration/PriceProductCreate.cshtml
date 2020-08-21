@@ -1,4 +1,4 @@
-@model EFoodBLL.IntranetModels.ReturnPrice
+@model EFoodBLL.IntranetModels.Price
 @using EFood_Intranet.Controllers
 
 @{
@@ -24,23 +24,22 @@ else
             <div class="container">
                 <div class="omb_login">
                     <br />
-                    @using (Html.BeginForm("PriceProductCreate", "Administration", new { ResponseUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { role = "form", @class = "center3" }))
+                    @using (Html.BeginForm("PriceProductCreate", "Administration", new { product = @ViewBag.Product }, FormMethod.Post, new { role = "form", @class = "center3" }))
                     {
                         <h4 style="color: orangered;">Creacion de Precios por Productos</h4>
-                        @Html.ValidationSummary("", new { @class = "ErrorMessage" })@*Validation Cheked*@
+                        @Html.ValidationSummary("", new { @class = "ErrorMessage" })
                         <br /><br />
-                        <label for="fname">Producto:</label>
-                        @Html.TextBoxFor(item => item.Product, new { id = "fname", placeholder = "Producto", maxlength = 12 })
+                        @Html.HiddenFor(item => item.Product, new { id = "fname", placeholder = "Producto", maxlength = 12, @readonly="readonly", value=@ViewBag.Product})
                         <br /><br />
-                        <label for="PrefijoInt">Tipo:</label>
-                        @Html.TextBoxFor(item => item.Type, new { id = "fname", placeholder = "Tipo", maxlength = 12 })
+                        <label>@Html.DisplayNameFor(item => item.PriceType)</label><br />
+                        @Html.DropDownListFor(model => model.PriceType, new SelectList(ViewBag.VBTypePrice, "PkCode", "Type"), new { @class = "" })
                         <br /><br />
-                        <label for="PrefijoInt">Monto:</label>
-                        @Html.TextBoxFor(item => item.Amount, new { id = "fname", placeholder = "Monto", maxlength = 12 })
+                        <label>Monto:</label>
+                        @Html.TextBoxFor(item => item.Amount, new { id = "fname", placeholder = "Monto", maxlength = 12})
                         <br />
                         <input type="submit" class="primary-btn" value="Guardar" />
                         @Html.ActionLink("Volver", "PriceProductList")
-                    }
+                    }    
                 </div>
             </div>
         </div>

@@ -1322,23 +1322,20 @@ BEGIN
 end
 GO
 
+
 CREATE OR ALTER PROCEDURE dbo.MODIFICA_PRECIO
-    (
-    @PRODUCTO INTEGER
-    ,
-    @TIPO INTEGER
-    ,
-    @MONTO DECIMAL(8,2)
+(
+    @PRECIOID INTEGER
+    ,@MONTO DECIMAL(8,2)
 )
 AS
 BEGIN
     UPDATE
-            PRECIO
-            SET MONTO = @MONTO
-            WHERE PRODUCTO = @PRODUCTO
-        AND TIPO = @TIPO;
+        PRECIO
+        SET MONTO = @MONTO
+    WHERE CODE = @PRECIOID;
 end
-GO
+go 
 
 CREATE OR ALTER PROCEDURE dbo.MODIFICA_PROCESADOR
     (
@@ -1475,22 +1472,20 @@ BEGIN
 END
 GO
 
+
 CREATE OR ALTER PROCEDURE dbo.ELIMINA_PRECIO
-    (
-    @PRODUCTO INTEGER
-    ,
-    @TIPO INTEGER
+(
+    @PRECIO INTEGER
 )
 AS
 BEGIN
     DELETE
-            FROM
-                PRECIO
-            WHERE
-                PRODUCTO = @PRODUCTO
-        AND TIPO = @TIPO;
+    FROM
+        PRECIO
+    WHERE
+            CODE = @PRECIO
 end
-GO
+go
 
 CREATE OR ALTER PROCEDURE dbo.ELIMINA_PROCESADOR
     (
@@ -1672,11 +1667,19 @@ CREATE OR ALTER FUNCTION dbo.RETORNA_PRECIO
 )
 RETURNS TABLE
     RETURN
-        SELECT
-    *
-FROM PRECIO
-WHERE CODE = @CODE;
-GO
+    SELECT
+        P.CODE 
+        ,TP.TIPO AS NOMBRE
+        ,P.TIPO
+        ,P.PRODUCTO
+        ,P.MONTO
+    FROM 
+        PRECIO AS P
+        INNER JOIN TIPO_PRECIO TP 
+            ON P.TIPO = TP.CODE
+    WHERE 
+        P.CODE = @CODE;
+go
 
 CREATE OR ALTER FUNCTION dbo.RETORNA_PRECIO_PRODUCTO_CLIENTE
 (
@@ -1857,19 +1860,22 @@ CREATE OR ALTER FUNCTION dbo.V_PRECIOS_DE_PRODUCTO
 (
     @PRODUCTO INTEGER
 )
-RETURNS TABLE
-    RETURN
+    RETURNS TABLE
+        RETURN
         SELECT
-    PRC.CODE
-            , TP.TIPO
-            , PRC.MONTO
-FROM
-    PRECIO AS PRC
-    INNER JOIN PRODUCTO P
-    on PRC.PRODUCTO = P.CODE
-    INNER JOIN TIPO_PRECIO TP
-    on PRC.TIPO = TP.CODE;
-GO
+            PRC.CODE
+             , PRC.PRODUCTO
+             , TP.TIPO
+             , PRC.MONTO
+        FROM
+            PRECIO AS PRC
+                INNER JOIN PRODUCTO P
+                           on PRC.PRODUCTO = P.CODE
+                INNER JOIN TIPO_PRECIO TP
+                           on PRC.TIPO = TP.CODE
+        WHERE
+                PRC.PRODUCTO = @PRODUCTO;
+go
 
 CREATE OR ALTER VIEW dbo.V_PREGUNTAS
 AS

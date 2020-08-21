@@ -1,4 +1,4 @@
-@model EFoodBLL.IntranetModels.ReturnProduct
+@model EFoodBLL.IntranetModels.ReturnPrice
 
 @{
     ViewBag.Title = "Edicion de Producto";
@@ -10,40 +10,18 @@
         <br>
         <div class="row omb_row-sm-offset-3 omb_socialButtons">
         </div>
-        
-        @using (Html.BeginForm("ProductEdit", "Administration", null, FormMethod.Post, new {role = "form", @class = "center3"}))
+        @using (Html.BeginForm("PriceProductEdit", "Administration", new{ precioId = @Model.PkCode }, FormMethod.Post, new {role = "form", @class = "center3"}))
         {
             <h4 style="color: orangered;">Información del Producto</h4>
-            @Html.ValidationSummary("", new {@class = "ErrorMessage"}) @*Validation Checked*@
-            @Html.TextBoxFor(item => item.PkCode, new {@type = "hidden", @readonly = "readonly"})
+            @Html.ValidationSummary("", new {@class = "ErrorMessage"})
+            <label><stong>Tipo de Precio:</stong> @Model.Type</label>
             <br/>
-            @Html.DisplayNameFor(model => model.Code)
+            <label><stong>Monto:</stong></label>
             <br/>
-            @Html.TextBoxFor(item => item.Code, new {id = "fname", placeholder = "Codigo", maxlength = 11, @readonly = "readonly"})
+            @Html.TextBoxFor(item => item.Amount)
             <br/>
-            <br/>
-            @Html.DisplayNameFor(model => model.Description)
-            <br/>
-            @Html.TextBoxFor(item => item.Description, new {id = "fname", placeholder = "Codigo", maxlength = 30})
-            <br/>
-            <br/>
-            @Html.DisplayNameFor(model => model.LineType)
-            <br/>
-            @Html.DropDownListFor(model => model.LineType, new SelectList(ViewBag.VBTypeLineList, "PkCode", "Type"),new {@class=""})
-            <br/>
-            <br/>
-            @Html.DisplayNameFor(model => model.Content)
-            <br/>
-            @Html.TextBoxFor(item => item.Content, new {id = "fname", placeholder = "Codigo", maxlength = 200})
-            <br/>
-            <br>
-            @*
-            <label for="Foto">Foto:</label>
-            <input type="file" onchange="previewFile()">
-            <img src="" height="120" alt="Vista Previa...">
-            *@
             <input type="submit" class="primary-btn" value="Guardar"/>
-            @Html.ActionLink("Volver", "ProductList")   
+            @Html.ActionLink("Volver", "PriceProductList", new {id = Model.Product})
         }
     </div>
 </div>

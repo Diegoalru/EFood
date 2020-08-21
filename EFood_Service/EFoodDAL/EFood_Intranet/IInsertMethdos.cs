@@ -46,7 +46,7 @@ namespace EFoodDB.EFood_Intranet
         /// Crea un registro de un precio.
         /// </summary>
         /// <param name="price">Propiedades basicas para el registro un Precio.</param>
-        Task<bool> InsertPrice(ReturnPrice price);
+        Task<bool> InsertPrice(Price price);
         
         /// <summary>
         /// Crea el registro de un Procesador de Pago.
@@ -232,7 +232,7 @@ namespace EFoodDB.EFood_Intranet
             }
         }
 
-        public Task<bool> InsertPrice(ReturnPrice price)
+        public Task<bool> InsertPrice(Price price)
         {
             try
             {
@@ -244,7 +244,7 @@ namespace EFoodDB.EFood_Intranet
                     using (var cmd = new SqlCommand("INSERTA_PRECIO", conn))
                     {
                         cmd.CommandType = CommandType.StoredProcedure;
-                        cmd.Parameters.Add("@TIPO", SqlDbType.Int).Value = price.Type;
+                        cmd.Parameters.Add("@TIPO", SqlDbType.Int).Value = price.PriceType;
                         cmd.Parameters.Add("@PRODUCTO", SqlDbType.Int).Value = price.Product;
                         cmd.Parameters.Add("@MONTO", SqlDbType.Decimal).Value = price.Amount; 
                         cmd.ExecuteNonQuery();

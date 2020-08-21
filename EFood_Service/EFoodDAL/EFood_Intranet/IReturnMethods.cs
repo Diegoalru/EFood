@@ -185,9 +185,10 @@ namespace EFoodDB.EFood_Intranet
                         while (dr.Read())
                         {
                             price.PkCode = dr.GetInt32(0);
-                            price.Type = dr.GetInt32(1);
-                            price.Product = dr.GetInt32(2);
-                            price.Amount = dr.GetDecimal(3);
+                            price.Type = dr.GetString(1);
+                            price.TypeCod = dr.GetInt32(2);
+                            price.Product = dr.GetInt32(3);
+                            price.Amount = dr.GetDecimal(4);
                         }
                     }
                 }

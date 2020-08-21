@@ -4,6 +4,7 @@ using System.Data;
 using System.Net;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using System.Web.Routing;
 using EFoodBLL.IntranetModels;
 using EFoodDB.EFood_Intranet;
 using Microsoft.Ajax.Utilities;
@@ -547,26 +548,42 @@ namespace EFood_Intranet.Controllers
         public ActionResult PriceProductList(int id)
         {
             var list = ConvertDStoList_ProductPriceList(_queryMethods.ProductPrices(id).Result);
+            ViewBag.VBProduct = id;
             return View(list);
         }
-        public ActionResult PriceProductCreate()
+        
+        [HttpGet]
+        public async Task<ActionResult> PriceProductCreate(int product)
         {
+            var listPrices = ConvertDStoList_PriceType(await _queryMethods.PriceTypes());
+            ViewBag.VBTypePrice = listPrices;
+            ViewBag.Product = product;
             return View();
         }
 
         [HttpPost]
-        public async Task<ActionResult> PriceProductCreate(ReturnPrice data)
+        public async Task<ActionResult> PriceProductCreate(Price data, int product)
         {
+            var listPrices = ConvertDStoList_PriceType(await _queryMethods.PriceTypes());
+            ViewBag.VBTypePrice = listPrices;
+            ViewBag.Product = product;
+            
             if (!ModelState.IsValid)
                 return await Task.FromResult<ActionResult>(View(data));
 
-            var result = _existsMethods.ExistsPrice(data.Type, data.Product).Result;
+            var result = await _existsMethods.ExistsPrice(data.PriceType, data.Product);
+            
             switch (result)
             {
                 case false:
-                    var resultInsertPriceProduct= await _insertMethods.InsertPrice(data);
+                    var resultInsertPriceProduct= await _insertMethods.InsertPrice(new Price()
+                    {
+                        Amount = data.Amount
+                        ,Product = data.Product
+                        ,PriceType = data.PriceType
+                    });
                     if (resultInsertPriceProduct)
-                        return RedirectToAction("PriceProductList");
+                        return RedirectToAction("PriceProductList", new { id = data.Product });
 
                     ModelState.AddModelError(key: "", errorMessage: "Ha ocurrido un error.\n");
                     return await Task.FromResult<ActionResult>(View(data));
@@ -581,10 +598,40 @@ namespace EFood_Intranet.Controllers
             }
         }
 
-        public ActionResult PriceProductEdit()
+        [HttpGet]
+        public async Task<ActionResult> PriceProductEdit(int id)
         {
-            return View();
+            var price = await _returnMethods.ReturnPrice(id);
+            return View(price);
         }
+
+        [HttpPost]
+        public async Task<ActionResult> PriceProductEdit(ReturnPrice data, int precioId)
+        {
+            if (!ModelState.IsValid)
+            {
+                ModelState.AddModelError("", "¡Error! Datos Incompletos.");
+                return View(data);
+            }
+
+            var result = await _updateMethods.UpdateProductPrice(new ProductPrice()
+            {
+                Price = precioId, Amount = data.Amount
+            });
+
+            if (result) return await Task.FromResult<ActionResult>(RedirectToAction("ProductList"));
+            ModelState.AddModelError("", "Ha ocurrido un error.\n");
+            return View(data);
+        }
+
+        public async Task<ActionResult> PriceProductDelete(int priceId)
+        {
+            var result = await _deleteMethods.DeleteProductPrice(priceId);
+            if (!result) ModelState.AddModelError("", "¡Error al eliminar el precio del producto!\n");
+            return RedirectToAction("ProductList");
+        }
+
+
 
         #endregion
 
@@ -828,21 +875,18 @@ namespace EFood_Intranet.Controllers
             return list;
         }
 
-        private List<ReturnPrice> ConvertDStoList_ProductPriceList(DataSet dataSet)
+        private List<ProductPriceList> ConvertDStoList_ProductPriceList(DataSet dataSet)
         {
-            DataSet ds = dataSet;
-            List<ReturnPrice> list = new List<ReturnPrice>();
+            var ds = dataSet;
+            var list = new List<ProductPriceList>();
             foreach (DataRow dr in ds.Tables[0].Rows)
             {
-                list.Add(new ReturnPrice
+                list.Add(new ProductPriceList
                 {
-                    PkCode = (int)(dr["CODE"])
-                    ,
-                    Type = (int)dr["TIPO"]
-                    ,
-                    Product = (int)dr["PRODUCTO"]
-                    ,
-                    Amount = (decimal)dr["CANTIDAD"]
+                    PkCode = (int) dr["CODE"]
+                    ,Product = (int) dr["PRODUCTO"] 
+                    ,Type = (string) dr["TIPO"]
+                    ,Amount = (decimal) dr["MONTO"]
                 });
             }
             return list;

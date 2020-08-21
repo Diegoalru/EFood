@@ -147,8 +147,7 @@ namespace EFoodDB.EFood_Intranet
                     using (var cmd = new SqlCommand("MODIFICA_PRECIO", conn))
                     {
                         cmd.CommandType = CommandType.StoredProcedure;
-                        cmd.Parameters.Add("@PRODUCTO", SqlDbType.Int).Value = productPrice.Product;
-                        cmd.Parameters.Add("@TIPO", SqlDbType.Int).Value = productPrice.Type;
+                        cmd.Parameters.Add("@PRECIO", SqlDbType.Int).Value = productPrice.Price;
                         cmd.Parameters.Add("@MONTO", SqlDbType.Decimal).Value = productPrice.Amount;
                         cmd.ExecuteNonQuery();
                         conn.Close();
@@ -156,8 +155,9 @@ namespace EFoodDB.EFood_Intranet
                 }
                 return Task.FromResult(true);
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                Console.WriteLine(e);
                 return Task.FromResult(false);
             }
         }

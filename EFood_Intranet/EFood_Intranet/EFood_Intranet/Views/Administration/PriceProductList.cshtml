@@ -1,4 +1,4 @@
-@model IEnumerable<EFoodBLL.IntranetModels.ReturnPrice>
+@model IEnumerable<EFoodBLL.IntranetModels.ProductPriceList>
 @using EFood_Intranet.Controllers
 
 @{
@@ -23,23 +23,20 @@ else
             <div class="container">
                 <div class="omb_login">
                     <h4 class="omb_authTitle" style="color: orangered;overflow-x:auto;">Lista de Precios de Producto:</h4>
-                    @Html.ActionLink("Crear Precio", "PriceProductCreate", "Administration", null, new { @class = "primary-btn" })
+                    @Html.ActionLink("Crear Precio", "PriceProductCreate", "Administration", new {product = ViewBag.VBProduct}, new { @class = "primary-btn" })
                     <br />
                     <br />
-                    @Html.ValidationSummary("", new { @class = "ErrorMessage" })@*Validation Cheked*@
+                    @Html.ValidationSummary("", new { @class = "ErrorMessage" })
                     <table class="table table-hover">
                         <tr>
                             <th>
                                 <label>@Html.DisplayNameFor(item => item.Type)</label><br />
                             </th>
-                            <br />
-                            <br />
                             <th>
                                 <label>@Html.DisplayNameFor(item => item.Amount)</label><br />
                             </th>
                             <th></th>
                         </tr>
-
                         @foreach (var item in Model)
                         {
                             <tr>
@@ -50,8 +47,8 @@ else
                                     @Html.DisplayFor(modelItem => item.Amount)
                                 </td>
                                 <td>
-                                    @Html.ActionLink("Edit", "PriceProductEdit", "Administration", new { id = item.PkCode }, null)
-                                    @*|@Html.ActionLink("Delete", "DiscountDeleteConfirmed", new { id = item.PkCode })*@
+                                    @Html.ActionLink("Edit", "PriceProductEdit", "Administration", new { id = item.PkCode }, null) |
+                                    @Html.ActionLink("Delete", "PriceProductDelete", "Administration", new { priceId = item.PkCode }, null)
                                 </td>
                             </tr>
                         }
@@ -70,37 +67,3 @@ else
         </div>
     }
 }
-
-
-@*</br>
-        <form class="center3">
-            <div class="row omb_row-sm-offset-3 omb_socialButtons">
-            </div>
-            <h4 style="color: orangered;">Informaci?n de Producto</h4>
-            </br>
-            </br>
-
-            <form>
-                <label for="TipoPrecio">Tipo Precio:</label>
-                <select name="TipoPrecio" id="TipoPrecio">
-                    <optgroup label="Tipo">
-                        <option value="Activo">Regular</option>
-                        <option value="Inactivo">Mediano</option>
-                        <option value="Inactivo">Agrandado</option>
-                    </optgroup>
-                </select>
-
-                <br>
-                <label for="fname">Precio:</label>
-                <input type="text" id="fname" name="fname"><br>
-                <br>
-                <input type="button" onclick="location.href='InfoProductos.html';" value="Nuevo"> </input>
-                <input type="button" value="Guardar"> </input>
-                <br><br>
-                <a style="color: orangered;" href="Productos.html">Volver a Productos</a>
-
-
-            </form>
-
-            <!-- /container -->
-    </div> *@

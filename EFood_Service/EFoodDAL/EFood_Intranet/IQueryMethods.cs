@@ -293,15 +293,15 @@ namespace EFoodDB.EFood_Intranet
         {
             try
             {
-                DataSet ds = new DataSet();
+                var ds = new DataSet();
                 using (var conn = _settings.GetConnection())
                 {
                     if (conn.State == ConnectionState.Closed) conn.Open();
                     
-                    string query = $@"SELECT * FROM V_PRECIOS_DE_PRODUCTO({pkProduct});";
+                    string query = $"SELECT * FROM V_PRECIOS_DE_PRODUCTO({pkProduct});";
                     using (var cmd = new SqlCommand(query, conn))
                     {
-                        using (SqlDataAdapter adapter = new SqlDataAdapter(cmd))
+                        using (var adapter = new SqlDataAdapter(cmd))
                         {
                             adapter.Fill(ds);
                         }
